@@ -1,0 +1,22 @@
+Models:
+    user - self-explanatory
+        username
+        email
+        password
+        social media account(s)
+
+    campaign - what we create
+        name
+        creation date
+        POV
+        resources
+        query (txt from POV + resources)
+        query (imgs)
+        individual component output
+        merged output (aka the ad)
+
+    portfolio - essentially storage folder of campaigns
+        creation date
+        ad(s) within campaign
+        name of campaign
+
