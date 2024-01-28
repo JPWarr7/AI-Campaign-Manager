@@ -1,11 +1,14 @@
-FLASK_APP=main.py
+FLASK_APP='app.py'
 FLASK_DEBUG=1
 FLASK_RUN_PORT=8080
-FLASK_RUN_HOST=0.0.0.0
+FLASK_RUN_HOST='0.0.0.0'
 MYSQL_IP='127.0.0.1'
+MYSQL_PORT=3306
 MYSQL_USER='root'
-MYSQL_PASS=""
-MYSQL_DB='AdCampaignManager'
-MAIL_USERNAME='jonathanwarren2022@gmail.com'
+MYSQL_PASS='password'
+MYSQL_DB='csc400'
+
+
+MAIL_USERNAME='a.i.ads.csc400@gmail.com'
 MAIL_APP_PASSWORD=''
 MAIL_SENDER_NAME='Ad Campaign Manager'
