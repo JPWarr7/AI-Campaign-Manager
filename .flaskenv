@@ -8,7 +8,7 @@ MYSQL_USER='root'
 MYSQL_PASS='password'
 MYSQL_DB='csc400'
 
-
+FLASK_TEST=".gitignore not working"
 MAIL_USERNAME='a.i.ads.csc400@gmail.com'
 MAIL_APP_PASSWORD=''
 MAIL_SENDER_NAME='Ad Campaign Manager'
