@@ -7,8 +7,6 @@ MYSQL_PORT=3306
 MYSQL_USER='root'
 MYSQL_PASS='password'
 MYSQL_DB='csc400'
-
-
 MAIL_USERNAME='a.i.ads.csc400@gmail.com'
 MAIL_APP_PASSWORD=''
 MAIL_SENDER_NAME='Ad Campaign Manager'
