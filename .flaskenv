@@ -10,3 +10,4 @@ MYSQL_DB='csc400'
 MAIL_USERNAME='a.i.ads.csc400@gmail.com'
 MAIL_APP_PASSWORD=''
 MAIL_SENDER_NAME='Ad Campaign Manager'
+OPENAI_API_KEY="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"
