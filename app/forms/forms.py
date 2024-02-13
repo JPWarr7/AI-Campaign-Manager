@@ -4,13 +4,7 @@ from wtforms.validators import DataRequired, StopValidation, NumberRange, EqualT
 from wtforms.widgets import CheckboxInput, ListWidget
 from enum import Enum
 
-
-class newCampaignForm(FlaskForm):
-    campaignName_Form = StringField('Campaign Name: ', validators=[DataRequired()])
-    links_Form = StringField('Enter your links: ', validators=[DataRequired()])
-    perspective_Form = StringField('Enter your POV: ', validators=[DataRequired()])
-    submit = SubmitField('Save')
-
+# Login form (subclassed from FlaskForm)
 class SignInForm(FlaskForm):
     email = StringField('Email: ', validators=[DataRequired()])
     password = PasswordField('Password: ', validators=[DataRequired()])
