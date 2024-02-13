@@ -49,9 +49,8 @@ class Campaign(db.Model):
     
     POV = db.Column(db.String(1000), nullable=False)
     resources = db.Column(db.String(1000), nullable=False)
-    image_prompt = db.Column(db.String(1000), nullable=False)
-    
-    text_generated = db.Column(db.String(1000), nullable=False)
+    image_prompt = db.Column(db.String(1000), nullable=True)
+    text_generated = db.Column(db.String(1000), nullable=True)
     
     # images_generated = 
     

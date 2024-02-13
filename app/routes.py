@@ -3,6 +3,8 @@ from flask import render_template, redirect, send_from_directory, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db
 from app.models import *
+from app.forms import *
+
 import sys
 from flask_mail import Mail, Message
 import smtplib
@@ -33,15 +35,41 @@ def serve_static(path):
 def landing():
     return render_template('landing.html')
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 @login_required
 def index():
-    if current_user.newuser == True:
-        flash('Complete the "New Users" Section!', 'success')
-        
-    # campaigns = view_campaigns()
-    # campaign_info = []
-    return render_template('index.html')
+    form = newCampaignForm() 
+    if form.validate_on_submit():
+        if form.validate_on_submit():
+            campaign = Campaign(
+                name=form.campaignName_Form.data,
+                resources=form.links_Form.data,
+                POV=form.perspective_Form.data,
+                user_id=current_user.id
+            )
+        db.session.add(campaign)
+        db.session.commit()
+        return redirect(url_for('results'))
+    return render_template('campaign.html', form=form)
+
+@app.route('/results', methods=['GET', 'POST'])
+@login_required
+def results():
+    form = newCampaignForm() 
+    if form.validate_on_submit():
+        if form.validate_on_submit():
+            campaign = Campaign(
+                name=form.campaignName_Form.data,
+                resources=form.links_Form.data,
+                POV=form.perspective_Form.data,
+                user_id=current_user.id
+            )
+        db.session.add(campaign)
+        db.session.commit()
+        return redirect(url_for('results'))
+    return render_template('campaign.html', form=form)
+
+
 
 @app.route('/login', methods = ['GET', 'POST'])
 def signin():
@@ -50,7 +78,7 @@ def signin():
     user = db.session.query(User).filter_by(email=email).first()
     
     if user is None or not user.check_password(password):
-        print(f'Login failed for user: {user.first_name} {user.last_name}', file=sys.stderr)
+        print(f'Login failed for user.', file=sys.stderr)
         print(f'Provided email: {email}', file=sys.stderr)
         print(f'Provided password: {password}', file=sys.stderr)
         print(f'User object: {user}', file=sys.stderr)
