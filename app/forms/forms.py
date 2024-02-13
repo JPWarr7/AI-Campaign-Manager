@@ -4,13 +4,6 @@ from wtforms.validators import DataRequired, StopValidation, NumberRange, EqualT
 from wtforms.widgets import CheckboxInput, ListWidget
 from enum import Enum
 
-# class RequestStatus(Enum):
-#     Pending = 1
-#     Approved = 2
-#     Denied = 3
-#     Returned = 4
-#     Final_Approval = 5
-
 # Login form (subclassed from FlaskForm)
 class SignInForm(FlaskForm):
     email = StringField('Email: ', validators=[DataRequired()])
