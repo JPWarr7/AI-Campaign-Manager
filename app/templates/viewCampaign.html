@@ -21,7 +21,6 @@
             </tr>
         </thead>
         <tbody>
-            {% for campaign in campaigns %}
             <tr>
                 <td><a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}">{{ campaign[0] }}</a></td>
                 <td>{{ campaign[1] }}</td>
@@ -32,7 +31,6 @@
                 <td>{{ campaign[6] }}</td>
                 <td>{{ campaign[7] }}</td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 </body>

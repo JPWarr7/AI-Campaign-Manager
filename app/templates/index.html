@@ -10,7 +10,23 @@
 </head>
 
 <body>
-    
+    <button onclick="redirectToViewCampaigns()">Go to View Campaigns</button>
+
+    <script>
+        function redirectToViewCampaigns() {
+            // Redirect to the view_campaigns route
+            window.location.href = "{{ url_for('view_campaigns') }}";
+        }
+    </script>
+
+    <button onclick="redirectToAddCampaign()">Go to Add Campaign</button>
+
+    <script>
+        function redirectToAddCampaign() {
+            // Redirect to the view_campaigns route
+            window.location.href = "{{ url_for('add_campaign') }}";
+        }
+    </script>
 </body>
 
 </html>

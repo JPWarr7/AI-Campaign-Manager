@@ -7,6 +7,7 @@ class Campaign(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolio.id'))
   campaign_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  parent_id = db.Column(db.Integer)
   name = db.Column(db.String(1000), nullable=False)
   creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   
