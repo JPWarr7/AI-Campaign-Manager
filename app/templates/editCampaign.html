@@ -16,13 +16,13 @@
         <input type="text" id="campaign_name" name="campaign_name" value="{{ campaign.name }}">
         
         <label for="links">Links:</label>
-        <input type="text" id="links" name="links" value="{{ campaign.links }}">
+        <textarea id="links" name="links">{{ campaign.links }}</textarea>
         
         <label for="text_summarization">Text Summarization:</label>
         <textarea id="text_summarization" name="text_summarization" readonly>{{ campaign.summarization }}</textarea>
 
         <label for="perspective">Perspective:</label>
-        <textarea id="perspective" name="perspective" >"{{ campaign.perspective }}"</textarea>
+        <textarea id="perspective" name="perspective" >{{ campaign.perspective }}</textarea>
         
         <label for="text_generation">Text Generation:</label>
         <textarea id="text_generation" name="text_generation" readonly>{{ campaign.text_generated }}</textarea>
