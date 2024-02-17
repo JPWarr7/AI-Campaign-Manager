@@ -1,0 +1,39 @@
+<!-- editCampaign.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Campaign</title>
+</head>
+<body>
+    <h1>Edit Campaign</h1>
+    
+    <form method="POST">
+        {{ form.csrf_token }}
+        <label for="campaign_name">Campaign Name:</label>
+        <input type="text" id="campaign_name" name="campaign_name" value="{{ campaign.name }}">
+        
+        <label for="links">Links:</label>
+        <input type="text" id="links" name="links" value="{{ campaign.links }}">
+        
+        <label for="text_summarization">Text Summarization:</label>
+        <textarea id="text_summarization" name="text_summarization" readonly>{{ campaign.summarization }}</textarea>
+
+        <label for="perspective">Perspective:</label>
+        <textarea id="perspective" name="perspective" >"{{ campaign.perspective }}"</textarea>
+        
+        <label for="text_generation">Text Generation:</label>
+        <textarea id="text_generation" name="text_generation" readonly>{{ campaign.text_generated }}</textarea>
+        
+        <label for="image_prompt">Image Prompt:</label>
+        <textarea id="image_prompt" name="image_prompt" readonly>{{ campaign.image_prompt }}"</textarea>
+        
+        <label for="image_generation">Image Generation:</label>
+        <textarea id="image_generation" name="image_generation" readonly>{{ campaign.image_generated }}"</textarea>
+        
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

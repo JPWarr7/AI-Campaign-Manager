@@ -5,19 +5,19 @@ from wtforms.widgets import CheckboxInput, ListWidget
 from enum import Enum
 
     
-class newCampaignForm(FlaskForm):
-    campaignName_Form = StringField('Campaign Name: ', validators=[DataRequired()])
-    links_Form = StringField('Enter your links: ', validators=[DataRequired()])
-    perspective_Form = StringField('Enter your POV: ', validators=[DataRequired()])
+class AddCampaignForm(FlaskForm):
+    campaign_name = StringField('Campaign Name: ', validators=[DataRequired()])
+    links = StringField('Enter your links: ', validators=[DataRequired()])
+    perspective = StringField('Enter your POV: ', validators=[DataRequired()])
     submit = SubmitField('Save')
 
 
-class UpdateCampaignForm(FlaskForm):
-    campaign_name = StringField('Campaign Name: ', validators=[DataRequired()])
-    links = StringField('Enter your links: ', validators=[DataRequired()])
-    text_summarization = StringField('Enter your links: ', validators=[DataRequired()])
-    perspective = StringField('Enter your POV: ', validators=[DataRequired()])
-    text_generation = StringField('Campaign Name: ', validators=[DataRequired()])
-    image_prompt = StringField('Enter your POV: ', validators=[DataRequired()])
-    image_generation = StringField('Enter your POV: ', validators=[DataRequired()])
+class EditCampaignForm(FlaskForm):
+    campaign_name = StringField('Campaign Name: ')
+    links = StringField('Enter your links: ')
+    text_summarization = StringField('Enter your links: ')
+    perspective = StringField('Enter your POV: ')
+    text_generation = StringField('Campaign Name: ')
+    image_prompt = StringField('Enter your POV: ')
+    image_generation = StringField('Enter your POV: ')
     submit = SubmitField('Save')
