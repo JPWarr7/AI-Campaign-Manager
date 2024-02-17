@@ -16,13 +16,12 @@ def index():
         perspective=form.perspective_Form.data,
         summary=summarization(links)
         print('created summary!')
-        text_advertisement =text_generation(summarization, perspective)
+        text_advertisement =text_generation(summary, perspective)
         print('created advertisement text!')
         img_prompt = "Generate an image capturing the spirit of the following text" + text_advertisement
         image_url = image_generation(img_prompt)
         print('generated image!')
         # print(myImage)
-        
         campaign = Campaign(
             user_id=current_user.id,
             name=form.campaignName_Form.data,
