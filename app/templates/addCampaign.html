@@ -9,29 +9,29 @@
 
   <h1>New Campaign Form</h1>
 
-  <form method="POST" action="{{ url_for('index') }}">
+  <form method="POST" action="{{ url_for('add_campaign') }}">
       {{ form.hidden_tag() }}
 
       <div>
-          {{ form.campaignName_Form.label }}
-          {{ form.campaignName_Form(class="newCampaignForm") }}
-          {% for error in form.campaignName_Form.errors %}
+          {{ form.campaign_name.label }}
+          {{ form.campaign_name(class="AddCampaignForm") }}
+          {% for error in form.campaign_name.errors %}
               <span style="color: red;">{{ error }}</span>
           {% endfor %}
       </div>
 
       <div>
-          {{ form.links_Form.label }}
-          {{ form.links_Form(class="newCampaignForm") }}
-          {% for error in form.links_Form.errors %}
+          {{ form.links.label }}
+          {{ form.links(class="AddCampaignForm") }}
+          {% for error in form.links.errors %}
               <span style="color: red;">{{ error }}</span>
           {% endfor %}
       </div>
 
       <div>
-          {{ form.perspective_Form.label }}
-          {{ form.perspective_Form(class="newCampaignForm") }}
-          {% for error in form.perspective_Form.errors %}
+          {{ form.perspective.label }}
+          {{ form.perspective(class="AddCampaignForm") }}
+          {% for error in form.perspective.errors %}
               <span style="color: red;">{{ error }}</span>
           {% endfor %}
       </div>

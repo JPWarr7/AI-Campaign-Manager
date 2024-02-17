@@ -17,7 +17,6 @@ USERNAME = environ.get('MYSQL_USER')
 PASSWORD = environ.get('MYSQL_PASS')
 DB_NAME = environ.get('MYSQL_DB')
 
-
 # Specify the connection parameters/credentials for the database
 DB_CONFIG_STR = f"mysql+mysqlconnector://{USERNAME}:{PASSWORD}@{IP}/{DB_NAME}"
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_CONFIG_STR
@@ -70,5 +69,5 @@ from app.forms import *
 
 # Populate database
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000, debug=True)
+# if __name__ == '__main__':
+#     app.run(host="0.0.0.0", port=8000, debug=True)

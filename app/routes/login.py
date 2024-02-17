@@ -24,7 +24,6 @@ def signin():
     flash('Login Successful!', 'success')
     return redirect(url_for('index'))
     
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     # Read data from form fields
