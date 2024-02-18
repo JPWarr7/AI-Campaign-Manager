@@ -4,6 +4,7 @@ from app.database import *
 from app.forms import *
 from flask import render_template, redirect, send_from_directory, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
+from app.routes.functions.mail import *
 import sys
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -21,7 +22,6 @@ def signin():
         return redirect(url_for('landing'))
 
     login_user(user)
-    flash('Login Successful!', 'success')
     return redirect(url_for('index'))
     
 @app.route('/signup', methods=['GET', 'POST'])
@@ -43,23 +43,8 @@ def signup():
             user.set_password(password)
             db.session.add(user)
             db.session.commit()
-            
-            print('Sign-up successful', file=sys.stderr)
-            
-            # email notification of sign-up
-            # ACCT_EMAIL = email
-            # try:
-            #     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            #     server.login(EMAIL_USER, EMAIL_PASSWORD)
-
-            #     body = f"Subject: Account Created\n\nWelcome to the Finance Tracker, {first_name} {last_name}! Your account information is listed below: \nName: {first_name} {last_name}\nEmail: {email}"
-            #     server.sendmail(EMAIL_USER, ACCT_EMAIL, body)
-
-            #     server.quit()
-            
-            # except Exception as e:
-            #     return f"Error: {e}" 
-            
+            user = db.session.query(User).filter_by(email=email).first()
+            account_creation_notification(user)
             flash('Account Created!', 'success')
             return redirect(url_for('landing'))
         
@@ -106,6 +91,7 @@ def change_password():
         flash('Your password has been updated. Please sign in again.', 'success')
         
         # Log user out after changing the password
+        password_change_notification(user = db.session.query(User).filter_by(id=current_user.id))
         logout_user()
         return redirect(url_for('landing'))
     

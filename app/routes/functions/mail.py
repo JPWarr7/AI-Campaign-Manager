@@ -1,62 +1,117 @@
-from flask_mail import Mail, Message
 from app import *
 from app.database import *
 from app.forms import *
-from os import environ
+from googleapiclient.errors import HttpError
+from email.mime.text import MIMEText
+from base64 import urlsafe_b64encode
+from app import mail_client, MAIL_USERNAME
 
-# # Specify mail environment variables
-MAIL_USERNAME = environ.get('MAIL_USERNAME')
-MAIL_APP_PASSWORD = environ.get('MAIL_APP_PASSWORD')
-MAIL_SENDER_NAME = environ.get('MAIL_SENDER_NAME')
+def create_message(address, msg, subject):
+    """Create a message for an email."""
+    message = MIMEText(msg)
+    message["to"] = address
+    message["from"] = MAIL_USERNAME
+    message["subject"] = subject
+    raw_message = urlsafe_b64encode(message.as_bytes()).decode("utf-8")
+    return {"raw": raw_message}
 
-# Setup mail client
-app.config.update(
-        MAIL_SERVER = 'smtp.gmail.com',
-        MAIL_PORT = 465,
-        MAIL_USE_TLS = False,
-        MAIL_USE_SSL = True,
-        MAIL_USERNAME = MAIL_USERNAME,
-        MAIL_PASSWORD = MAIL_APP_PASSWORD,
-        MAIL_DEFAULT_SENDER = (MAIL_SENDER_NAME, MAIL_USERNAME)
+def send_message(mail_client, message):
+    """Send an email message."""
+    try:
+        message = (
+            mail_client.users()
+            .messages()
+            .send(userId="me", body=message)
+            .execute()
         )
+        return message
+    except HttpError as error:
+        print("An error occurred: %s" % error)
 
-# mail send
-mail = Mail(app)
+def account_creation_notification(user):
+    address = user.email
+    user_msg = f'''Hello {user.first_name} {user.last_name}, your account for the CampAIgn Manager has been successfully created! 
+    \n User Information: 
+    \n Username: {user.username} 
+    \n Email Address: {user.email} 
+    '''
+    message = create_message(address, user_msg, subject='Welcome to the CampAIgn Manager!')
+    send_message(mail_client, message)
 
-# Replace these values with your email credentials
-# Create project-specific email, get API email key
-EMAIL_USER = 'jonathanwarren2022@gmail.com'
-EMAIL_PASSWORD = ''
-
-def send_mail(addr, msg):
-    recipient = addr
-    subject = 'Test Flask email'
-    message = Message(subject, recipients=[recipient], body = msg)
-    mail.send(message)
+def password_change_notification(user):
+    address = user.email
+    user_msg = f'''Hello {user.first_name} {user.last_name}, your account password for the CampAIgn Manager has changed. Please 
+    try to log in using your user credentials.   
+    \n User Information: 
+    \n Username: {user.username} 
+    \n Email Address: {user.email} 
+    '''
+    message = create_message(address, user_msg, subject='Password Changed Successfully')
+    send_message(mail_client, message)
     
-# email notification of sign-up
-# ACCT_EMAIL = email
-# try:
-#     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-#     server.login(EMAIL_USER, EMAIL_PASSWORD)
-
-#     body = f"Subject: Account Created\n\nWelcome to the Finance Tracker, {first_name} {last_name}! Your account information is listed below: \nName: {first_name} {last_name}\nEmail: {email}"
-#     server.sendmail(EMAIL_USER, ACCT_EMAIL, body)
-
-#     server.quit()
-
-# except Exception as e:
-#     return f"Error: {e}" 
-
-# def request_created(student, crn, type):
-#     course = Course.query.filter_by(crn=crn).first()
-#     approver = Approver.query.filter_by(id=course.professor_id).first()
-#     prof_msg = f"Hello {approver.title}, {student.first_name} {student.last_name} has submitted a{type} request for {course.subject} {course.course}-{course.section}."
-#     student_msg = f"Hello {student.first_name} {student.last_name}, your {type} request for {course.subject} {course.course}-{course.section} has been sent to {approver.title}."
-#     return prof_msg, student_msg
-
-# def status_change(student, crn):
-#     course = Course.query.filter_by(crn=crn).first()
-#     approver = Approver.query.filter_by(id=course.professor_id).first()
-#     student_msg = f"Hello {student.first_name} {student.last_name}, your request for {course.subject} {course.course}-{course.section} has been reviewed and the status has changed."
-#     return student_msg
+def campaign_creation_notification(user, campaign):
+    address = user.email
+    user_msg = f'''Hello {user.username}, a new Campaign has been added to your account at {campaign.creation_date}. 
+    \n Campaign information is included below. 
+    \n {campaign.name} 
+    \n Links provided: {campaign.links} 
+    \n Summarization generated: {campaign.summarization} 
+    \n Perspective provided: {campaign.perspective} 
+    \n Advertisement text generated: {campaign.text_generated} 
+    \n Image prompt provided: {campaign.image_prompt} 
+    \n Image generated: {campaign.image_generated} 
+    '''
+    message = create_message(address, user_msg, subject='Campaign Creation Successful!')
+    send_message(mail_client, message)
+    
+def campaign_edit_notification(user, old_campaign, new_campaign):
+    address = user.email
+    user_msg = f'''Hello {user.username}, your Campaign has been successfully edited at {new_campaign.creation_date}. 
+    \n Changes to Campaign information are included below. 
+    \n {old_campaign.name} -> {new_campaign.name} 
+    \n Links provided: 
+    \n {old_campaign.links} 
+    \n Changes -> 
+    \n {new_campaign.links} 
+    \n Summarization generated: 
+    \n {old_campaign.summarization} 
+    \n Changes -> 
+    \n {new_campaign.summarization} 
+    \n Perspective provided: 
+    \n {old_campaign.perspective} 
+    \n Changes ->
+    \n {new_campaign.perspective} 
+    \n Advertisement text generated: 
+    \n {old_campaign.text_generated} 
+    \n Changes -> 
+    \n {new_campaign.text_generated}  
+    \n Image prompt provided: 
+    \n {old_campaign.image_prompt}   
+    \n Changes -> 
+    \n {new_campaign.image_prompt}  
+    \n Image generated: 
+    \n {old_campaign.image_generated} 
+    \n Changes -> 
+    \n {new_campaign.image_generated} 
+    '''
+    message = create_message(address, user_msg, subject='Campaign Edited Successfully!')
+    send_message(mail_client, message)
+    
+def portfolio_creation_notification(user, portfolio):
+    address = user.email
+    user_msg = f'''Hello {user.username}, a new Portfolio has been added to your account at {portfolio.creation_date}. 
+    \n Portfolio information is included below. 
+    \n {portfolio.title} 
+    '''
+    message = create_message(address, user_msg, subject='Portfolio Creation Successful!')
+    send_message(mail_client, message)
+    
+def portfolio_edit_notification(user, old_name, portfolio):
+    address = user.email
+    user_msg = f'''Hello {user.username}, your Portfolio has been successfully edited. 
+    \n Changes to Portfolio information are included below. 
+    \n {old_name} -> {portfolio.title} 
+    '''
+    message = create_message(address, user_msg, subject='Portfolio Edited Successfully!')
+    send_message(mail_client, message)
+    

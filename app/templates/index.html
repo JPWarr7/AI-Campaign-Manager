@@ -15,7 +15,7 @@
     <script>
         function redirectToViewCampaigns() {
             // Redirect to the view_campaigns route
-            window.location.href = "{{ url_for('view_campaigns') }}";
+            window.location.href = "{{ url_for('view_campaigns') }}?call_type=user&id={{ current_user.id }}";
         }
     </script>
 
@@ -28,5 +28,5 @@
         }
     </script>
 </body>
-
+<!-- <button onclick="redirectToViewCampaigns()">Go to View Campaigns</button> -->
 </html>
