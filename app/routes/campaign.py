@@ -13,32 +13,16 @@ from app.routes.functions.mail import *
 def add_campaign():
     form = AddCampaignForm() 
     if form.validate_on_submit():
-        # links = form.links.data
-        # perspective = form.perspective.data
-        # summary = summarization(links)
-        # text_advertisement = text_generation(summary, perspective)
-        # img_prompt = "Generate an image capturing the spirit of the following text" + text_advertisement
-        # image_url = image_generation(img_prompt)
-        
         campaign = Campaign(
             user_id=current_user.id,
             name=form.campaign_name.data,
             links=form.links.data,
             perspective=form.perspective.data,
-            # summarization = summary,
-            # text_generated = text_advertisement,
-            # image_prompt = img_prompt,
-            # image_generated = image_url
         )
         db.session.add(campaign)
         db.session.commit()
         new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
-        # campaign.parent_id = campaign.campaign_id
-        # db.session.commit()
-        # user = db.session.query(User).filter_by(email=email).first()
-        # campaign_creation_notification(current_user, campaign)
         return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new'))
-        # return redirect(url_for('view_campaign', campaign_id=campaign.campaign_id))
     
     return render_template('addCampaign.html', form = form)
 
@@ -76,53 +60,20 @@ def edit_campaign(campaign_id):
         return render_template('error.html', message=message)
     else:
         form = EditCampaignForm()
-        if form.validate_on_submit():
-            # campaign_name = campaign.name
-            # links = campaign.links
-            # perspective = campaign.perspective
-            # summary = campaign.summarization
-            # text_advertisement = campaign.text_generated
-            # img_prompt = campaign.image_prompt
-            # image_url = campaign.image_generated
-            
-            # if form.campaign_name.data != campaign.name:
-            #     campaign_name=form.campaign_name.data
-                
-            # if form.links.data != campaign.links:
-            #     links=form.links.data
-            #     summary = summarization(links)
-            #     text_advertisement = text_generation(summary, form.perspective.data)
-            #     img_prompt = "Generate an image capturing the spirit of the following text" + text_advertisement
-            #     image_url = image_generation(img_prompt)
-                
-            # elif form.perspective.data != campaign.perspective:
-            #     links=campaign.links
-            #     perspective=form.perspective.data
-            #     summary = campaign.summarization
-            #     text_advertisement = text_generation(summary, perspective)
-            #     img_prompt = "Generate an image capturing the spirit of the following text" + text_advertisement
-            #     image_url = image_generation(img_prompt)
-            
+        if form.validate_on_submit():            
             new_campaign = Campaign(
                 user_id=current_user.id,
                 name=form.campaign_name.data,
                 links=form.links.data,
                 perspective=form.perspective.data,
-                # summarization = summary,
-                # text_generated = text_advertisement,
-                # image_prompt = img_prompt,
-                # image_generated = image_url,
                 parent_id = campaign.campaign_id
             )
             db.session.add(new_campaign)
             db.session.commit()
 
             new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
-            # campaign_edit_notification(current_user, campaign, new_campaign)
-            # return redirect(url_for('view_campaign', campaign_id=new_campaign.campaign_id))
-        
             return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
-    
+        
     return render_template('editCampaign.html',campaign = campaign, form = form)
 
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
@@ -295,6 +246,5 @@ def process_campaign():
     elif call_type == 'edit':
         campaign_edit_notification(current_user, old_campaign, new_campaign)
     
-    # Commit the changes to the database
     db.session.commit()
     return jsonify({'message': 'Campaign processed successfully'})
