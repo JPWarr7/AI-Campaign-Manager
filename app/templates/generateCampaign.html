@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Campaign</title>
+</head>
+<body>
+
+    <h2>Name: {{ new_campaign.name }}</h2>
+    <h3>Links</h3>
+    <p>{{ new_campaign.links }}</p>
+    <h3>Perspective</h3>
+    <p>{{ new_campaign.perspective }}</p>
+
+    <h3>Summary</h3>
+    <td> <p id="summary"></p> </td>
+    <h3>Advertisement Generated</h3>
+    <td> <p id="ad_text"></p> </td>
+    <h3>Image Generated</h3>
+    <td><div id="image_container"></div></td>
+
+    <div id="campaign_id"></div>
+
+    <script>
+        const responseAreaSummary = document.getElementById('summary');
+        const responseAreaAdText = document.getElementById('ad_text');
+        const responseAreaImageContainer = document.getElementById('image_container');
+        const responseAreaCampaignId = document.getElementById('campaign_id');
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var campaignId = urlParams.get('new_campaign_id');
+        var callType = urlParams.get('call_type');
+
+        let final_summary;
+        let final_ad_text;
+        let final_img_prompt;
+        let final_image_url;
+        let final_parent_id;
+
+        const evtSource = new EventSource(`/createCampaign/${campaignId}/${callType}`);
+
+        evtSource.onmessage = function(event) {
+            if (event.data === 'end-of-stream') {
+                evtSource.close();
+                
+                const finalizedParameters = {
+                    new_campaign_id: campaignId,
+                    call_type: callType,
+                    summary: responseAreaSummary.textContent,
+                    ad_text: responseAreaAdText.textContent,
+                    img_prompt: final_img_prompt,
+                    image_url: final_img_url,
+                    parent_id: final_parent_id
+                };
+
+                fetch('/processCampaign', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(finalizedParameters)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('POST request successful', data);
+                })
+                .catch(error => {
+                    console.error('Error making POST request', error);
+                });
+            }
+        };
+
+        evtSource.addEventListener('summary', function(event) {
+            responseAreaSummary.innerHTML += event.data;
+        });
+
+        evtSource.addEventListener('ad_text', function(event) {
+            responseAreaAdText.innerHTML += event.data;
+        });
+
+        evtSource.addEventListener('img_url', function(event) {
+            const imageUrl = event.data;
+            const imgElement = document.createElement('img');
+            imgElement.src = imageUrl;
+            responseAreaImageContainer.appendChild(imgElement);
+        });
+
+        evtSource.addEventListener('campaign_id', function(event) {
+            const campaignId = event.data;
+            const linkElement = document.createElement('a');
+            linkElement.href = `/viewCampaign/${campaignId}`;
+            linkElement.textContent = 'View Campaign';
+            responseAreaCampaignId.appendChild(linkElement);
+        });
+
+        evtSource.addEventListener('final_summary', function(event) {
+            final_summary = event.data;
+        });
+
+        evtSource.addEventListener('final_ad_text', function(event) {
+            final_ad_text = event.data;
+        });
+
+        evtSource.addEventListener('final_img_prompt', function(event) {
+            final_img_prompt = event.data;
+        });
+
+        evtSource.addEventListener('final_img_url', function(event) {
+            final_img_url = event.data;
+        });
+
+        evtSource.addEventListener('final_parent_id', function(event) {
+            final_parent_id = event.data;
+        });
+
+    </script>
+</body>
+</html>
