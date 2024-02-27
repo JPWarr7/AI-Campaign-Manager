@@ -18,6 +18,12 @@
     <h3>Advertisement Generated</h3>
     <td> <p id="ad_text"></p> </td>
     <h3>Image Generated</h3>
+    <div>
+        <label for="regenerateImageInput">Refine the image?</label>
+        <input type="text" id="regenerateImageInput">
+        <button onclick="regenerateImage()">Regenerate Image</button>
+    </div>
+    
     <td><div id="image_container"></div></td>
 
     <div id="campaign_id"></div>
@@ -115,5 +121,61 @@
         });
 
     </script>
+
+    <script>
+        function regenerateImage() {
+            const imgPromptInput = document.getElementById('regenerateImageInput').value;   
+            
+            const regenerateParameters = {
+                    new_campaign_id: campaignId,
+                    call_type: callType,
+                    summary: responseAreaSummary.textContent,
+                    ad_text: responseAreaAdText.textContent,
+                    img_prompt: imgPromptInput + final_ad_text,
+                    image_url: final_img_url,
+                    parent_id: final_parent_id
+                };
+            
+            
+            // Make a fetch request to trigger image regeneration
+            fetch(`/createCampaign/${campaignId}/${callType}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: 'regenerate_image', img_prompt: imgPromptInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Image regeneration successful', data);
+                // Handle the regenerated image URL as needed
+            })
+            .catch(error => {
+                console.error('Error regenerating image', error);
+            });    
+            
+
+            
+
+            fetch('/processCampaign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '  // Add your authorization token if needed
+                },
+                body: JSON.stringify(regenerateParameters)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Image regeneration successful', data);
+                // Handle the regenerated image URL as needed
+            })
+            .catch(error => {
+                console.error('Error regenerating image', error);
+            });
+        }
+    </script>
+    
+
 </body>
 </html>
