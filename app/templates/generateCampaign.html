@@ -7,18 +7,37 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h2>Name: {{ new_campaign.name }}</h2>
-    <h3>Links</h3>
-    <p>{{ new_campaign.links }}</p>
-    <h3>Perspective</h3>
-    <p>{{ new_campaign.perspective }}</p>
+    <table border="1" style="width: 100%; table-layout:fixed; ">
+        <colgroup>
+            <col style="width: 30%;">
+            <col style="width: 30%;">
+            <col style="width: 40%;">
+        </colgroup>
 
-    <h3>Summary</h3>
-    <td> <p id="summary"></p> </td>
-    <h3>Advertisement Generated</h3>
-    <td> <p id="ad_text"></p> </td>
-    <h3>Image Generated</h3>
-    <td><div id="image_container"></div></td>
+        <tbody>
+            <tr>
+                <th> <h2>  {{ new_campaign.name }}</h2> </th>
+            </tr>
+            <tr>
+                <th>Links</th>
+                <th>Perspective</th>
+            </tr>
+            <tr>
+                <td style=" word-wrap: break-word"></tdstyle> <p> {{ new_campaign.links }}</p> </td>
+                <td> <p> {{ new_campaign.perspective }}</p> </td>
+            </tr>
+            <tr>
+                <th>Summarization</th>
+                <th>Text Generated</th>
+                <th>Image Generated</th>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;"> <p id="summary"></p> </td>
+                <td style="vertical-align: top;"> <p id="ad_text"></p> </td>
+                <td><div id="image_container" style="width: 90%;"></div></td>
+            </tr>
+        </tbody>
+    </table>
 
     <div id="campaign_id"></div>
 
@@ -83,6 +102,7 @@
             const imageUrl = event.data;
             const imgElement = document.createElement('img');
             imgElement.src = imageUrl;
+            imgElement.style.width = '90%';
             responseAreaImageContainer.appendChild(imgElement);
         });
 

@@ -87,10 +87,10 @@ def view_campaigns():
             message = "The user does not have permission to view another user's campaigns!"
             return render_template('error.html', message=message)
         else:
-            all_campaigns = Campaign.query.filter_by(user_id = id).all()
+            all_campaigns = Campaign.query.filter_by(user_id = id).order_by(Campaign.creation_date.desc()).all()
         
     elif call_type == 'portfolio':
-        all_campaigns = Campaign.query.filter_by(portfolio_id = id).all()
+        all_campaigns = Campaign.query.filter_by(portfolio_id = id).order_by(Campaign.creation_date.desc()).all()
         
     campaigns = []
     
