@@ -6,10 +6,10 @@
     <title>New Campaign Form</title>
 </head>
 <body>
+    {% include 'navbar.html' %}
+    <h1>New Campaign Form</h1>
 
-  <h1>New Campaign Form</h1>
-
-  <form method="POST" action="{{ url_for('add_campaign') }}">
+    <form method="POST" action="{{ url_for('add_campaign') }}">
       {{ form.hidden_tag() }}
 
       <div>
@@ -39,7 +39,7 @@
       <div>
           {{ form.submit(class="btn btn-primary") }}
       </div>
-  </form>
+    </form>
 
 </body>
 </html>
