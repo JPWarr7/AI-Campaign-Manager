@@ -7,7 +7,17 @@ from base64 import urlsafe_b64encode
 from app import mail_client, MAIL_USERNAME
 
 def create_message(address, msg, subject):
-    """Create a message for an email."""
+    """
+    Create a MIME message to be sent wtih the send_message() function.
+
+    Parameters:
+        address (str): Email address of the recipient.
+        msg (str): Content of the email.
+        subject (str): Subject of the email.
+
+    Returns:
+        dict: A dictionary representing the MIME message.
+    """
     message = MIMEText(msg)
     message["to"] = address
     message["from"] = MAIL_USERNAME
@@ -16,7 +26,16 @@ def create_message(address, msg, subject):
     return {"raw": raw_message}
 
 def send_message(mail_client, message):
-    """Send an email message."""
+    """
+    Send an email message using the provided mail client.
+
+    Parameters:
+        mail_client: An email client object capable of sending messages.
+        message (dict): A dictionary representing the message to be sent.
+
+    Returns:
+        dict: Information about the sent message.
+    """
     try:
         message = (
             mail_client.users()
@@ -25,10 +44,19 @@ def send_message(mail_client, message):
             .execute()
         )
         return message
+    
     except HttpError as error:
         print("An error occurred: %s" % error)
 
 def account_creation_notification(user):
+    """
+    Sends an email notification to the user upon successful account creation by 
+    generating a body for an email to be converted to a MIME message using 
+    the create_message() function and sent using the send_message() function.
+
+    Parameters:
+        user: An object representing the user whose account was created.
+    """
     address = user.email
     user_msg = f'''Hello {user.first_name} {user.last_name}, your account for the CampAIgn Manager has been successfully created! 
     \n User Information: 
@@ -50,6 +78,15 @@ def password_change_notification(user):
     send_message(mail_client, message)
     
 def campaign_creation_notification(user, campaign):
+    """
+    Sends an email notification to the user upon successful campaign creation by 
+    generating a body for an email to be converted to a MIME message using 
+    the create_message() function and sent using the send_message() function.
+
+    Parameters:
+        user: An object representing the user who created the campaign.
+        campaign: An object representing the campaign which was created.
+    """
     address = user.email
     user_msg = f'''Hello {user.username}, a new Campaign has been added to your account at {campaign.creation_date}. 
     \n Campaign information is included below. 
@@ -65,6 +102,17 @@ def campaign_creation_notification(user, campaign):
     send_message(mail_client, message)
     
 def campaign_edit_notification(user, old_campaign, new_campaign):
+    """
+    Sends an email notification to the user upon successful campaign edit by 
+    generating a body for an email to be converted to a MIME message using 
+    the create_message() function and sent using the send_message() function.
+
+    Parameters:
+        user: An object representing the user who created the campaign.
+        old_campaign: An object representing the old campaign, prior to editing
+        new_campaign: An object representing the new campaign which was generated 
+        through editing the old_campaign.
+    """
     address = user.email
     user_msg = f'''Hello {user.username}, your Campaign has been successfully edited at {new_campaign.creation_date}. 
     \n Changes to Campaign information are included below. 
@@ -98,6 +146,15 @@ def campaign_edit_notification(user, old_campaign, new_campaign):
     send_message(mail_client, message)
     
 def portfolio_creation_notification(user, portfolio):
+    """
+    Sends an email notification to the user upon successful portfolio creation by 
+    generating a body for an email to be converted to a MIME message using 
+    the create_message() function and sent using the send_message() function.
+
+    Parameters:
+        user: An object representing the user who created the campaign.
+        portfolio: An object representing the portfolio which was created.
+    """
     address = user.email
     user_msg = f'''Hello {user.username}, a new Portfolio has been added to your account at {portfolio.creation_date}. 
     \n Portfolio information is included below. 
@@ -107,6 +164,17 @@ def portfolio_creation_notification(user, portfolio):
     send_message(mail_client, message)
     
 def portfolio_edit_notification(user, old_name, portfolio):
+    """
+    Sends an email notification to the user upon successful portfolio edit by 
+    generating a body for an email to be converted to a MIME message using 
+    the create_message() function and sent using the send_message() function.
+
+    Parameters:
+        user: An object representing the user who created the campaign.
+        old_name: A string representing the old portfolio's name 
+        new_portfolio: An object representing the new portfolio which was generated 
+        through editing the original portfolio.
+    """
     address = user.email
     user_msg = f'''Hello {user.username}, your Portfolio has been successfully edited. 
     \n Changes to Portfolio information are included below. 
