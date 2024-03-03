@@ -8,30 +8,45 @@
 <body>
     {% include 'navbar.html' %}
     <h1>View Campaigns</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Creation Date</th>
-                <th>Links</th>
-                <th>Summarization</th>
-                <th>Perspective</th>
-                <th>Text Generated</th>
-                <th>Image Prompt</th>
-                <th>Image Generated</th>
-            </tr>
-        </thead>
+    <table border="1" border-spacing="20px" style="width: 100%; table-layout:fixed; border-spacing: 20px;">
+        <colgroup>
+            <col style="width: 10%;">
+            <col style="width: 5%;">
+            <col style="width: 30%;">
+            <col style="width: 30%;">
+            <col style="width: 25%;">
+        </colgroup>
+
         <tbody>
             {% for campaign in campaigns %}
             <tr>
-                <td><a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}">{{ campaign[0] }}</a></td>
+                <td> </td>
+            </tr>
+
+            <tr>
+                <th>Name</th>
+                <th>Creation Date</th>
+            </tr>
+            <tr>
+                <td> <h3><a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}">{{ campaign[0] }}</a></h3> </td>
                 <td>{{ campaign[1] }}</td>
-                <td>{{ campaign[2] }}</td>
-                <td>{{ campaign[3] }}</td>
+            </tr>
+            <tr>
+                <th>Links</th>
+                <th>Perspective</th>
+                <th>Summarization</th>
+                <th>Text Generated</th>
+                <th>Image Generated</th>
+            </tr>
+            <tr>
+                <td style=" word-wrap: break-word">{{ campaign[2] }}</td>
                 <td>{{ campaign[4] }}</td>
+                <td>{{ campaign[3] }}</td>
                 <td>{{ campaign[5] }}</td>
-                <td>{{ campaign[6] }}</td>
-                <td> <img src="{{campaign[7]}}" alt="Image Generated">{{campaign[7]}}</td>
+                <td> <img src="{{campaign[7]}}" alt="Image Generated" style="width: 90%;">{{campaign[7]}}</td>
+            </tr>
+            <tr>
+                <td> </td>
             </tr>
             {% endfor %}
         </tbody>
