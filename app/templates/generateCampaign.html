@@ -34,10 +34,49 @@
             <tr>
                 <td style="vertical-align: top;"> <p id="summary"></p> </td>
                 <td style="vertical-align: top;"> <p id="ad_text"></p> </td>
-                <td><div id="image_container" style="width: 90%;"></div></td>
+                <td><div id="image_container" style="width: 90%;"></div></td>         
             </tr>
+            <tr>
+                <td> 
+                    <div>
+                        <label for="regenerateSummarizationInput">Refine your summary?</label>
+                        <input type="text" id="regenerateSummarizationInput">
+                        <button onclick="regenerateSummary()">Regenerate Summary</button>
+                    </div>
+                </td>
+
+                <td> 
+                    <div>
+                        <label for="regenerateAdvertisementInput">Refine your Ad?</label>
+                        <input type="text" id="regenerateAdvertisementInput">
+                        <button onclick="regenerateAdvertisement()">Regenerate Ad</button>
+                    </div>
+                </td>
+                    
+                <td>
+                    <div>
+                        <label for="regenerateImageInput">Refine the image?</label>
+                        <input type="text" id="regenerateImageInput">
+                        <button onclick="regenerateImage()">Regenerate Image</button>
+                    </div>
+                </td>         
+            </tr>
+
+
+
+            <div>
+                <label for="regenerateImageInput">Refine the image?</label>
+                <input type="text" id="regenerateImageInput">
+                <button onclick="regenerateImage()">Regenerate Image</button>
+            </div>
         </tbody>
     </table>
+
+    <div>
+        <label for="saveCampaign">Save Campaign?</label>
+        <input type="text" id="SaveCampaignButton">
+        <button onclick="saveCampaign()">Save</button>
+    </div>
 
     <div id="campaign_id"></div>
 
