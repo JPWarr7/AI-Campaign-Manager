@@ -131,12 +131,11 @@
                     call_type: callType,
                     summary: responseAreaSummary.textContent,
                     ad_text: responseAreaAdText.textContent,
-                    img_prompt: imgPromptInput + final_ad_text,
+                    img_prompt: imgPromptInput + "additionally, also consider" + final_ad_text,
                     image_url: final_img_url,
                     parent_id: final_parent_id
                 };
-            
-            
+                       
             // Make a fetch request to trigger image regeneration
             fetch(`/createCampaign/${campaignId}/${callType}`, {
                 method: 'POST',
