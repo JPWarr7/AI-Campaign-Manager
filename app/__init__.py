@@ -86,6 +86,7 @@ from app.forms import *
 #     except Exception as e:
 #         print("Error:", e)
 
+        
 # Populate database
 
 # if __name__ == '__main__':

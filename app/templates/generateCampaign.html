@@ -34,10 +34,49 @@
             <tr>
                 <td style="vertical-align: top;"> <p id="summary"></p> </td>
                 <td style="vertical-align: top;"> <p id="ad_text"></p> </td>
-                <td><div id="image_container" style="width: 90%;"></div></td>
+                <td><div id="image_container" style="width: 90%;"></div></td>         
             </tr>
+            <tr>
+                <td> 
+                    <div>
+                        <label for="regenerateSummarizationInput">Refine your summary?</label>
+                        <input type="text" id="regenerateSummarizationInput">
+                        <button onclick="regenerateSummary()">Regenerate Summary</button>
+                    </div>
+                </td>
+
+                <td> 
+                    <div>
+                        <label for="regenerateAdvertisementInput">Refine your Ad?</label>
+                        <input type="text" id="regenerateAdvertisementInput">
+                        <button onclick="regenerateAdvertisement()">Regenerate Ad</button>
+                    </div>
+                </td>
+                    
+                <td>
+                    <div>
+                        <label for="regenerateImageInput">Refine the image?</label>
+                        <input type="text" id="regenerateImageInput">
+                        <button onclick="regenerateImage()">Regenerate Image</button>
+                    </div>
+                </td>         
+            </tr>
+
+
+
+            <div>
+                <label for="regenerateImageInput">Refine the image?</label>
+                <input type="text" id="regenerateImageInput">
+                <button onclick="regenerateImage()">Regenerate Image</button>
+            </div>
         </tbody>
     </table>
+
+    <div>
+        <label for="saveCampaign">Save Campaign?</label>
+        <input type="text" id="SaveCampaignButton">
+        <button onclick="saveCampaign()">Save</button>
+    </div>
 
     <div id="campaign_id"></div>
 
@@ -135,5 +174,60 @@
         });
 
     </script>
+
+    <script>
+        function regenerateImage() {
+            const imgPromptInput = document.getElementById('regenerateImageInput').value;   
+            
+            const regenerateParameters = {
+                    new_campaign_id: campaignId,
+                    call_type: callType,
+                    summary: responseAreaSummary.textContent,
+                    ad_text: responseAreaAdText.textContent,
+                    img_prompt: imgPromptInput + "additionally, also consider" + final_ad_text,
+                    image_url: final_img_url,
+                    parent_id: final_parent_id
+                };
+                       
+            // Make a fetch request to trigger image regeneration
+            fetch(`/createCampaign/${campaignId}/${callType}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: 'regenerate_image', img_prompt: imgPromptInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Image regeneration successful', data);
+                // Handle the regenerated image URL as needed
+            })
+            .catch(error => {
+                console.error('Error regenerating image', error);
+            });    
+            
+
+            
+
+            fetch('/processCampaign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '  // Add your authorization token if needed
+                },
+                body: JSON.stringify(regenerateParameters)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Image regeneration successful', data);
+                // Handle the regenerated image URL as needed
+            })
+            .catch(error => {
+                console.error('Error regenerating image', error);
+            });
+        }
+    </script>
+    
+
 </body>
 </html>
