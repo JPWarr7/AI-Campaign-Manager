@@ -5,7 +5,7 @@ from app.forms import *
 from flask import render_template, redirect, send_from_directory, url_for, flash, request, Response, jsonify
 from flask_login import login_required, current_user
 import sys
-from .functions.openai import summarization, text_generation, image_generation
+from .functions.openai import summarization, text_generation, image_generation, image_regeneration, text_regeneration
 from app.routes.functions.mail import *
 
 @app.route('/addCampaign', methods=['GET', 'POST'])
@@ -234,9 +234,9 @@ def create_campaign(new_campaign_id, call_type):
                     yield f"event: ad_text\ndata: {chunk + ' '}\n\n"
                 
                 yield f"event: img_url\ndata: {image_url}\n\n"
-                yield f"event: campaign_id\ndata: {new_campaign.campaign_id}\n\n"
+                yield f"event: campaign_id\ndata: {new_campaign.campaign_id}\n\n"  
         
-        yield f"event: final_summary\ndata: {summary}\n\n"
+        yield f"event: final_summary\ndata: {summary}\n\n" 
         yield f"event: final_ad_text\ndata: {ad_text}\n\n"
         yield f"event: final_img_prompt\ndata: {img_prompt}\n\n"
         yield f"event: final_img_url\ndata: {image_url}\n\n"
@@ -282,3 +282,48 @@ def process_campaign():
     
     db.session.commit()
     return jsonify({'message': 'Campaign processed successfully'})
+
+@app.route('/regenerateImage', methods=['GET','POST'])
+@login_required
+def regenerate_image():
+    data = request.get_json()
+    img_url = data['img_url']
+    feedback = data['feedback']
+    new_img = image_regeneration(feedback, img_url)
+    return jsonify({'new_image_url': new_img})
+
+@app.route('/regenerateSummarization', methods=['GET','POST'])
+@login_required
+def regenerate_summarization():
+    prompt = request.args.get('summarization', '')
+    feedback = request.args.get('feedback', '')
+    
+    def regeneration_function(prompt, feedback):
+        summary = ''
+        for chunk in text_regeneration(prompt, feedback):
+            yield f"event: summary\ndata: {chunk}\n\n"
+            summary += chunk
+                
+        yield f"event: final_summary\ndata: {summary}\n\n" 
+        yield f"data: end-of-stream\n\n"
+        
+    response_stream = regeneration_function(prompt, feedback)
+    return Response(response_stream, content_type="text/event-stream")
+
+@app.route('/regenerateAdvertisement', methods=['GET','POST'])
+@login_required
+def regenerate_advertisement():
+    prompt = request.args.get('ad_text', '')
+    feedback = request.args.get('feedback', '')
+    
+    def regeneration_function(prompt, feedback):
+        ad_text = ''
+        for chunk in text_regeneration(prompt, feedback):
+            yield f"event: ad_text\ndata: {chunk}\n\n"
+            ad_text += chunk      
+        
+        yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+        yield f"data: end-of-stream\n\n"
+        
+    response_stream = regeneration_function(prompt, feedback)
+    return Response(response_stream, content_type="text/event-stream")
