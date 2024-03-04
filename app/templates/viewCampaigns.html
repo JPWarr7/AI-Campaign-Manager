@@ -39,11 +39,15 @@
                 <th>Image Generated</th>
             </tr>
             <tr>
-                <td style=" word-wrap: break-word">{{ campaign[2] }}</td>
+                <td style=" word-wrap: break-word">
+                    {% for link in campaign[2].split() %}
+                        <a href="{{ link }}"target="_blank">{{ link }}</a><br>
+                    {% endfor %}
+                </td>
                 <td>{{ campaign[4] }}</td>
                 <td>{{ campaign[3] }}</td>
                 <td>{{ campaign[5] }}</td>
-                <td> <img src="{{campaign[7]}}" alt="Image Generated" style="width: 90%;">{{campaign[7]}}</td>
+                <td> <img src="{{campaign[7]}}" alt="Image Generated" style="width: 90%;"></td>
             </tr>
             <tr>
                 <td> </td>

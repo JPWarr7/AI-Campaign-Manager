@@ -1,4 +1,8 @@
 from openai import OpenAI
+import requests
+from PIL import Image
+from io import BytesIO
+
 client = OpenAI()
 
 def summarization(links):
@@ -59,7 +63,7 @@ def text_generation(summary, perspective):
 
 def image_generation(prompt):
     """
-    This function generates an image based on the given prompt using OpenAI's DALL-E model.
+    This function generates an image based on the given prompt using OpenAI's DALL-E 3 model.
 
     Parameters:
         prompt (str): A prompt for generating the image.
@@ -78,3 +82,78 @@ def image_generation(prompt):
     n=1
     )
     return response.data[0].url
+
+def image_regeneration(prompt, img_url):
+    """
+    This function regenerates an image based on the given prompt and source image provided using OpenAI's DALL-E 2 model.
+
+    Parameters:
+        prompt (str): A prompt for providing feedback in which to regenerate the image.
+        img_url (str): An image source link, which will be altered using the feedback prompt and DALL-E 2 model.
+
+    Returns:
+        str: URL of the regenerated image.
+
+    Example:
+        regenerate_image("remove the text from this image", "img url")
+    """
+    
+    response = client.chat.completions.create(
+    model="gpt-4-vision-preview",
+    messages=[
+        {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "Please describe everything in this image"},
+            {
+            "type": "image_url",
+            "image_url": {
+                "url": f'{img_url}',
+            },
+            },
+        ],
+        }
+    ],
+    max_tokens=300,
+    )
+    output = response.choices[0]
+    img_prompt = f'Generate an image like this {output} while adding this change: {prompt}'
+    
+    response = client.images.generate(
+    model="dall-e-3",
+    prompt= f'{img_prompt}',
+    size="1024x1024",
+    quality="standard",
+    n=1
+    )
+    return response.data[0].url
+
+def text_regeneration(prompt, feedback):
+    """
+    This function regenerates text based on a given prompt and feedback
+    using OpenAI's GPT-3.5 model.
+
+    Parameters:
+        prompt (str): The original prompt to which will be edited
+        feedback (str): The feedback provided to the original prompt
+
+    Returns:
+        str: Text containing information from the provided prompt
+             using the specified feedback.
+
+    Example:
+        text_generation("The latest smartphone offers cutting-edge features and sleek design.",
+                        "Make this more interactive")
+    """    
+    completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a skilled advertiser, capable of advertising a product from the perspective of any human."},
+        {"role": "user", "content": f'In less than 1500 characters, regenerate this prompt: {prompt}, taking into consideration this feedback {feedback}.'}
+    ],
+    stream=True
+    )
+
+    for chunk in completion:
+        if chunk.choices[0].delta.content is not None:
+            yield str(chunk.choices[0].delta.content)

@@ -1,0 +1,38 @@
+
+
+/* -------------- ANIMATED PROGRESS BAR ------------- */
+@keyframes progressAnimation {
+    0% { width: 0; } /* Start with 0% width */
+    100% { width: 100%; } /* End with 100% width */
+  }
+  
+  .progress-container {
+    width: 80%; /* Initial width of the container */
+    height: 20px; /* Height of the container */
+    background-color: rgb(230, 230, 230); /* Background color of the container */
+    position: relative; /* Positioning to align children elements */
+    overflow: hidden; /* Hide any content that overflows the container */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+  
+  /* Style for the progress bar */
+  .progress-bar {
+    height: 100%; /* Full height of the progress bar */
+    background-color: lightblue; /* Background color of the progress bar */
+  }
+  
+  /* Style for the animated progress */
+  .progress-bar::after {
+    content: ''; /* Required for pseudo-elements */
+    display: block; /* Make it a block-level element */
+    position: absolute; /* Positioning relative to the progress bar */
+    top: 0; /* Align to the top of the progress bar */
+    left: 0; /* Align to the left of the progress bar */
+    bottom: 0; /* Align to the bottom of the progress bar */
+    width: 0; /* Initial width of the progress (animated) */
+    background-color: rgba(0, 98, 255, 0.946); /* Color of the progress */
+    animation: progressAnimation 30s linear forwards; /* Apply animation */
+  }
+  
