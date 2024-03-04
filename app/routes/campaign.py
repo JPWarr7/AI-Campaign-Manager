@@ -76,6 +76,30 @@ def edit_campaign(campaign_id):
         
     return render_template('editCampaign.html',campaign = campaign, form = form)
 
+################################
+################################
+
+@app.route('/regenerateImage', methods=['POST'])
+@login_required
+def regenerate_image():
+    data = request.get_json()
+    
+    new_campaign_id = int(data['new_campaign_id'])
+    img_prompt = data['img_prompt']
+    
+    # Assuming you have an image_generation function in your openai module
+    new_image_url = image_generation(img_prompt)
+
+    new_campaign = Campaign.query.get(new_campaign_id)
+    new_campaign.image_generated = new_image_url
+    
+    db.session.commit()
+
+    return jsonify({'message': 'Image regenerated successfully', 'new_image_url': new_image_url})
+
+################################
+################################
+
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
 @login_required
 def view_campaigns():
@@ -123,6 +147,16 @@ def generate_campaign():
 @app.route('/createCampaign/<int:new_campaign_id>/<call_type>', methods=['GET', 'POST'])
 @login_required
 def create_campaign(new_campaign_id, call_type):
+
+    # data = request.get_json()
+    # if 'action' in data and data['action'] == 'regenerate_image':
+    #     # Handle image regeneration logic
+    #     img_prompt = data['img_prompt']
+    #     image_url = image_generation(img_prompt)
+
+    #     return jsonify({'message': 'Image regenerated successfully', 'new_image_url': image_url})
+
+
     new_campaign = Campaign.query.get(new_campaign_id)
     if call_type == 'edit':
         old_campaign = Campaign.query.get(new_campaign.parent_id)
