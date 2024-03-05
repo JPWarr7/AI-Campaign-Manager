@@ -4,52 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Campaigns</title>
+
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>View Campaigns</h1>
-    <table border="1" border-spacing="20px" style="width: 100%; table-layout:fixed; border-spacing: 20px;">
-        <colgroup>
-            <col style="width: 10%;">
-            <col style="width: 5%;">
-            <col style="width: 30%;">
-            <col style="width: 30%;">
-            <col style="width: 25%;">
-        </colgroup>
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center">
+            <div class = "py-3">
+                <h1>Your Campaigns</h1>
+                <hr>
+            </div>
+          </div>
+        </div>
+      </div>
 
+<div class = "container">
+    <table class = "table table-striped">
+        <thead>
+        </thead>
         <tbody>
             {% for campaign in campaigns %}
-            <tr>
-                <td> </td>
-            </tr>
+            <div class  = "row">
+                <div class = "col-sm-6">
 
-            <tr>
-                <th>Name</th>
-                <th>Creation Date</th>
-            </tr>
-            <tr>
+                    <div class="card">
+                        <div class="card-header">
+                          {{ campaign[0] }}
+                        </div>
+                        <div class="card-body">
+                          <h5 class="card-title">Portfolio?</h5>
+                          <p class="card-text">Creation Date :</p>
+                          <p class = "card-text">{{ campaign[1] }}</p>
+                          <a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}" class="btn btn-primary">Edit Campaign</a>
+                        </div>
+                      </div>
+<!--
                 <td> <h3><a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}">{{ campaign[0] }}</a></h3> </td>
                 <td>{{ campaign[1] }}</td>
-            </tr>
-            <tr>
-                <th>Links</th>
-                <th>Perspective</th>
-                <th>Summarization</th>
-                <th>Text Generated</th>
-                <th>Image Generated</th>
-            </tr>
-            <tr>
                 <td style=" word-wrap: break-word">{{ campaign[2] }}</td>
                 <td>{{ campaign[4] }}</td>
                 <td>{{ campaign[3] }}</td>
                 <td>{{ campaign[5] }}</td>
                 <td> <img src="{{campaign[7]}}" alt="Image Generated" style="width: 90%;">{{campaign[7]}}</td>
-            </tr>
-            <tr>
-                <td> </td>
-            </tr>
+                </div>
+            </div>
+-->
             {% endfor %}
         </tbody>
     </table>
+</div>
 </body>
 </html>

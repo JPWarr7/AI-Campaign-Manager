@@ -7,39 +7,75 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>New Campaign Form</h1>
-
-    <form method="POST" action="{{ url_for('add_campaign') }}">
-      {{ form.hidden_tag() }}
-
-      <div>
-          {{ form.campaign_name.label }}
-          {{ form.campaign_name(class="AddCampaignForm") }}
-          {% for error in form.campaign_name.errors %}
-              <span style="color: red;">{{ error }}</span>
-          {% endfor %}
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center">
+            <div class = "py-3">
+                <h1>Create a New Campaign</h1>
+                <hr>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-          {{ form.links.label }}
-          {{ form.links(class="AddCampaignForm") }}
-          {% for error in form.links.errors %}
-              <span style="color: red;">{{ error }}</span>
-          {% endfor %}
-      </div>
+      
 
-      <div>
-          {{ form.perspective.label }}
-          {{ form.perspective(class="AddCampaignForm") }}
-          {% for error in form.perspective.errors %}
-              <span style="color: red;">{{ error }}</span>
-          {% endfor %}
-      </div>
+<div class = "container">
+    <div class = "row justify-content-center">
+        <div class = "col-md-6">
+            <form method="POST" action="{{ url_for('add_campaign') }}">
+            {{ form.hidden_tag() }}
+            <div class = "container-fluid">
+                <div class = "row">
+                    <div class = "col-sm"></div>
+                    <div class = "col-sm">
+                    {{ form.campaign_name.label }}
+                    {{ form.campaign_name(class="AddCampaignForm") }}
+                    {% for error in form.campaign_name.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class = "col-sm"></div>
+                </div>
 
-      <div>
-          {{ form.submit(class="btn btn-primary") }}
-      </div>
-    </form>
+                <div class = "row">
+                    <div class = "col-sm"></div>
+                    <div class = "col-sm">
+                    {{ form.links.label }}
+                    {{ form.links(class="AddCampaignForm") }}
+                    {% for error in form.links.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                    </div>
+                    <div class = "col-sm"></div>
+                </div>
+                
+
+                <div class = "row">
+                    <div class = "col-sm"></div>
+                    <div class = "col-sm">
+                    {{ form.perspective.label }}
+                    {{ form.perspective(class="AddCampaignForm") }}
+                    {% for error in form.perspective.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                    </div>
+                    <div class = "col-sm"></div>
+                </div>
+
+                <div class = "row">
+                    <div class = "col-sm"></div>
+                        <div class = "col-sm">
+                        {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    <div class = "col-sm"></div>
+                </div>
+            </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
