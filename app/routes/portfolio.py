@@ -21,21 +21,49 @@ def add_portfolio():
         )
         db.session.add(portfolio)
         db.session.commit()
-        return redirect(url_for('view_portfolio'))
+        portfolio = Portfolio.query.filter_by(user_id = current_user.id).order_by(Portfolio.creation_date.desc()).first()
+        return redirect(url_for('view_portfolio', portfolio_id = portfolio.id))
         
-    return render_template('addPortfolio.html')
+    return render_template('addPortfolio.html', form=form)
 
 @app.route('/viewPortfolio/<int:portfolio_id>', methods=['GET', 'POST'])
 @login_required
 def view_portfolio(portfolio_id):
     portfolio = Portfolio.query.get(portfolio_id)
-
     name = portfolio.name
     creation_date = portfolio.creation_date
-    campaign_info = view_campaigns('portfolio', portfolio_id)
-    info = [(name, creation_date, campaign_info)]
+    
+    all_campaigns = Campaign.query.filter_by(portfolio_id = portfolio.id).order_by(Campaign.creation_date.desc()).all()
+    
+    final_campaigns = []    
+    row_campaigns = []
+    count = 1
+    
+    for campaign in all_campaigns:
+        name = campaign.name
+        creation_date = campaign.creation_date
+        links = campaign.links
+        summarization = campaign.summarization
+        perspective = campaign.perspective
+        text_generated = campaign.text_generated
+        image_prompt = campaign.image_prompt
+        image_generated = campaign.image_generated
+        id = campaign.campaign_id
+        row_campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
         
-    return render_template('viewPortfolio.html', info=info)
+        if count %4 == 0:
+            final_campaigns.append(row_campaigns)
+            row_campaigns = []    
+        
+        count += 1
+        
+    if count-1 %4 != 0:
+        final_campaigns.append(row_campaigns)
+        
+    campaigns = [name, creation_date, final_campaigns]
+        
+    # return render_template('viewPortfolio.html', info=info)
+    return render_template('viewCampaigns.html', campaigns=campaigns)
 
 @app.route('/editPortfolio/<int:portfolio_id>', methods=['GET', 'POST'])
 @login_required

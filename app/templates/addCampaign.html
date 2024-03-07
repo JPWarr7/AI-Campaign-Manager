@@ -19,7 +19,7 @@
       </div>
 
       
-
+<!-- 
 <div class = "container">
     <div class = "row justify-content-center">
         <div class = "col-md-6">
@@ -73,6 +73,64 @@
             </div>
             </div>
             </form>
+        </div>
+    </div>
+</div> -->
+
+<div class = "container">
+    <div class = "row justify-content-center">
+        <div class = "col-md-6">
+
+        <table class = "table table-striped" style = "background-color: rgb(236, 230, 238); justify-content: center;">
+        
+            <form method="POST" action="{{ url_for('add_campaign') }}">
+            {{ form.csrf_token }}
+            <tr>
+                <td class = "py-3 px-3">
+                    <label for="campaign_name">{{ form.campaign_name.label }}</label>
+                </td>
+                <td>
+                    <input type="text" id="campaign_name" name="campaign_name"  value="">
+                </td>
+            </tr>
+            <tr>
+                <td class = "py-3 px-3">
+                    <label for="links">{{ form.links.label }}</label>
+                </td>
+                <td>
+                    <input type="text" id="links" name="links"  value="">
+                </td>
+            </tr>
+            <tr>
+                <td class = "py-3 px-3">
+                    <label for="links">{{ form.perspective.label }}</label>
+                </td>
+                <td>
+                    <input type="text" id="perspective" name="perspective"  value="">
+                </td>
+            </tr>
+            <tr>
+                <td class = "py-3 px-3">
+                    <label for="portfolio">{{ form.portfolio.label }}</label>
+                </td>
+                <td>
+                    <select class="form-select" aria-label="Portfolio drop-down" id="portfolio" name="portfolio">
+                        <option selected disabled>Select Portfolio</option>
+
+                        {% for portfolio_id, portfolio_name in form.portfolio.choices %}
+                            <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form.submit(class="btn btn-primary") }}
+                </td>
+            </tr>
+        </form>
+
+        </table>
         </div>
     </div>
 </div>
