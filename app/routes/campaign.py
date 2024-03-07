@@ -11,13 +11,16 @@ from app.routes.functions.mail import *
 @app.route('/addCampaign', methods=['GET', 'POST'])
 @login_required
 def add_campaign():
-    form = AddCampaignForm() 
+    form = AddCampaignForm()
+    # if form.is_submitted():
+    #     print(current_user.id,form.campaign_name.data,form.links.data,form.perspective.data,form.portfolio.data)
     if form.validate_on_submit():
         campaign = Campaign(
             user_id=current_user.id,
             name=form.campaign_name.data,
             links=form.links.data,
             perspective=form.perspective.data,
+            portfolio_id = form.portfolio.data
         )
         db.session.add(campaign)
         db.session.commit()
