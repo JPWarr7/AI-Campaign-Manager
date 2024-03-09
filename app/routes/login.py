@@ -8,7 +8,11 @@ from app.routes.functions.mail import *
 import sys
 
 @app.route('/login', methods = ['GET', 'POST'])
-def signin():
+def login_page():
+    return render_template('login.html')
+
+@app.route('/login/submit', methods = ['GET', 'POST'])
+def login_submit():
     email = request.form['email']
     password = request.form['password']
     user = db.session.query(User).filter_by(email=email).first()
@@ -22,7 +26,7 @@ def signin():
         return redirect(url_for('landing'))
 
     login_user(user)
-    return redirect(url_for('index'))
+    return redirect(url_for('home'))
     
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

@@ -24,6 +24,6 @@ def landing():
 
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
-def index():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
     # return render_template('viewCampaigns.html', call_type = 'user', id = current_user.id)
