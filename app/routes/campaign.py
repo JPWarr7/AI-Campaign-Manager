@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 import sys
 from .functions.openai import summarization, text_generation, image_generation, image_regeneration, text_regeneration
 from app.routes.functions.mail import *
+from app.routes.functions.imgur import *
 
 @app.route('/addCampaign', methods=['GET', 'POST'])
 @login_required
@@ -248,10 +249,12 @@ def process_campaign():
     new_campaign = Campaign.query.get(new_campaign_id)
     old_campaign = Campaign.query.get(parent_id)
     
+    imgur_link = image_upload(image_url)
+    
     new_campaign.summarization = summary
     new_campaign.text_generated = ad_text
     new_campaign.image_prompt = img_prompt
-    new_campaign.image_generated = image_url
+    new_campaign.image_generated = imgur_link
     new_campaign.parent_id = parent_id
 
     if call_type == 'new':
