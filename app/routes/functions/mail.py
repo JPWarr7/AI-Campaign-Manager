@@ -158,7 +158,7 @@ def portfolio_creation_notification(user, portfolio):
     address = user.email
     user_msg = f'''Hello {user.username}, a new Portfolio has been added to your account at {portfolio.creation_date}. 
     \n Portfolio information is included below. 
-    \n {portfolio.title} 
+    \n {portfolio.name} 
     '''
     message = create_message(address, user_msg, subject='Portfolio Creation Successful!')
     send_message(mail_client, message)
@@ -178,7 +178,7 @@ def portfolio_edit_notification(user, old_name, portfolio):
     address = user.email
     user_msg = f'''Hello {user.username}, your Portfolio has been successfully edited. 
     \n Changes to Portfolio information are included below. 
-    \n {old_name} -> {portfolio.title} 
+    \n {old_name} -> {portfolio.name} 
     '''
     message = create_message(address, user_msg, subject='Portfolio Edited Successfully!')
     send_message(mail_client, message)

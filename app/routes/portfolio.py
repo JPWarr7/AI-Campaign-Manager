@@ -5,7 +5,7 @@ from app.forms import *
 from flask import render_template, redirect, send_from_directory, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 import sys
-# from app.routes.openai import summarization, text_generation, image_generation
+from app.routes.functions.mail import *
 from app.routes.campaign import view_campaigns
 
 
@@ -22,6 +22,7 @@ def add_portfolio():
         db.session.add(portfolio)
         db.session.commit()
         portfolio = Portfolio.query.filter_by(user_id = current_user.id).order_by(Portfolio.creation_date.desc()).first()
+        portfolio_creation_notification(current_user, portfolio)
         return redirect(url_for('view_portfolio', portfolio_id = portfolio.id))
         
     return render_template('addPortfolio.html', form=form)
@@ -59,9 +60,8 @@ def view_portfolio(portfolio_id):
         
     if count-1 %4 != 0:
         final_campaigns.append(row_campaigns)
-        
+    
     campaigns = [name, creation_date, final_campaigns]
-        
     # return render_template('viewPortfolio.html', info=info)
     return render_template('viewCampaigns.html', campaigns=campaigns)
 
