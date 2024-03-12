@@ -51,8 +51,8 @@ def text_generation(summary, perspective):
     completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
-        {"role": "system", "content": "You are a skilled advertiser, capable of advertising a product from the perspective of any human."},
-        {"role": "user", "content": f'In less than 1500 characters, compose an advertisement containing information from {summary} from the perspective of {perspective}.'}
+        {"role": "system", "content": "You are a skilled social media advertiser, capable of advertising a product from the perspective of any human."},
+        {"role": "user", "content": f'In less than 280 characters, compose an advertisement containing information from {summary} from the perspective of {perspective}.'}
     ],
     stream=True
     )

@@ -72,7 +72,7 @@ try:
 except HttpError as error:
     # Handle errors from Gmail API
     print(f"An error occurred: {error}")
-
+        
 # Add models
 from app.routes import *
 from app.forms import *
