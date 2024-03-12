@@ -4,25 +4,35 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#"> campAIgn</a>
+    <a class="navbar-brand" href="{{ url_for('index') }}"> campAIgn</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{{ url_for('index') }}">Homepage</a>
-          </li>
-        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('view_campaigns') }}?call_type=user&id={{ current_user.id }}">View Campaigns</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('view_portfolios') }}?call_type=user&id={{ current_user.id }}">View Portfolios</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('add_campaign') }}">Add Campaign</a>
           </li>
-        <li class="nav-item ml-auto">
-            <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
-          </li>
       </ul>
+    </div>
+    <div class = "container-fluid justify-content-end">
+      <ul class = "navbar-nav">
+        <li class = "nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">Account</a>
+        </li>
+      </ul>
+    </div>
+    <div class = "container-fluid justify-content-end">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
     </div>
   </nav>
 

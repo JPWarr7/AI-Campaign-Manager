@@ -28,7 +28,7 @@
       </div>
 
     <div class = "container">
-        <div class = "row justify-content-center">
+        <div class = "row justify-content-start">
             <div class = "col-md-6">
 
             <table class = "table table-striped" style = "background-color: rgb(236, 230, 238); justify-content: center;">
@@ -99,6 +99,19 @@
             </form>
 
             </table>
+            </div>
+            <div class = "col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                    {{ campaign[0] }}
+                    </div>
+
+                    <div class="card-body">
+                    <h5 class="card-title">Creation Date:</h5>
+                    <p class = "card-text">{{ campaign[1] }}</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

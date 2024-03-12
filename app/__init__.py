@@ -78,6 +78,7 @@ from app.routes import *
 from app.forms import *
 # from app import database
 
+
 # with app.app_context():
 #     try:
 #         db.drop_all()
