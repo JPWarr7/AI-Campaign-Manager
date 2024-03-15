@@ -3,7 +3,7 @@ function populateTable(searchTerm) {
 
   var hasPortfolios = false;
   var hasCampaigns = false;
-
+  $('#results-table tbody').append('<tr class="table-divider">');
   $('#results-table tbody').append('<tr><td colspan="2"><b>Portfolios</b></td></tr>');
 
   user_portfolios.forEach(function(portfolio) {
@@ -17,8 +17,8 @@ function populateTable(searchTerm) {
   });
 
   if (hasPortfolios) {
-    $('#results-table tbody').append('<tr class="table-divider">');
-    $('#results-table tbody').append('<tr class="table-divider">');
+    $('#results-table tbody').append('<tr class="table-divider" style="height:0.5%;">');
+
   }
 
   $('#results-table tbody').append('<tr><td colspan="2"><b>Campaigns</b></td></tr>');
