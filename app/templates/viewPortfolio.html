@@ -58,14 +58,6 @@
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    $(".my-card").click(function() {
-        var campaignId = $(this).attr("campaign-id");
-        var url = "/viewCampaign/" + campaignId;
-        window.location.href = url;
-    });
-});
-</script>
+<script src="{{ url_for('static', filename='js/viewPortfolio.js') }}"></script>
 
 </html>
