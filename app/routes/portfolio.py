@@ -6,7 +6,7 @@ from flask import render_template, redirect, send_from_directory, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 import sys
 from app.routes.functions.mail import *
-from app.routes.campaign import view_campaigns
+from app.routes.functions.user_content import *
 
 
 @app.route('/addPortfolio', methods=['GET', 'POST'])
@@ -23,9 +23,11 @@ def add_portfolio():
         db.session.commit()
         portfolio = Portfolio.query.filter_by(user_id = current_user.id).order_by(Portfolio.creation_date.desc()).first()
         portfolio_creation_notification(current_user, portfolio)
-        return redirect(url_for('view_portfolio', portfolio_id = portfolio.id))
-        
-    return render_template('addPortfolio.html', form=form)
+        content = user_content(current_user.id)
+        return redirect(url_for('view_portfolio', portfolio_id = portfolio.id, content=content))
+    
+    content = user_content(current_user.id)
+    return render_template('addPortfolio.html', form=form, content=content)
 
 @app.route('/viewPortfolio/<int:portfolio_id>', methods=['GET', 'POST'])
 @login_required
@@ -41,16 +43,12 @@ def view_portfolio(portfolio_id):
     count = 1
     
     for campaign in all_campaigns:
-        name = campaign.name
-        creation_date = campaign.creation_date
-        links = campaign.links
-        summarization = campaign.summarization
-        perspective = campaign.perspective
+        c_name = campaign.name
+        c_creation_date = campaign.creation_date
         text_generated = campaign.text_generated
-        image_prompt = campaign.image_prompt
         image_generated = campaign.image_generated
         id = campaign.campaign_id
-        row_campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
+        row_campaigns.append((c_name, c_creation_date, text_generated, image_generated, id))
         
         if count %4 == 0:
             final_campaigns.append(row_campaigns)
@@ -60,27 +58,27 @@ def view_portfolio(portfolio_id):
         
     if count-1 %4 != 0:
         final_campaigns.append(row_campaigns)
-    
-    campaigns = [name, creation_date, final_campaigns]
-    # return render_template('viewPortfolio.html', info=info)
-    return render_template('viewCampaigns.html', campaigns=campaigns)
+
+    content = user_content(current_user.id)
+    portfolio = [name, creation_date, final_campaigns]
+    return render_template('viewPortfolio.html', portfolio=portfolio, content=content)
+
 
 @app.route('/editPortfolio/<int:portfolio_id>', methods=['GET', 'POST'])
 @login_required
 def edit_portfolio(portfolio_id):
     form = EditPortfolioForm()
     portfolio = Portfolio.query.get(portfolio_id)
-    # if portfolio.user_id == current_user.id:
     
     if form.validate_on_submit():
         if form.portfolio_name:
             portfolio.name=form.portfolio_name.data
         
-        # Save the changes to the database
         db.session.commit()
-        return redirect(url_for('view_portfolio'))
-    
-    return render_template('editPortfolio.html')
+        content = user_content(current_user.id)
+        return redirect(url_for('view_portfolio',portfolio_id = portfolio.id, content=content))
+    content = user_content(current_user.id)
+    return render_template('editPortfolio.html', content=content, form=form, portfolio=portfolio)
 
 @app.route('/viewPortfolios', methods=['GET', 'POST'])
 @login_required
@@ -91,7 +89,8 @@ def view_portfolios():
     for portfolio in all_portfolios:
         name = portfolio.name
         creation_date = portfolio.creation_date
-        campaign_info = view_campaigns('portfolio', portfolio.id)
-        portfolios.append((name, creation_date, campaign_info))
-        
-    return render_template('viewPortfolios.html', portfolios=portfolios)
+        portfolio_id = portfolio.id
+        portfolios.append((name, creation_date, portfolio_id))
+    
+    content = user_content(current_user.id)
+    return render_template('viewPortfolios.html', portfolios=portfolios, content=content)
