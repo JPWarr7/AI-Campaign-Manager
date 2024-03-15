@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="/static/styles.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
   <style>
     body {
       background-color: #f8f9fa;
@@ -75,6 +75,8 @@
     </div>
   </div>
 </div>
+<div id="user-portfolios" data-portfolios="{{ content[0] | tojson | safe }}"></div>
+<div id="user-campaigns" data-campaigns="{{ content[1] | tojson | safe }}"></div>
 
 <div id="blur-container"></div>
 
@@ -82,75 +84,14 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <script>
     var user_portfolios = {{ content[0] | tojson | safe}};
     var user_campaigns = {{ content[1] | tojson | safe}};
-
-    function populateTable(searchTerm) {
-      $('#results-table tbody').empty();
-
-      var hasPortfolios = false;
-      var hasCampaigns = false;
-
-      $('#results-table tbody').append('<tr><td colspan="2"><b>Portfolios</b></td></tr>');
-
-      user_portfolios.forEach(function(portfolio) {
-          if (portfolio[0].toLowerCase().includes(searchTerm.toLowerCase())) {
-              var portfolioId = portfolio[2].toString();
-              var portfolioLink = '/viewPortfolio/' + portfolioId;
-              var portfolioHtml = '<a href="' + portfolioLink + '">' + portfolio[0] + '</a>';
-              $('#results-table tbody').append('<tr><td>' + portfolioHtml + '</td><td class="text-right" style="text-align: right;">' + portfolio[1] + '</td></tr>');
-              hasPortfolios = true;
-          }
-      });
-
-      if (hasPortfolios) {
-        $('#results-table tbody').append('<tr class="table-divider">');
-        $('#results-table tbody').append('<tr class="table-divider">');
-      }
-
-      $('#results-table tbody').append('<tr><td colspan="2"><b>Campaigns</b></td></tr>');
-
-      user_campaigns.forEach(function(campaign) {
-          if (campaign[0].toLowerCase().includes(searchTerm.toLowerCase())) {
-              var campaignId = campaign[8].toString();
-              var campaignLink = '/viewCampaign/' + campaignId;
-              var campaignHtml = '<a href="' + campaignLink + '">' + campaign[0] + '</a>';
-              $('#results-table tbody').append('<tr><td>' + campaignHtml + '</td><td class="text-right" style="text-align: right;">' + campaign[1] + '</td></tr>');
-              hasCampaigns = true;
-          }
-      });
-
-      if (hasPortfolios || hasCampaigns) {
-        $('#results-container').show();  
-        $('#results-table').show();
-      }
-  }
-  
-  function blurContent() {
-    $('#blur-container').show();
-}
-
-  function removeBlur() {
-    $('#blur-container').hide();
-}
-
-  $(document).ready(function() {
-    $('#search-input').keyup(function() {
-        var searchTerm = $(this).val().trim();
-        if (searchTerm !== '') {
-            populateTable(searchTerm);
-            blurContent();
-        } else {
-            $('#results-table').hide();
-            $('#results-container').hide();
-            removeBlur();
-        }
-    });
-});
   </script>
 
+  <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+ 
 </body>
 </html>
