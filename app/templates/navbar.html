@@ -1,54 +1,156 @@
-    <!-- Bootstrap CSS links-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/styles.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .jumbotron {
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="z-index: 100;">
     <a class="navbar-brand ml-3" href="{{ url_for('landing') }}">campAIgn</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{{ url_for('home') }}">Homepage</a>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('view_campaigns') }}?call_type=user&id={{ current_user.id }}">View Campaigns</a>
+          <a class="dropdown-item nav-link" href="{{ url_for('home') }}">Homepage</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('add_campaign') }}">Add Campaign</a>
-          </li>
+          <a class="nav-link" href="{{ url_for('view_campaigns') }}?call_type=user&id={{ current_user.id }}">Campaigns</a>
+        </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('add_portfolio') }}">Add Portfolio</a>
-          </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
-          </li>
+          <a class="nav-link" href="{{ url_for('view_portfolios') }}">Portfolios</a>
+        </li>
       </ul>
-    </div>
-  </nav>
-
-  <style>
-    body {
-      background: linear-gradient(to bottom, #d6d6d8); 
-      height: 100vh;
-      margin: 0;
-    }
-    
-  </style>
-
-  <body>
-    
-  </body>
-
-
-  <!--
-  <footer class = "footer">
-    <div class = "footer-wrapper">
-      <div class = "footer-center">
-        <h2> campAIgn</h2>
+      <div class="search-box mx-auto">
+        <input id="search-input" type="text" placeholder="">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0,0,256,256"
+            style="fill:#FFFFFF;">
+            <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <g transform="scale(5.12,5.12)"><path d="M21,3c-9.37891,0 -17,7.62109 -17,17c0,9.37891 7.62109,17 17,17c3.71094,0 7.14063,-1.19531 9.9375,-3.21875l13.15625,13.125l2.8125,-2.8125l-13,-13.03125c2.55469,-2.97656 4.09375,-6.83984 4.09375,-11.0625c0,-9.37891 -7.62109,-17 -17,-17zM21,5c8.29688,0 15,6.70313 15,15c0,8.29688 -6.70312,15 -15,15c-8.29687,0 -15,-6.70312 -15,-15c0,-8.29687 6.70313,-15 15,-15z"></path></g></g>
+            </svg>
+        </div>
       </div>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <b>{{ current_user.username }}</b>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="right: 0; left: auto;">
+                  <a class="dropdown-item" href="#">View Account</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Change Password</a>
+                  <a class="dropdown-item" href="{{ url_for('logout') }}">Sign Out</a>
+              </div>
+          </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-3" id="results-container" style="position: absolute; top: 5%; left: 0; right: 0; bottom: 0; z-index: 100; display:none;">
+  <div class="row justify-content-center">
+    <div class="col-md-5 mx-auto">
+      <table class = "table table-hover table-striped table-dark table-sm" id="results-table" style="background-color: rgb(236, 230, 238); display: none;">
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
-  </footer>
--->
+</div>
+
+<div id="blur-container"></div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    var user_portfolios = {{ content[0] | tojson | safe}};
+    var user_campaigns = {{ content[1] | tojson | safe}};
+
+    function populateTable(searchTerm) {
+      $('#results-table tbody').empty();
+
+      var hasPortfolios = false;
+      var hasCampaigns = false;
+
+      $('#results-table tbody').append('<tr><td colspan="2"><b>Portfolios</b></td></tr>');
+
+      user_portfolios.forEach(function(portfolio) {
+          if (portfolio[0].toLowerCase().includes(searchTerm.toLowerCase())) {
+              var portfolioId = portfolio[2].toString();
+              var portfolioLink = '/viewPortfolio/' + portfolioId;
+              var portfolioHtml = '<a href="' + portfolioLink + '">' + portfolio[0] + '</a>';
+              $('#results-table tbody').append('<tr><td>' + portfolioHtml + '</td><td class="text-right" style="text-align: right;">' + portfolio[1] + '</td></tr>');
+              hasPortfolios = true;
+          }
+      });
+
+      if (hasPortfolios) {
+        $('#results-table tbody').append('<tr class="table-divider">');
+        $('#results-table tbody').append('<tr class="table-divider">');
+      }
+
+      $('#results-table tbody').append('<tr><td colspan="2"><b>Campaigns</b></td></tr>');
+
+      user_campaigns.forEach(function(campaign) {
+          if (campaign[0].toLowerCase().includes(searchTerm.toLowerCase())) {
+              var campaignId = campaign[8].toString();
+              var campaignLink = '/viewCampaign/' + campaignId;
+              var campaignHtml = '<a href="' + campaignLink + '">' + campaign[0] + '</a>';
+              $('#results-table tbody').append('<tr><td>' + campaignHtml + '</td><td class="text-right" style="text-align: right;">' + campaign[1] + '</td></tr>');
+              hasCampaigns = true;
+          }
+      });
+
+      if (hasPortfolios || hasCampaigns) {
+        $('#results-container').show();  
+        $('#results-table').show();
+      }
+  }
+  
+  function blurContent() {
+    $('#blur-container').show();
+}
+
+  function removeBlur() {
+    $('#blur-container').hide();
+}
+
+  $(document).ready(function() {
+    $('#search-input').keyup(function() {
+        var searchTerm = $(this).val().trim();
+        if (searchTerm !== '') {
+            populateTable(searchTerm);
+            blurContent();
+        } else {
+            $('#results-table').hide();
+            $('#results-container').hide();
+            removeBlur();
+        }
+    });
+});
+  </script>
+
+</body>
+</html>

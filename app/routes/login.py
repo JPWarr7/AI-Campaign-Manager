@@ -62,16 +62,6 @@ def signup():
         print(f'Provided email: {email} is already being used for an account.', file=sys.stderr)
         flash('An error occurred when trying to sign-up', 'success')
         return redirect(url_for('landing'))
-    
-# @app.route('/newuser', methods=['GET', 'POST'])
-# @login_required
-# def new_user():
-#     if current_user.newuser == True:
-#         print('new user.')
-#     else:
-#         print('not new user.')
-    
-#     return redirect(url_for('index'))
 
 @app.route('/logout')
 @login_required

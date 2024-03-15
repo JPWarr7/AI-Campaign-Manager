@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Portfolio</title>
+
+    <style>
+        .card-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center">
+            <div class = "py-3">
+                <h1>View Portfolio</h1>
+                <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <b>{{ portfolio[0] }} </b> - {{ portfolio[1] }}
+            </div>
+            <div class="card-body">
+            {% for row_campaign in portfolio[2] %}
+                <div class="row">
+                {% for campaign in row_campaign %}
+                    <div class="col-sm-3">
+                        <div class="card my-card" campaign-id="{{ campaign[4] }}">
+                            <div class="card-header">
+                                {{ campaign[0] }}
+                            </div>
+                            <div class="card-body">
+                                <img src="{{campaign[3]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
+                                <p class = "card-text"><b> {{ current_user.username }} </b>{{ campaign[2] }}</p>
+                            </div>
+                        </div>
+                    </div> 
+                {% endfor %}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    </div>
+    
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(".my-card").click(function() {
+        var campaignId = $(this).attr("campaign-id");
+        var url = "/viewCampaign/" + campaignId;
+        window.location.href = url;
+    });
+});
+</script>
+
+</html>

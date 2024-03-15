@@ -8,13 +8,13 @@ import sys
 from .functions.openai import summarization, text_generation, image_generation, image_regeneration, text_regeneration
 from app.routes.functions.mail import *
 from app.routes.functions.imgur import *
+from app.routes.functions.user_content import user_content
 
 @app.route('/addCampaign', methods=['GET', 'POST'])
 @login_required
 def add_campaign():
     form = AddCampaignForm()
-    # if form.is_submitted():
-    #     print(current_user.id,form.campaign_name.data,form.links.data,form.perspective.data,form.portfolio.data)
+    
     if form.validate_on_submit():
         campaign = Campaign(
             user_id=current_user.id,
@@ -26,9 +26,11 @@ def add_campaign():
         db.session.add(campaign)
         db.session.commit()
         new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
-        return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new'))
+        content = user_content(current_user.id)
+        return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new', content=content))
     
-    return render_template('addCampaign.html', form = form)
+    content = user_content(current_user.id)
+    return render_template('addCampaign.html', form = form, content=content)
 
 @app.route('/viewCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -53,7 +55,8 @@ def view_campaign(campaign_id):
             id = campaign.campaign_id
             campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
 
-        return render_template('viewCampaigns.html', campaigns = campaigns)
+        content = user_content(current_user.id)
+        return render_template('viewCampaigns.html', campaigns = campaigns, content = content)
 
 @app.route('/editCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -70,15 +73,17 @@ def edit_campaign(campaign_id):
                 name=form.campaign_name.data,
                 links=form.links.data,
                 perspective=form.perspective.data,
-                parent_id = campaign.campaign_id
+                parent_id = campaign.campaign_id,
+                portfolio_id = campaign.portfolio_id
             )
             db.session.add(new_campaign)
             db.session.commit()
 
             new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
-            return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
-        
-    return render_template('editCampaign.html',campaign = campaign, form = form)
+            content = user_content(current_user.id)
+            return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit', content=content))
+    content = user_content(current_user.id)
+    return render_template('editCampaign.html',campaign = campaign, form = form, content = content)
 
 
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
@@ -111,11 +116,13 @@ def view_campaigns():
         id = campaign.campaign_id
         campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
 
+    content = user_content(current_user.id)
+    
     if call_type == 'user':
-        return render_template('viewCampaigns.html', campaigns=campaigns)
+        return render_template('viewCampaigns.html', campaigns=campaigns, content=content)
         
     elif call_type == 'portfolio':
-        return render_template('viewPortfolio.html', campaigns=campaigns)
+        return render_template('viewPortfolio.html', campaigns=campaigns, content=content)
 
 @app.route('/generateCampaign', methods=['GET', 'POST'])
 @login_required
@@ -123,21 +130,12 @@ def generate_campaign():
     new_campaign_id = int(request.args.get('new_campaign_id'))
     call_type = request.args.get('call_type')
     new_campaign = Campaign.query.get(new_campaign_id)
-    return render_template('generateCampaign.html', new_campaign_id = new_campaign_id, new_campaign = new_campaign, call_type = call_type)
+    content = user_content(current_user.id)
+    return render_template('generateCampaign.html', new_campaign_id = new_campaign_id, new_campaign = new_campaign, call_type = call_type, content=content)
 
 @app.route('/createCampaign/<int:new_campaign_id>/<call_type>', methods=['GET', 'POST'])
 @login_required
 def create_campaign(new_campaign_id, call_type):
-
-    # data = request.get_json()
-    # if 'action' in data and data['action'] == 'regenerate_image':
-    #     # Handle image regeneration logic
-    #     img_prompt = data['img_prompt']
-    #     image_url = image_generation(img_prompt)
-
-    #     return jsonify({'message': 'Image regenerated successfully', 'new_image_url': image_url})
-
-
     new_campaign = Campaign.query.get(new_campaign_id)
     if call_type == 'edit':
         old_campaign = Campaign.query.get(new_campaign.parent_id)
