@@ -3,35 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Campaigns</title>
+    <title>View Campaign</title>
 </head>
 <body>
-    <h1>View Campaigns</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Creation Date</th>
-                <th>Links</th>
-                <th>Summarization</th>
-                <th>Perspective</th>
-                <th>Text Generated</th>
-                <th>Image Prompt</th>
-                <th>Image Generated</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}">{{ campaign[0] }}</a></td>
-                <td>{{ campaign[1] }}</td>
-                <td>{{ campaign[2] }}</td>
-                <td>{{ campaign[3] }}</td>
-                <td>{{ campaign[4] }}</td>
-                <td>{{ campaign[5] }}</td>
-                <td>{{ campaign[6] }}</td>
-                <td>{{ campaign[7] }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% include 'navbar.html' %}
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div class = "py-3">
+            <h1>Campaign - {{ campaign[0] }}</h1>
+            <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container" style="padding-top: 1%; padding-bottom: 1%;">
+    <div class  = "row">
+        <div class = "col-sm-7">
+            <div class="card h-100">
+                <div class="card-header">
+                <b>{{ campaign[0] }}</b> - {{ campaign[1] }}
+                </div>
+
+                <div class="card-body">
+                <h5 class="card-title">Perspective:</h5>
+                <p class = "card-text">{{ campaign[4] }}</p>
+                <h5 class="card-title">Links:</h5>
+                <p class = "card-text">
+                    {% for link in campaign[2].split() %}
+                        <a href="{{ link }}"target="_blank">{{ link }}</a><br>
+                    {% endfor %}
+                </p>
+                <h5 class="card-title">Summarization:</h5>
+                <p class = "card-text">{{ campaign[3] }}</p>
+                </div>
+
+                <div class="card-footer text-center">
+                <a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}" class="btn btn-primary">Edit Campaign</a>
+                <a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}" class="btn btn-danger">Delete Campaign</a>
+                </div>
+            </div>
+        </div>
+
+        <div class = "col-sm-5">
+        <div class="card h-100">
+            <div class="card-header">
+                <b>{{ campaign[0] }}</b> - Preview
+            </div>
+            <div class="card-body">
+                <img src="{{campaign[7]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
+                <p class = "card-text" style = "padding-top:3%;"><b> {{ current_user.username }} </b>{{ campaign[5] }}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

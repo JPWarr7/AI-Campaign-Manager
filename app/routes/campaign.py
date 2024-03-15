@@ -40,23 +40,38 @@ def view_campaign(campaign_id):
         message = "The user does not have permission to view this campaign!"
         return render_template('error.html', message=message)
     else:
-        all_campaigns = Campaign.query.filter_by(parent_id = campaign.parent_id).order_by(Campaign.creation_date.desc()).all()
-        campaigns = []
+        name = campaign.name
+        creation_date = campaign.creation_date
+        links = campaign.links
+        summarization = campaign.summarization
+        perspective = campaign.perspective
+        text_generated = campaign.text_generated
+        image_prompt = campaign.image_prompt
+        image_generated = campaign.image_generated
+        id = campaign.campaign_id
+        portfolio_id = campaign.portfolio_id
+        parent_id = campaign.parent_id
+
+        campaign = [name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id, portfolio_id, parent_id]
+
+        # all_campaigns = Campaign.query.filter_by(parent_id = parent_id).order_by(Campaign.creation_date.desc()).all()
+        # campaigns = []
         
-        for campaign in all_campaigns:
-            name = campaign.name
-            creation_date = campaign.creation_date
-            links = campaign.links
-            summarization = campaign.summarization
-            perspective = campaign.perspective
-            text_generated = campaign.text_generated
-            image_prompt = campaign.image_prompt
-            image_generated = campaign.image_generated
-            id = campaign.campaign_id
-            campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
+        # for campaign in all_campaigns:
+        #     name = campaign.name
+        #     creation_date = campaign.creation_date
+        #     links = campaign.links
+        #     summarization = campaign.summarization
+        #     perspective = campaign.perspective
+        #     text_generated = campaign.text_generated
+        #     image_prompt = campaign.image_prompt
+        #     image_generated = campaign.image_generated
+        #     id = campaign.campaign_id
+        #     parent_id = campaign.parent_id
+        #     campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
 
         content = user_content(current_user.id)
-        return render_template('viewCampaigns.html', campaigns = campaigns, content = content)
+        return render_template('viewCampaign.html', campaign=campaign, content = content)
 
 @app.route('/editCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -102,19 +117,26 @@ def view_campaigns():
     elif call_type == 'portfolio':
         all_campaigns = Campaign.query.filter_by(portfolio_id = id).order_by(Campaign.creation_date.desc()).all()
         
-    campaigns = []
+    campaigns = []  
+    row_campaigns = []
+    count = 1
     
     for campaign in all_campaigns:
-        name = campaign.name
-        creation_date = campaign.creation_date
-        links = campaign.links
-        summarization = campaign.summarization
-        perspective = campaign.perspective
+        c_name = campaign.name
+        c_creation_date = campaign.creation_date
         text_generated = campaign.text_generated
-        image_prompt = campaign.image_prompt
         image_generated = campaign.image_generated
         id = campaign.campaign_id
-        campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
+        row_campaigns.append((c_name, c_creation_date, text_generated, image_generated, id))
+        
+        if count %4 == 0:
+            campaigns.append(row_campaigns)
+            row_campaigns = []    
+        
+        count += 1
+        
+    if count-1 %4 != 0:
+        campaigns.append(row_campaigns)
 
     content = user_content(current_user.id)
     
