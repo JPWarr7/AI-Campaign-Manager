@@ -21,17 +21,20 @@
 
 <div class = "container">
     {% for portfolio in portfolios %}
-        <div class  = "row">
+        <div class = "row" style = "padding:1%;">
             <div class="card">
                 <div class="card-header">
-                {{ portfolio[0] }}
+                {{ portfolio[0] }} - {{ portfolio[1] }}
                 </div>
-
                 <div class="card-body">
-                <h5 class="card-title">Creation Date:</h5>
-                <p class = "card-text">{{ portfolio[1] }}</p>
-                <a href="{{ url_for('edit_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-primary">Edit Portfolio</a>
-                <a href="{{ url_for('view_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-primary">View Portfolio</a>
+                    <div class="col-md-1">
+
+                    </div>
+
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ url_for('edit_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-primary">Edit Portfolio</a>
+                    <a href="{{ url_for('view_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-secondary">View Portfolio</a>
                 </div>
             </div>
                 </div>

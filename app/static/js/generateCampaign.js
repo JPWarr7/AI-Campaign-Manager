@@ -2,6 +2,10 @@ const responseAreaSummary = document.getElementById('summary');
 const responseAreaAdText = document.getElementById('ad_text');
 const responseAreaImageContainer = document.getElementById('image_container');
 
+const summaryDiv = document.getElementById('regenerateSummarization');
+const adTextDiv = document.getElementById('regenerateAdvertisement');
+const imageDiv = document.getElementById('regenerateImage');
+
 var urlParams = new URLSearchParams(window.location.search);
 var campaignId = urlParams.get('new_campaign_id');
 var callType = urlParams.get('call_type');
@@ -17,6 +21,11 @@ const evtSource = new EventSource(`/createCampaign/${campaignId}/${callType}`);
 evtSource.onmessage = function(event) {
     if (event.data === 'end-of-stream') {
         evtSource.close();
+        $('#regenerateSummarization').show();
+        $('#regenerateAdvertisement').show();
+        $('#regenerateImage').show();
+        $('#saveCampaign').show();
+
     }
 };
 
@@ -33,7 +42,7 @@ evtSource.addEventListener('img_url', function(event) {
     const imgElement = document.createElement('img');
     imgElement.id = 'generated_image';
     imgElement.src = imageUrl;
-    imgElement.style.width = '90%';
+    imgElement.style.width = '100%';
     responseAreaImageContainer.appendChild(imgElement);
 });
 
@@ -70,6 +79,8 @@ function regenerateImage() {
         feedback: img_feedback.value
     };
 
+    $('#regenerateImage').hide();
+    $('#saveCampaign').hide();
     img_feedback.value = '';
 
     const progressBar = document.createElement('div');
@@ -100,6 +111,8 @@ function regenerateImage() {
     })
     .finally(() => {
         responseAreaImageContainer.removeChild(progressBar);
+        $('#regenerateImage').show();
+        $('#saveCampaign').show();
     });
 }
 
@@ -108,11 +121,15 @@ function regenerateSummarization() {
     const feedback = encodeURIComponent(document.getElementById('regenerateSummarizationInput').value);
     const evtSource = new EventSource(`/regenerateSummarization?summarization=${summarization}&feedback=${feedback}`);
     
+    $('#regenerateSummarization').hide();
+    $('#saveCampaign').hide();
     responseAreaSummary.innerHTML = '';
 
     evtSource.onmessage = function(event) {
         if (event.data === 'end-of-stream') {
             evtSource.close();
+            $('#regenerateSummarization').show();
+            $('#saveCampaign').show();
         }
     };
 
@@ -123,14 +140,19 @@ function regenerateSummarization() {
 
 function regenerateAdvertisement() {
     const ad_text = encodeURIComponent(responseAreaAdText.textContent);
+    const username = document.getElementById('username');
     const feedback = encodeURIComponent(document.getElementById('regenerateAdvertisementInput').value);
     const evtSource = new EventSource(`/regenerateAdvertisement?ad_text=${ad_text}&feedback=${feedback}`);
     
+    $('#regenerateAdvertisement').hide();
+    $('#saveCampaign').hide();
     responseAreaAdText.innerHTML = '';
 
     evtSource.onmessage = function(event) {
         if (event.data === 'end-of-stream') {
             evtSource.close();
+            $('#regenerateAdvertisement').show();
+            $('#saveCampaign').show();
         }
     };
 

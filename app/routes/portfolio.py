@@ -40,8 +40,8 @@ def view_portfolio(portfolio_id):
     
     final_campaigns = []    
     row_campaigns = []
-    count = 1
-    
+    count = 2
+    row_campaigns.append(('','','','','add'))
     for campaign in all_campaigns:
         c_name = campaign.name
         c_creation_date = campaign.creation_date
@@ -83,7 +83,7 @@ def edit_portfolio(portfolio_id):
 @app.route('/viewPortfolios', methods=['GET', 'POST'])
 @login_required
 def view_portfolios():
-    all_portfolios = Portfolio.query.filter_by(user_id = current_user.id).all()
+    all_portfolios = Portfolio.query.filter_by(user_id = current_user.id).order_by(Portfolio.creation_date.desc()).all()
     portfolios = []
     
     for portfolio in all_portfolios:
