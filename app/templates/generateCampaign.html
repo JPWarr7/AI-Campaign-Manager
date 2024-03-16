@@ -8,66 +8,70 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <table border="1" style="width: 100%; table-layout:fixed; ">
-        <colgroup>
-            <col style="width: 30%;">
-            <col style="width: 30%;">
-            <col style="width: 40%;">
-        </colgroup>
-
-        <tbody>
-            <tr>
-                <th> <h2>  {{ new_campaign.name }}</h2> </th>
-            </tr>
-            <tr>
-                <th>Links</th>
-                <th>Perspective</th>
-            </tr>
-            <tr>
-                <td style=" word-wrap: break-word"></tdstyle> 
-                    <p>
-                        {% for link in new_campaign.links.split() %}
-                            <a href="{{ link }}"target="_blank">{{ link }}</a><br>
-                        {% endfor %}
-                    </p> 
-                </td>
-                <td> <p> {{ new_campaign.perspective }}</p> </td>
-            </tr>
-            <tr>
-                <th>Summarization</th>
-                <th>Text Generated</th>
-                <th>Image Generated</th>
-            </tr>
-            <tr>
-                <td style="vertical-align: top;"> <p id="summary"></p> </td>
-                <td style="vertical-align: top;"> <p id="ad_text"></p> </td>
-                <td><div id="image_container" style="width: 90%;"></div></td>         
-            </tr>
-            <tr>
-                <td><input type="text" placeholder="Refine your summary?" id="regenerateSummarizationInput"></td>
-                <td><input type="text" placeholder="Refine your Ad?" id="regenerateAdvertisementInput"></td>
-                <td><input type="text" placeholder="Refine your image?" id="regenerateImageInput"></td>
-            </tr>
-            <tr>
-                <td> 
-                    <div><button class="btn btn-primary" onclick="regenerateSummarization()">Regenerate Summary</button></div>
-                </td>
-
-                <td> 
-                    <div><button class="btn btn-primary" onclick="regenerateAdvertisement()">Regenerate Ad</button></div>
-                </td>
-                    
-                <td>
-                    <div><button class="btn btn-primary" onclick="regenerateImage()">Regenerate Image</button></div>
-                </td>         
-            </tr>
-        </tbody>
-    </table>
-    <div>
-        <button class="btn btn-primary" onclick="saveCampaign()">Save Campaign</button>
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div class = "py-3">
+            <h1>Campaign - {{ new_campaign.name }}</h1>
+            <hr>
+        </div>
+      </div>
     </div>
+  </div>
 
+<div class="container" style="padding-top: 1%; padding-bottom: 1%;">
+    <div class  = "row">
+        <div class = "col-sm-7">
+            <div class="card h-100">
+                <div class="card-header">
+                    <b>{{ new_campaign.name }}</b> - {{ new_campaign.creation_date }}
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Perspective:</h5>
+                    <p class = "card-text">{{ new_campaign.perspective }}</p>
+                    <h5 class="card-title">Links:</h5>
+                    <p class = "card-text">
+                    {% for link in new_campaign.links.split() %}
+                        <a href="{{ link }}"target="_blank">{{ link }}</a><br>
+                    {% endfor %}
+                    </p>
+                    <h5 class="card-title">Summarization:</h5>
+                    <p class = "card-text" style="vertical-align: top;" id="summary"></p>
+                    <div id ="regenerateSummarization" style="display:none; align-content:center; padding-top:2%;">
+                        <input type="text" placeholder="Refine your summary?" id="regenerateSummarizationInput">
+                        <button class="btn btn-secondary" onclick="regenerateSummarization()">Regenerate Summary</button>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div id ="saveCampaign" style= "display:none;">
+                        <button class="btn btn-primary" onclick="saveCampaign()">Save Campaign</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class = "col-sm-5">
+            <div class="card h-100">
+                <div class="card-header">
+                    <b>{{ new_campaign.name }}</b> - Preview
+                </div>
+                <div class="card-body">
+                    <div id="image_container" style="width: 100%;"></div>
+                    <div id ="regenerateImage" style= "display:none; align-content:center; padding-top:2%;">
+                        <input type="text" placeholder="Refine your image?" id="regenerateImageInput">
+                        <button class="btn btn-secondary" id="regenerateImageButton" onclick="regenerateImage()">Regenerate Image</button>
+                    </div>
+                    <p class = "card-text" style = "bottom:15%;padding-top:3%;" id="ad_text"></p>
+                    <div id ="regenerateAdvertisement" style="display:none; align-content:center; padding-top:2%;">
+                        <input type="text" placeholder="Refine your Ad?" id="regenerateAdvertisementInput">
+                        <button class="btn btn-secondary" id="regenerateAdvertisementButton"onclick="regenerateAdvertisement()">Regenerate Ad</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
     <script src="{{ url_for('static', filename='js/generateCampaign.js') }}"></script>
-
 </body>
 </html>

@@ -27,7 +27,7 @@ def add_campaign():
         db.session.commit()
         new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
         content = user_content(current_user.id)
-        return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new', content=content))
+        return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new'))
     
     content = user_content(current_user.id)
     return render_template('addCampaign.html', form = form, content=content)
@@ -71,6 +71,7 @@ def view_campaign(campaign_id):
         #     campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
 
         content = user_content(current_user.id)
+
         return render_template('viewCampaign.html', campaign=campaign, content = content)
 
 @app.route('/editCampaign/<int:campaign_id>', methods=['GET', 'POST'])
@@ -119,8 +120,8 @@ def view_campaigns():
         
     campaigns = []  
     row_campaigns = []
-    count = 1
-    
+    count = 2
+    row_campaigns.append(('','','','','add'))
     for campaign in all_campaigns:
         c_name = campaign.name
         c_creation_date = campaign.creation_date
