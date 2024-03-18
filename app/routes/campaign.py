@@ -10,11 +10,16 @@ from app.routes.functions.mail import *
 from app.routes.functions.imgur import *
 from app.routes.functions.user_content import user_content
 
-@app.route('/addCampaign', methods=['GET', 'POST'])
+@app.route('/addCampaignForm')
+@login_required
+def get_add_campaign_form():
+    form = AddCampaignForm()
+    return render_template('addCampaign.html', form=form)
+
+@app.route('/addCampaign', methods=['POST'])
 @login_required
 def add_campaign():
-    form = AddCampaignForm()
-    
+    form = AddCampaignForm(request.form)
     if form.validate_on_submit():
         campaign = Campaign(
             user_id=current_user.id,
@@ -29,8 +34,9 @@ def add_campaign():
         content = user_content(current_user.id)
         return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new'))
     
-    content = user_content(current_user.id)
-    return render_template('addCampaign.html', form = form, content=content)
+    flash('Failed to add campaign. Please check your input.', 'error')
+    # content = user_content(current_user.id)
+    # return render_template('addCampaign.html', form = form, content=content)
 
 @app.route('/viewCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -97,7 +103,7 @@ def edit_campaign(campaign_id):
 
             new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
             content = user_content(current_user.id)
-            return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit', content=content))
+            return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
     content = user_content(current_user.id)
     return render_template('editCampaign.html',campaign = campaign, form = form, content = content)
 
@@ -105,18 +111,18 @@ def edit_campaign(campaign_id):
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
 @login_required
 def view_campaigns():
-    call_type = request.args.get('call_type')
-    id = request.args.get('id')
+    # call_type = request.args.get('call_type')
+    # id = request.args.get('id')
     
-    if call_type == 'user':
-        if int(id) != current_user.id:
-            message = "The user does not have permission to view another user's campaigns!"
-            return render_template('error.html', message=message)
-        else:
-            all_campaigns = Campaign.query.filter_by(user_id = id).order_by(Campaign.creation_date.desc()).all()
+    # if call_type == 'user':
+    #     if int(id) != current_user.id:
+    #         message = "The user does not have permission to view another user's campaigns!"
+    #         return render_template('error.html', message=message)
+    #     else:
+    all_campaigns = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).all()
         
-    elif call_type == 'portfolio':
-        all_campaigns = Campaign.query.filter_by(portfolio_id = id).order_by(Campaign.creation_date.desc()).all()
+    # elif call_type == 'portfolio':
+    #     all_campaigns = Campaign.query.filter_by(portfolio_id = id).order_by(Campaign.creation_date.desc()).all()
         
     campaigns = []  
     row_campaigns = []
@@ -141,11 +147,11 @@ def view_campaigns():
 
     content = user_content(current_user.id)
     
-    if call_type == 'user':
-        return render_template('viewCampaigns.html', campaigns=campaigns, content=content)
+    # if call_type == 'user':
+    return render_template('viewCampaigns.html', campaigns=campaigns, content=content)
         
-    elif call_type == 'portfolio':
-        return render_template('viewPortfolio.html', campaigns=campaigns, content=content)
+    # elif call_type == 'portfolio':
+    #     return render_template('viewPortfolio.html', campaigns=campaigns, content=content)
 
 @app.route('/generateCampaign', methods=['GET', 'POST'])
 @login_required
