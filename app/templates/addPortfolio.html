@@ -1,11 +1,9 @@
-<!-- editCampaign.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Portfolio</title>
+    <!-- <title>Add Portfolio</title> -->
 
     <style>
         textarea {
@@ -15,45 +13,48 @@
       </style>
 </head>
 <body>
-    {% include 'navbar.html' %}
-    <div class="container">
+    <div class="container" id="addPortfolioFormDiv" style="display: none;">
         <div class="row justify-content-center">
-          <div class="col-md-6 text-center">
-            <div class = "py-3">
-                <h1>Add Portfolio</h1>
-                <hr>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    <div class = "container">
-        <div class = "row justify-content-center">
-            <div class = "col-md-6">
-
-            <table class = "table table-striped" style = "background-color: rgb(236, 230, 238); justify-content: center;">
-            
-                <form method="POST" action="{{ url_for('add_portfolio') }}">
-                {{ form.csrf_token }}
-                <tr>
-                    <td class = "py-3 px-3">
-                        <label for="portfolio_name">Portfolio Name:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="portfolio_name" name="portfolio_name" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </td>
-                </tr>
-            </form>
-
-            </table>
+            <div class="col-md-6">
+                <form id="addPortfolioForm" method="POST" action="{{ url_for('add_portfolio') }}" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+                    <h1>Add Portfolio</h1>
+                    <table class="table table-striped" style="background-color: rgb(236, 230, 238);">
+                        <tr>
+                            <td class="py-3 px-3">
+                                <label for="portfolio_name">Portfolio Name:</label>
+                            </td>
+                            <td>
+                                {{ form.portfolio_name(class="form-control", id="portfolio_name") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-3">
+                                <label for="description">Description:</label>
+                            </td>
+                            <td>
+                                {{ form.description(class="form-control", id="description") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-3">
+                                <label for="icon">Portfolio Icon:</label>
+                            </td>
+                            <td>
+                                {{ form.icon(class="form-control-file", id="icon") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" class="btn btn-primary">Save Portfolio</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </div>
+    
 </body>
 </html>
 

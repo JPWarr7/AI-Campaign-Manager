@@ -3,78 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Campaign Form</title>
+    <!-- <title>New Campaign Form</title> -->
+    <style>
+        textarea {
+          width: 100%;
+          height: 150px; 
+        }
+      </style>
 </head>
 <body>
-    {% include 'navbar.html' %}
-    <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-6 text-center">
-            <div class = "py-3">
-                <h1>Create a New Campaign</h1>
-                <hr>
+    <div class = "container" id="addCampaignFormDiv">
+        <div class = "row justify-content-center">
+            <div class = "col-md-6">
+                <form id="addCampaignForm" method="POST" action="{{ url_for('add_campaign') }}">
+                {{ form.csrf_token }}
+                <h1>Add Campaign</h1>
+                <table class = "table table-striped" style = "background-color: rgb(236, 230, 238); justify-content: center;">
+                    <tr>
+                        <td class = "py-3 px-3">
+                            <label for="campaign_name">{{ form.campaign_name.label }}</label>
+                        </td>
+                        <td>
+                            {{ form.campaign_name(class="form-control", id="campaign_name") }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "py-3 px-3">
+                            <label for="links">{{ form.links.label }}</label>
+                        </td>
+                        <td>
+                            {{ form.links(class="form-control", id="links") }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "py-3 px-3">
+                            <label for="perspective">{{ form.perspective.label }}</label>
+                        </td>
+                        <td>
+                            {{ form.perspective(class="form-control", id="perspective") }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "py-3 px-3">
+                            <label for="portfolio">{{ form.portfolio.label }}</label>
+                        </td>
+                        <td>
+                            <select class="form-select" aria-label="Portfolio drop-down" id="portfolio" name="portfolio">
+                                <option selected disabled>Select Portfolio</option>
+
+                                {% for portfolio_id, portfolio_name in form.portfolio.choices %}
+                                    <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ form.submit(class="btn btn-primary") }}
+                        </td>
+                    </tr>
+                </table>
+            </form>
             </div>
-          </div>
-        </div>
-      </div>
-
-<div class = "container">
-    <div class = "row justify-content-center">
-        <div class = "col-md-6">
-
-        <table class = "table table-striped" style = "background-color: rgb(236, 230, 238); justify-content: center;">
-        
-            <form method="POST" action="{{ url_for('add_campaign') }}">
-            {{ form.csrf_token }}
-            <tr>
-                <td class = "py-3 px-3">
-                    <label for="campaign_name">{{ form.campaign_name.label }}</label>
-                </td>
-                <td>
-                    <input type="text" id="campaign_name" name="campaign_name"  value="">
-                </td>
-            </tr>
-            <tr>
-                <td class = "py-3 px-3">
-                    <label for="links">{{ form.links.label }}</label>
-                </td>
-                <td>
-                    <input type="text" id="links" name="links"  value="">
-                </td>
-            </tr>
-            <tr>
-                <td class = "py-3 px-3">
-                    <label for="links">{{ form.perspective.label }}</label>
-                </td>
-                <td>
-                    <input type="text" id="perspective" name="perspective"  value="">
-                </td>
-            </tr>
-            <tr>
-                <td class = "py-3 px-3">
-                    <label for="portfolio">{{ form.portfolio.label }}</label>
-                </td>
-                <td>
-                    <select class="form-select" aria-label="Portfolio drop-down" id="portfolio" name="portfolio">
-                        <option selected disabled>Select Portfolio</option>
-
-                        {% for portfolio_id, portfolio_name in form.portfolio.choices %}
-                            <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form.submit(class="btn btn-primary") }}
-                </td>
-            </tr>
-        </form>
-
-        </table>
         </div>
     </div>
-</div>
 
 </body>
 </html>

@@ -8,3 +8,5 @@ class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    description = db.Column(db.String(1000), nullable=True)
+    icon = db.Column(db.String(100), nullable=True)
