@@ -2,8 +2,7 @@ var addPortfolioLink = document.getElementById("addPortfolioLink");
 var addPortfolioFormDiv = document.getElementById("addPortfolioFormDiv");
 var formBlurHandler = null;
 
-addPortfolioLink.addEventListener("click", function(event) {
-    event.preventDefault();
+function loadAddPortfolioForm() {
     var async = new XMLHttpRequest();
     async.open("GET", "/addPortfolioForm");
     async.onreadystatechange = function() {
@@ -40,7 +39,17 @@ addPortfolioLink.addEventListener("click", function(event) {
                 
                     form.action = "/addPortfolio";
                     
-                    form.submit();
+                    var submitXhr = new XMLHttpRequest();
+                    submitXhr.open("POST", form.action);
+                    submitXhr.onreadystatechange = function() {
+                        if (submitXhr.readyState === 4) {
+                            if (submitXhr.status === 200) {
+                                window.location.href = submitXhr.responseURL;
+                            }
+                        }
+                    };
+                
+                    submitXhr.send(formData);
                 });
             } else {
                 console.error("Error fetching addPortfolioForm:", async.status);
@@ -48,6 +57,11 @@ addPortfolioLink.addEventListener("click", function(event) {
         }
     };
     async.send();
+}
+
+addPortfolioLink.addEventListener("click", function(event) {
+    event.preventDefault();
+    loadAddPortfolioForm();
 });
 
 function blurContent() {

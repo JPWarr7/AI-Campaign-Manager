@@ -14,82 +14,51 @@
 <body>
     {% include 'navbar.html' %}
 
-    <button onclick="redirectToViewCampaigns()">View Campaigns</button>
-
-    <script>
-        function redirectToViewCampaigns() {
-            // Redirect to the view_campaigns route
-            window.location.href = "{{ url_for('view_campaigns') }}?call_type=user&id={{ current_user.id }}";
-        }
-    </script>
-
-    <button onclick="redirectToAddCampaign()">Add Campaign</button>
-
-    <script>
-        function redirectToAddCampaign() {
-            // Redirect to the view_campaigns route
-            window.location.href = "{{ url_for('add_campaign') }}";
-        }
-    </script>
-
-    <button onclick="redirectToAddPortfolio()">Add Portfolio</button>
-
-    <script>
-        function redirectToAddPortfolio() {
-            // Redirect to the view_campaigns route
-            window.location.href = "{{ url_for('add_portfolio') }}";
-        }
-    </script>
-
-    <button onclick="redirectToViewPortfolios()">View Portfolios</button>
-
-    <script>
-        function redirectToViewPortfolios() {
-            // Redirect to the view_campaigns route
-            window.location.href = "{{ url_for('view_portfolios') }}";
-        }
-    </script>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-AiBD9OJwI5DgCeGEStAxqqAIbP49E5W6eX8ELqx53MPKS5Nq/B8zgpcwwWS1jp/e" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-+0n0xVW2eSR5vz3krs5gA5PVgG/xhxDzFK5l5S8o0v/ZI+xmctK1Rn5R7J1KR4Ld" crossorigin="anonymous"></script>
     
-    <div class = "jumbotron">
+    <!-- <div class = "jumbotron">
         <div class = "container">
             <hr>
             <p style = "text-decoration: underline;">
             <h1>Welcome, {{ current_user.username }}</h1>
             </p>
         </div>
-    </div>
-    <div class = "container p-5">
+    </div> -->
+    <div class = "container" style="background-color:#FFFFFF; width:100%;" >
+        <div class = "row">
+            <p style = "text-decoration: underline;">
+                <h1>Welcome, {{ current_user.username }}</h1>
+            </p>
+        </div>
         <div class = "row">
             <div class = "col-md-3">
                 <h2> Create a new portfolio</h2>
                 <p>Here you can start a folder of specific types of ads</p>
                 <p>
-                    <a class = "btn btn-secondary" href = "{{ url_for('add_portfolio') }}?call_type=user&id= {{ current_user.id }}" role = "button"> Start a Portfolio</a>
+                    <a class = "btn btn-secondary" onclick="loadAddPortfolioForm();" id="addPortfolioLink" role = "button"> Start a Portfolio</a>
                 </p>
             </div>
             <div class = "col-md-3">
                 <h2> View your portfolios</h2>
                 <p>Here you can view portfolios you've already created</p>
                 <p>
-                    <a class = "btn btn-secondary" href = "{{ url_for('view_portfolios') }}?call_type=user&id={{ current_user.id }}" role = "button"> View Portfolios</a>
+                    <a class = "btn btn-secondary" href = "{{ url_for('view_portfolios') }}" role = "button"> View Portfolios</a>
                 </p>
             </div>
             <div class = "col-md-3">
                 <h2> Create a new Campaign</h2>
                 <p>Here you can create an ad around a specific product</p>
                 <p>
-                    <a class = "btn btn-secondary" href = "{{ url_for('add_campaign') }}" role = "button"> Start a Campaign</a>
+                    <a class = "btn btn-secondary" onclick="loadAddCampaignForm();" id="addCampaignLink" role = "button"> Start a Campaign</a>
                 </p>
             </div>
             <div class = "col-md-3">
                 <h2> View your campaigns</h2>
                 <p>Here you can view a foloder of campaigns you've already created</p>
                 <p>
-                    <a class = "btn btn-secondary" href = "{{ url_for('view_campaigns') }}?call_type=user&id={{ current_user.id }}" role = "button"> View Campaigns</a>
+                    <a class = "btn btn-secondary" href = "{{ url_for('view_campaigns') }}" role = "button"> View Campaigns</a>
                 </p>
             </div>
         </div>
@@ -99,7 +68,7 @@
         <div class = "container p-4 justify-content-center">
             <div class = "row">
                 <div class = "col-md-12">
-                    <h1>Maybe include recent items worked on here?</h1>
+                    <!-- <h1>Maybe include recent items worked on here?</h1> -->
                 </div>
             </div>
         </div>
