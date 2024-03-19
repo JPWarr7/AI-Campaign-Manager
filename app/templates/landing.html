@@ -18,12 +18,14 @@
       background-color: #f8f9fa;
     } 
     #particles-container {
-        padding-bottom: 25vh; /* Set the padding to be 25% of the viewport height */
+        padding-bottom: 7vh; /* Set the padding to be 25% of the viewport height */
       }
     /* Set the height of the particles-js div to half of the viewport height */
     #particles-js {
       height: 50vh;
-      background-color: #212529; /* Set the background color to match the navbar's color */
+      background-color: #35608a; /* Set the background color to match the navbar's color */
+     /* background-color: #212529; Set the background color to match the navbar's color */
+
     }
 
     .text-container {
@@ -45,34 +47,91 @@
         <div id="particles-js"></div>
   
         <div class="text-container">
-          <h1 class="display-4">AI-Enhanced Advertisement Campaign Generator</h1>
-          <p class="lead">Create impactful advertisement campaigns with AI</p>
+          <h1 class="display-4">Create personalized advertisements with AI</h1>
         </div>
       </div>
 
   <!-- Main content -->
-  <div class="container pb-5">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Content</h5>
-            <p class="card-text">insert content here.</p>
-            <a href="#" class="btn btn-primary">click</a>
+  <div class = "container">
+    <div class = "row">
+        <div class = "col-md-6 mx-auto">
+          <div class = "text-center">
+            <p>
+              <h2> Promote your product in seconds </h2>
+            </p>
           </div>
+            <p> Utilizing OpenAI technology, CampAIgn provides an easy and convenient to use interface for businesses to create
+              professional, personalized advertisements.  We also provide a simple file management system to store, customize, and
+              reproduce tailored content that you can easily publish to the social media platform of your choice.
+            </p>
+            <p>
+              Have a suggestion on how to improve?  Leave us an email a.i.ads.csc400@gmail.com
+            </p>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Content 2</h5>
-            <p class="card-text">insert content here.</p>
-            <a href="#" class="btn btn-primary">click</a>
+        <div class = "col-md-6 mx-auto">
+        
+        <section id="login" class = "text-center">
+    
+          <div class="logincard" id="loginForm">
+              <form action="/login/submit" method="POST" class="login webform"  role="form">
+                  
+                  <h5 class="logincard-title"> Login</h5>
+  
+                  <div class="pt-4">
+                      <input type="email" class="logincard-email-input" name="email" id="email" placeholder="Email" required>
+                  </div>
+  
+                  <div class="pb-2">
+                      <input type="text" class="logincard-password-input" name="password" id="password" placeholder="Password" required>
+                  </div>
+  
+                  <button type="submit" class="submit-button" id="submit-button" name="submit">Login</button>
+                  <!-- <button type="reset" class="cancel-button" onclick="closeLoginForm()">Cancel</button> -->
+              </form>
           </div>
-        </div>
+  
+  </section>
+  
+  <section id="signup" class = "text-center">
+  
+      <div class="pt-4" id="signupForm">
+          <form action="/signup" method="POST" class=""  role="form">
+              
+              <h5 class=""> Sign Up</h5>
+  
+              <div class="pt-4">
+                  <input type="text" class="" name="username" id="username" placeholder="Username" required>
+              </div>
+  
+              <div class="">
+                  <input type="text" class="" name="first_name" id="first_name" placeholder="First Name" required>
+              </div>
+  
+              <div class="">
+                  <input type="text" class="" name="last_name" id="last_name" placeholder="Last Name" required>
+              </div>
+  
+              <div class="">
+                  <input type="email" class="" name="email" id="email" placeholder="Email" required>
+              </div>
+  
+              <div class="">
+                  <input type="text" class="" name="password" id="password" placeholder="Password" required>
+              </div>
+  
+              <div class="pb-2">
+                  <input type="text" class="" name="password_verification" id="password_verification" placeholder="Password Retype" required>
+              </div>
+  
+              <button type="submit" class="" id="submit-button" name="submit">Sign Up</button>
+              <!-- <button type="reset" class="" onclick="closeSignupForm()">Cancel</button> -->
+          </form>
       </div>
+  
+  </section>
     </div>
-  </div>
+    </div>
+</div>
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
