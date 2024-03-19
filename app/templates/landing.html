@@ -65,70 +65,69 @@
               reproduce tailored content that you can easily publish to the social media platform of your choice.
             </p>
             <p>
-              Have a suggestion on how to improve?  Leave us an email a.i.ads.csc400@gmail.com
+              Have a suggestion on how to improve?  Leave us an email <a>@a.i.ads.csc400@gmail.com</a>
             </p>
         </div>
         <div class = "col-md-6 mx-auto">
-        
-        <section id="login" class = "text-center">
+          {% if not current_user.is_authenticated %}
+            <section id="login" class = "text-center">
+              <div class="logincard" id="loginForm">
+                  <form action="/login/submit" method="POST" class="login webform"  role="form">
+                      
+                      <h5 class="logincard-title"> Login</h5>
+      
+                      <div class="pt-4">
+                          <input type="email" class="logincard-email-input" name="email" id="email" placeholder="Email" required>
+                      </div>
+      
+                      <div class="pb-2">
+                          <input type="text" class="logincard-password-input" name="password" id="password" placeholder="Password" required>
+                      </div>
+      
+                      <button type="submit" class="submit-button" id="submit-button" name="submit">Login</button>
+                      <!-- <button type="reset" class="cancel-button" onclick="closeLoginForm()">Cancel</button> -->
+                  </form>
+              </div>
+            </section>
     
-          <div class="logincard" id="loginForm">
-              <form action="/login/submit" method="POST" class="login webform"  role="form">
-                  
-                  <h5 class="logincard-title"> Login</h5>
-  
-                  <div class="pt-4">
-                      <input type="email" class="logincard-email-input" name="email" id="email" placeholder="Email" required>
-                  </div>
-  
-                  <div class="pb-2">
-                      <input type="text" class="logincard-password-input" name="password" id="password" placeholder="Password" required>
-                  </div>
-  
-                  <button type="submit" class="submit-button" id="submit-button" name="submit">Login</button>
-                  <!-- <button type="reset" class="cancel-button" onclick="closeLoginForm()">Cancel</button> -->
-              </form>
-          </div>
-  
-  </section>
-  
-  <section id="signup" class = "text-center">
-  
-      <div class="pt-4" id="signupForm">
-          <form action="/signup" method="POST" class=""  role="form">
-              
-              <h5 class=""> Sign Up</h5>
-  
-              <div class="pt-4">
-                  <input type="text" class="" name="username" id="username" placeholder="Username" required>
-              </div>
-  
-              <div class="">
-                  <input type="text" class="" name="first_name" id="first_name" placeholder="First Name" required>
-              </div>
-  
-              <div class="">
-                  <input type="text" class="" name="last_name" id="last_name" placeholder="Last Name" required>
-              </div>
-  
-              <div class="">
-                  <input type="email" class="" name="email" id="email" placeholder="Email" required>
-              </div>
-  
-              <div class="">
-                  <input type="text" class="" name="password" id="password" placeholder="Password" required>
-              </div>
-  
-              <div class="pb-2">
-                  <input type="text" class="" name="password_verification" id="password_verification" placeholder="Password Retype" required>
-              </div>
-  
-              <button type="submit" class="" id="submit-button" name="submit">Sign Up</button>
-              <!-- <button type="reset" class="" onclick="closeSignupForm()">Cancel</button> -->
-          </form>
-      </div>
-  
-  </section>
+            <section id="signup" class = "text-center">
+            
+                <div class="pt-4" id="signupForm">
+                    <form action="/signup" method="POST" class=""  role="form">
+                        
+                        <h5 class=""> Sign Up</h5>
+            
+                        <div class="pt-4">
+                            <input type="text" class="" name="username" id="username" placeholder="Username" required>
+                        </div>
+            
+                        <div class="">
+                            <input type="text" class="" name="first_name" id="first_name" placeholder="First Name" required>
+                        </div>
+            
+                        <div class="">
+                            <input type="text" class="" name="last_name" id="last_name" placeholder="Last Name" required>
+                        </div>
+            
+                        <div class="">
+                            <input type="email" class="" name="email" id="email" placeholder="Email" required>
+                        </div>
+            
+                        <div class="">
+                            <input type="text" class="" name="password" id="password" placeholder="Password" required>
+                        </div>
+            
+                        <div class="pb-2">
+                            <input type="text" class="" name="password_verification" id="password_verification" placeholder="Password Retype" required>
+                        </div>
+            
+                        <button type="submit" class="" id="submit-button" name="submit">Sign Up</button>
+                        <!-- <button type="reset" class="" onclick="closeSignupForm()">Cancel</button> -->
+                    </form>
+                </div>
+            </section>
+          {% endif %}
+
     </div>
     </div>
 </div>

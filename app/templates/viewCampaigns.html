@@ -18,17 +18,17 @@
     {% include 'navbar.html' %}
     <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6 text-center">
+        <div class="col-md-6 text-center">
             <div class = "py-3">
                 <h1>Your Campaigns</h1>
                 <hr>
             </div>
-          </div>
         </div>
-      </div>
+        </div>
+    </div>
 
     <div class="container">
-        <div class="card">
+        <div class="card" style="background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(3px);">
             <!-- <div class="card-header">
                 <b>{{current_user.username }} </b> - Campaigns
             </div> -->
@@ -71,7 +71,7 @@
         </div>
     </div>
         
-    </body>
+</body>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/viewCampaigns.js') }}"></script>
