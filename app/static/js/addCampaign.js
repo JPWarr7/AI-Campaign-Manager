@@ -3,13 +3,13 @@ var addCampaignFormDiv = document.getElementById("addCampaignFormDiv");
 var formBlurHandler = null;
 
 function loadAddCampaignForm() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/addCampaignForm");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
+    var async = new XMLHttpRequest();
+    async.open("GET", "/addCampaignForm");
+    async.onreadystatechange = function() {
+        if (async.readyState === 4) {
+            if (async.status === 200) {
                 var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = xhr.responseText;
+                tempDiv.innerHTML = async.responseText;
 
                 var campaignForm = tempDiv.querySelector('form');
 
@@ -49,11 +49,11 @@ function loadAddCampaignForm() {
                     submitXhr.send(formData);
                 });
             } else {
-                console.error("Error fetching addCampaignForm:", xhr.status);
+                console.error("Error fetching addCampaignForm:", async.status);
             }
         }
     };
-    xhr.send();
+    async.send();
 }
 
 addCampaignLink.addEventListener("click", function(event) {

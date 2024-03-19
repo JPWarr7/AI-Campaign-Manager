@@ -16,6 +16,7 @@
 
 </head>
 <body>
+
     {% include 'navbar.html' %}
     <div class="container">
         <div class="row justify-content-center">
@@ -30,13 +31,19 @@
       <div class="container">
         <div class="card">
             <div class="card-header">
-                {% if portfolio[3] %}
-                    <img src="{{portfolio[3]}}" alt="Image Icon" referrerpolicy="no-referrer" style="width: 30px; height: auto; margin-right: 10px; vertical-align: middle;">
-                {% endif %}
-                <b>{{ portfolio[0] }} </b> - {{ portfolio[1] }}
-                {% if portfolio[2] %}
-                    <p>{{ portfolio[2] }}</p>
-                {% endif %}
+                <div class="row">
+                    <div class = "col-sm-2">
+                        {% if portfolio[3] %}
+                            <img src="{{portfolio[3]}}" alt="Image Icon" referrerpolicy="no-referrer" style="width: 100%; height: auto;  vertical-align: middle; ">
+                        {% endif %}
+                    </div>
+                    <div class = "col-sm-10">
+                        <b>{{ portfolio[0] }} </b> - {{ portfolio[1] }}
+                        {% if portfolio[2] %}
+                            <p>{{ portfolio[2] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             <div class="card-body">
             {% for row_campaign in portfolio[4] %}
