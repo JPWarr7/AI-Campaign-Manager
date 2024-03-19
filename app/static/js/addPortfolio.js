@@ -4,13 +4,13 @@ var formBlurHandler = null;
 
 addPortfolioLink.addEventListener("click", function(event) {
     event.preventDefault();
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/addPortfolioForm");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
+    var async = new XMLHttpRequest();
+    async.open("GET", "/addPortfolioForm");
+    async.onreadystatechange = function() {
+        if (async.readyState === 4) {
+            if (async.status === 200) {
                 var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = xhr.responseText;
+                tempDiv.innerHTML = async.responseText;
 
                 var form = tempDiv.querySelector('form');
 
@@ -43,11 +43,11 @@ addPortfolioLink.addEventListener("click", function(event) {
                     form.submit();
                 });
             } else {
-                console.error("Error fetching addPortfolioForm:", xhr.status);
+                console.error("Error fetching addPortfolioForm:", async.status);
             }
         }
     };
-    xhr.send();
+    async.send();
 });
 
 function blurContent() {
