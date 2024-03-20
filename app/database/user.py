@@ -1,5 +1,7 @@
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import relationship
+
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -11,14 +13,15 @@ class User(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     
-    # social media accounts - placeholder boolean for now. API + research
-    # necessary to connect social media acct. to our database
     facebook = db.Column(db.Boolean)
     twitter = db.Column(db.Boolean)
     instagram = db.Column(db.Boolean)
     tiktok = db.Column(db.Boolean)
     
     newuser = db.Column(db.Boolean)
+
+    campaigns = relationship("Campaign", backref="user", cascade="all, delete-orphan")
+    portfolios = relationship("Portfolio", backref="user", cascade="all, delete-orphan")
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -27,7 +30,6 @@ class User(db.Model):
         return check_password_hash(self.password, password)
     
     def is_active(self):
-        # return True if the user is active
         return True
     
     def get_id(self):
@@ -36,3 +38,8 @@ class User(db.Model):
     @property
     def is_authenticated(self):
         return True
+    
+    def delete_user_data(self):
+
+        db.session.delete(self)
+        db.session.commit()

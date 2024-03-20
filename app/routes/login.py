@@ -2,7 +2,7 @@
 from app import *
 from app.database import *
 from app.forms import *
-from flask import render_template, redirect, send_from_directory, url_for, flash, request
+from flask import render_template, redirect, send_from_directory, url_for, flash, request, Flask
 from flask_login import login_user, logout_user, login_required, current_user
 from app.routes.functions.mail import *
 import sys
@@ -18,10 +18,7 @@ def login_submit():
     user = db.session.query(User).filter_by(email=email).first()
     
     if user is None or not user.check_password(password):
-        print(f'Login failed for user: {user.first_name} {user.last_name}', file=sys.stderr)
-        print(f'Provided email: {email}', file=sys.stderr)
-        print(f'Provided password: {password}', file=sys.stderr)
-        print(f'User object: {user}', file=sys.stderr)
+        print(f'Login failed with this email and password combination', file=sys.stderr)
         flash('An error occurred when trying to sign-in', 'success')
         return redirect(url_for('landing'))
 
@@ -91,3 +88,20 @@ def change_password():
         return redirect(url_for('landing'))
     
     return redirect(url_for('index'))
+
+
+@app.route('/delete_user_data', methods=['GET', 'POST'])
+def delete_user_data():
+    if request.method == 'POST':
+        email = request.form['email']
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.delete_user_data()
+            return redirect(url_for('deleted_successfully'))
+        else:
+            return render_template('deleteUserData.html', error="User with provided email does not exist.")
+    return render_template('deleteUserData.html')
+
+@app.route('/deleted_successfully')
+def deleted_successfully():
+    return render_template('dataDeletedSuccessfully.html', error="User with provided email does not exist.")
