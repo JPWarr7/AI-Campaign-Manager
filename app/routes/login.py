@@ -46,8 +46,9 @@ def signup():
             db.session.commit()
             user = db.session.query(User).filter_by(email=email).first()
             account_creation_notification(user)
+            login_user(user)
             flash('Account Created!', 'success')
-            return redirect(url_for('landing'))
+            return redirect(url_for('home'))
         
         else:
             flash('An error occurred when trying to sign-up', 'success')
