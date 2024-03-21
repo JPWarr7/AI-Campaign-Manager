@@ -26,51 +26,54 @@
             </p>
         </div>
     </div> -->
-    <div class = "container" style="background-color:#FFFFFF; width:100%;" >
+    <div class = "container" style="width:100vw;" >
         <div class = "row">
             <p style = "text-decoration: underline;">
-                <h1>Welcome, {{ current_user.username }}</h1>
+                <h1 style="color: #c7c7c7;">Welcome, {{ current_user.username }}</h1>
             </p>
         </div>
-        <div class = "row">
-            <div class = "col-md-3">
-                <h2> Create a new portfolio</h2>
-                <p>Here you can start a folder of specific types of ads</p>
-                <p>
+        <div class = "row gx-4" style="height:20%;">
+            <!-- <div class = "col-md-3 rounded" style="background-color: rgba(74, 164, 227, 0.255);"> -->
+            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
+                <h2 style="padding-top:1%; color: white;"> Create a new portfolio</h2>
+                <p style="color: #c7c7c7;">Here you can start a folder of specific types of ads</p>
+                <div class="text-center mt-auto" style="padding-bottom:5%;">
                     <a class = "btn btn-secondary" onclick="loadAddPortfolioForm();" id="addPortfolioLink" role = "button"> Start a Portfolio</a>
-                </p>
+                </div>
             </div>
-            <div class = "col-md-3">
-                <h2> View your portfolios</h2>
-                <p>Here you can view portfolios you've already created</p>
-                <p>
+            <!-- <div class = "col-md-3 rounded" style="background-color: rgba(74, 164, 227, 0.255);"> -->
+            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
+                <h2 style="padding-top:1%; color: white;"> View your portfolios</h2>
+                <p style="color: #c7c7c7;">Here you can view portfolios you've already created</p>
+                <div class="text-center mt-auto" style="padding-bottom:5%;">
                     <a class = "btn btn-secondary" href = "{{ url_for('view_portfolios') }}" role = "button"> View Portfolios</a>
-                </p>
+                </div>
             </div>
-            <div class = "col-md-3">
-                <h2> Create a new Campaign</h2>
-                <p>Here you can create an ad around a specific product</p>
-                <p>
+            <!-- <div class = "col-md-3 rounded" style="background-color: rgba(74, 164, 227, 0.255);"> -->
+            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, 0.25);">
+                <h2 style="padding-top:1%; color: white;"> Create a new Campaign</h2>
+                <p style="color: #c7c7c7;">Here you can create an ad around a specific product</p>
+                <div class="text-center mt-auto" style="padding-bottom:5%;">
                     <a class = "btn btn-secondary" onclick="loadAddCampaignForm();" id="addCampaignLink" role = "button"> Start a Campaign</a>
-                </p>
+                </div>
             </div>
-            <div class = "col-md-3">
-                <h2> View your campaigns</h2>
-                <p>Here you can view a foloder of campaigns you've already created</p>
-                <p>
+            <!-- <div class = "col-md-3 rounded" style="background-color: rgba(74, 164, 227, 0.255);"> -->
+            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, 0.25);">
+                <h2 style="padding-top:1%; color: white;"> View your campaigns</h2>
+                <p style="color: #c7c7c7;">Here you can view a folder of all the campaigns you've already created</p>
+                <div class="text-center mt-auto" style="padding-bottom:5%;">
                     <a class = "btn btn-secondary" href = "{{ url_for('view_campaigns') }}" role = "button"> View Campaigns</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <hr>
-        <div class = "container p-4 justify-content-center">
-            <div class = "row">
-                <div class = "col-md-12">
-                    <!-- <h1>Maybe include recent items worked on here?</h1> -->
                 </div>
             </div>
         </div>
+    </div>
+   
+        <!-- <div class = "container p-4 justify-content-center">
+            <div class = "row">
+                <div class = "col-md-12">
+                    <h1>Maybe include recent items worked on here?</h1>
+                </div>
+            </div>
+        </div> -->
 </body>
 </html>

@@ -39,7 +39,7 @@
   background: none;
   border: none;
   outline: none;
-  width: 28px; /* Adjust width as needed */
+  width: 28px;
   min-width: 0;
   padding: 0;
   z-index: 1;
@@ -49,7 +49,7 @@
   font-size: 14px;
   transition: all .6s ease;
   cursor: pointer;
-  color: #fff; /* Assuming $color is #fff */
+  color: #fff;
 }
 
 .search-box input + div {
@@ -67,7 +67,7 @@
   right: 0;
   top: 0;
   fill: none;
-  stroke: #fff; /* Assuming $color is #fff */
+  stroke: #fff;
   stroke-width: 1.5px;
   stroke-dashoffset: 212.908 + 59;
   stroke-dasharray: 59 212.908;
@@ -102,16 +102,22 @@
   width: 100%;
   height: 100%;
   /* background-color: rgba(255, 255, 255, 0.5); */
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent white background */
-  backdrop-filter: blur(3px); /* Apply blur effect */
-  z-index: 99; /* Ensure the container is behind other elements */
-  display: none; /* Initially hidden */
+  background-color: rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(3px); 
+  z-index: 99;
+  display: none;
 }
 
 /* -------------- CARD HOVER EFFECT ------------- */
+.my-card {
+  transition: all 0.3s;
+      /* background-color: rgba(74, 164, 227, 0.255);  */
+
+}
 .my-card:hover {
   cursor: pointer;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 16px 32px rgba(136, 0, 255, 0.8);
+  transform: scale(1.05);
 }
 
 /* -------------- ADD PORTFOLIO FORM ------------- */
@@ -121,17 +127,17 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff; /* White background for form */
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
-  z-index: 100; /* Ensure form is on top of overlay */
-  display: none; /* Initially hidden */
-  transition: all 0.3s ease; /* Smooth transition */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100; 
+  display: none;
+  transition: all 0.3s ease;
 }
 
 #addPortfolioFormDiv.show {
-  display: block; /* Show form */
+  display: block;
 }
 
 /* -------------- ADD CAMPAIGN FORM ------------- */
@@ -141,20 +147,20 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff; /* White background for form */
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
-  z-index: 100; /* Ensure form is on top of overlay */
-  display: none; /* Initially hidden */
-  transition: all 0.3s ease; /* Smooth transition */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100; 
+  display: none; 
+  transition: all 0.3s ease; 
 }
 
 #addCampaignFormDiv.show {
-  display: block; /* Show form */
+  display: block; 
 }
 
-.background-div {
+.background-div1 {
   background-image: url('../img/AI_bg.svg');
   background-size: auto 200%; 
   background-repeat: no-repeat;
@@ -176,4 +182,26 @@
   width: 100%; 
   height: 100vh;
   z-index: -1;
+}
+
+body {
+  position: relative;
+  background-image: url('../img/AI_bg3.jpeg');
+  background-repeat: repeat-y;
+  background-position: top;
+  background-size: cover;
+  /* background-position-y: -40vh; */
+}
+
+body::after {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../img/AI_bg3_flip.jpeg');
+  background-repeat: repeat-y;
+  background-size: cover;
+  transform: scaleX(-1) scaleY(-1);
 }
