@@ -1,4 +1,4 @@
-from app import *
+# from app import *
 from app.database import *
 from app.forms import *
 from googleapiclient.errors import HttpError
