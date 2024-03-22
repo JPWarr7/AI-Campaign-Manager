@@ -30,11 +30,15 @@ evtSource.onmessage = function(event) {
 };
 
 evtSource.addEventListener('summary', function(event) {
-    responseAreaSummary.innerHTML += event.data;
+    setTimeout(function() {
+        responseAreaSummary.innerHTML += event.data;
+    }, 100);
 });
 
 evtSource.addEventListener('ad_text', function(event) {
-    responseAreaAdText.innerHTML += event.data;
+    setTimeout(function() {
+        responseAreaAdText.innerHTML += event.data;
+    }, 100);
 });
 
 evtSource.addEventListener('img_url', function(event) {
@@ -134,7 +138,9 @@ function regenerateSummarization() {
     };
 
     evtSource.addEventListener('summary', function(event) {
-        responseAreaSummary.innerHTML += event.data;
+        setTimeout(function() {
+            responseAreaSummary.innerHTML += event.data;
+        }, 100);
     });
 }
 
@@ -157,7 +163,9 @@ function regenerateAdvertisement() {
     };
 
     evtSource.addEventListener('ad_text', function(event) {
-        responseAreaAdText.innerHTML += event.data;
+        setTimeout(function() {
+            responseAreaAdText.innerHTML += event.data;
+        }, 50);
     });
 }
 

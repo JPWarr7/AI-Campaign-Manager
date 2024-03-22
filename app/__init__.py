@@ -42,27 +42,29 @@ def load_user(user_id):
 
 
 # # Specify mail environment variables
+
 creds = None
 SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 MAIL_USERNAME = environ.get('MAIL_USERNAME')
-
+TOKEN_FILE_PATH = "/tmp/token.json"
 # The file token.json stores the user's access and refresh tokens, and is
 # created automatically when the authorization flow completes for the first
 # time.
 
-if os.path.exists("token.json"):
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-# If there are no (valid) credentials available, let the user log in.
+if os.path.exists('token.json'):
+    creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+
 if not creds or not creds.valid:
     if creds and creds.expired and creds.refresh_token:
         creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            "credentials.json", SCOPES
-        )
-        creds = flow.run_local_server(port=6900)
-    # Save the credentials for the next run
-    with open("token.json", "w") as token:
+    # else:
+    #     flow = InstalledAppFlow.from_client_secrets_file(
+    #         "credentials.json", SCOPES
+    #     )
+    #     creds = flow.run_local_server(port=6900)
+    
+    # Save the credentials to the /tmp directory
+    with open(TOKEN_FILE_PATH, "w") as token:
         token.write(creds.to_json())
 
 try:
@@ -72,6 +74,7 @@ try:
 except HttpError as error:
     # Handle errors from Gmail API
     print(f"An error occurred: {error}")
+
         
 # Add models
 from app.routes import *
