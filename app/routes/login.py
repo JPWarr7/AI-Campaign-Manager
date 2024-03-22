@@ -5,6 +5,7 @@ from app.forms import *
 from flask import render_template, redirect, send_from_directory, url_for, flash, request, Flask
 from flask_login import login_user, logout_user, login_required, current_user
 from app.routes.functions.mail import *
+from app.routes.functions.user_content import * 
 import sys
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -91,6 +92,7 @@ def change_password():
 
 
 @app.route('/delete_user_data', methods=['GET', 'POST'])
+@login_required
 def delete_user_data():
     if request.method == 'POST':
         email = request.form['email']
@@ -100,7 +102,8 @@ def delete_user_data():
             return redirect(url_for('deleted_successfully'))
         else:
             return render_template('deleteUserData.html', error="User with provided email does not exist.")
-    return render_template('deleteUserData.html')
+    content = user_content(current_user.id)
+    return render_template('deleteUserData.html', content=content)
 
 @app.route('/deleted_successfully')
 def deleted_successfully():
