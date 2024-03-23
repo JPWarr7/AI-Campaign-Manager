@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
         <div class = "py-3">
-            <h1>Campaign - {{ new_campaign.name }}</h1>
+            <h1>{{ new_campaign.name }}</h1>
             <hr>
         </div>
       </div>
@@ -22,9 +22,9 @@
 <div class="container" style="padding-top: 1%; padding-bottom: 1%;">
     <div class  = "row">
         <div class = "col-sm-7">
-            <div class="card h-100">
+            <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
                 <div class="card-header">
-                    <b>{{ new_campaign.name }}</b> - {{ new_campaign.creation_date }}
+                    <h6><b>{{ new_campaign.name }}</b> - {{ new_campaign.creation_date }}</h6>
                 </div>
 
                 <div class="card-body">
@@ -53,12 +53,12 @@
         </div>
 
         <div class = "col-sm-5">
-            <div class="card h-100">
+            <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
                 <div class="card-header">
-                    <b>{{ new_campaign.name }}</b> - Preview
+                    <h6><b>{{ new_campaign.name }}</b> - Preview</h6>
                 </div>
                 <div class="card-body">
-                    <div id="image_container" style="width: 100%;"></div>
+                    <div id="image_container" style="width: 100%; height:60%;"></div>
                     <div id ="regenerateImage" style= "display:none; align-content:center; padding-top:2%;">
                         <input type="text" placeholder="Refine your image?" id="regenerateImageInput">
                         <button class="btn btn-secondary" id="regenerateImageButton" onclick="regenerateImage()">Regenerate Image</button>
@@ -74,4 +74,7 @@
 </div>
     <script src="{{ url_for('static', filename='js/generateCampaign.js') }}"></script>
 </body>
+<footer>
+    {% include 'footer.html' %}
+</footer>
 </html>

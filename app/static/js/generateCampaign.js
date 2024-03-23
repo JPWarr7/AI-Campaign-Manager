@@ -16,6 +16,12 @@ let final_img_prompt;
 let final_image_url;
 let final_parent_id;
 
+function addEventData(eventData, responseArea) {
+    setTimeout(function() {
+        responseArea.innerHTML += eventData;
+    }, 100);
+}
+
 const evtSource = new EventSource(`/createCampaign/${campaignId}/${callType}`);
 
 evtSource.onmessage = function(event) {
@@ -30,15 +36,12 @@ evtSource.onmessage = function(event) {
 };
 
 evtSource.addEventListener('summary', function(event) {
-    setTimeout(function() {
-        responseAreaSummary.innerHTML += event.data;
-    }, 100);
+    addEventData(event.data, responseAreaSummary);
 });
 
 evtSource.addEventListener('ad_text', function(event) {
-    setTimeout(function() {
-        responseAreaAdText.innerHTML += event.data;
-    }, 100);
+    // responseAreaAdText.innerHTML += event.data;
+    addEventData(event.data, responseAreaAdText);
 });
 
 evtSource.addEventListener('img_url', function(event) {
@@ -138,9 +141,8 @@ function regenerateSummarization() {
     };
 
     evtSource.addEventListener('summary', function(event) {
-        setTimeout(function() {
-            responseAreaSummary.innerHTML += event.data;
-        }, 100);
+        addEventData(event.data, responseAreaSummary);
+        // responseAreaSummary.innerHTML += event.data;
     });
 }
 
@@ -163,9 +165,8 @@ function regenerateAdvertisement() {
     };
 
     evtSource.addEventListener('ad_text', function(event) {
-        setTimeout(function() {
-            responseAreaAdText.innerHTML += event.data;
-        }, 50);
+        addEventData(event.data, responseAreaAdText);
+        // responseAreaAdText.innerHTML += event.data;
     });
 }
 

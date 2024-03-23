@@ -100,12 +100,20 @@ def edit_portfolio(portfolio_id):
 def view_portfolios():
     all_portfolios = Portfolio.query.filter_by(user_id = current_user.id).order_by(Portfolio.creation_date.desc()).all()
     portfolios = []
-    
+    campaigns = []
     for portfolio in all_portfolios:
+        campaigns = []
         name = portfolio.name
         creation_date = portfolio.creation_date
         portfolio_id = portfolio.id
-        portfolios.append((name, creation_date, portfolio_id))
+        icon = portfolio.icon
+        description = portfolio.description
+        
+        all_campaigns = Campaign.query.filter_by(portfolio_id = portfolio.id).order_by(Campaign.creation_date.desc()).all()
+        for campaign in all_campaigns:
+            campaigns.append(campaign.image_generated)
+            
+        portfolios.append((name, creation_date, portfolio_id, icon, description, campaigns))
     
     content = user_content(current_user.id)
     return render_template('viewPortfolios.html', portfolios=portfolios, content=content)

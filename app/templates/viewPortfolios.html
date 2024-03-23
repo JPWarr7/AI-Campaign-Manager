@@ -22,23 +22,50 @@
 <div class = "container" style="width:60%">
     {% for portfolio in portfolios %}
         <div class = "row" style = "padding:1%;">
-            <div class="card">
+            <div class="card my-card" portfolio-id = "{{portfolio[2]}}" style="background-color: rgba(0, 0, 0, 0.15); backdrop-filter: blur(5px);">
                 <div class="card-header">
-                {{ portfolio[0] }} - {{ portfolio[1] }}
+                    <div class= "row">
+                        <div class = "col-sm-6">
+                            <h6><b>{{ portfolio[0] }} </b></h6> 
+                        </div>
+                        <div class = "col-sm-6 text-right">
+                           <p style="color:white;">{{ portfolio[1] }}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="col-md-1">
-
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class = "row" style= "padding-bottom: 1%;">
+                                <img src="{{portfolio[3]}}" alt="Image Generated" referrerpolicy="no-referrer" style="height:20%;">
+                            </div>
+                            <div class = "row">
+                                <p>{{ portfolio[4] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8 text-right" style="right:2%;">
+                            <div class="carousel">
+                                {% for campaign_img in portfolio[5] %}
+                                <div class="carousel-li">
+                                    <img src="{{campaign_img}}" alt="Image Generated" referrerpolicy="no-referrer">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-                <div class="card-footer text-center">
+                <!-- <div class="card-footer text-center">
                     <a href="{{ url_for('edit_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-primary">Edit Portfolio</a>
                     <a href="{{ url_for('view_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-secondary">View Portfolio</a>
-                </div>
+                </div> -->
             </div>
                 </div>
     {% endfor %}
 </div>
+
+<script src="{{ url_for('static', filename='js/viewPortfolios.js') }}"></script>
 </body>
+<footer>
+    {% include 'footer.html' %}
+</footer>
 </html>
