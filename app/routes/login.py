@@ -109,6 +109,3 @@ def delete_user_data():
 def deleted_successfully():
     return render_template('dataDeletedSuccessfully.html', error="User with provided email does not exist.")
 
-@app.route('/privacy_policy')
-def privacy_policy():
-    return render_template('privacyPolicy.html')
