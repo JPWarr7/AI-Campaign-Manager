@@ -28,16 +28,33 @@
         </div>
     </div>
     <div class="container">
-        <div class="card" style="background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(5px);">
-            <div class="card-header">
+        <div class="card" style="background-color: rgba(0, 0, 0, 0.15); backdrop-filter: blur(5px);">
+            <div class="card-header h-20">
                 <div class="row">
                     <div class = "col-sm-2">
                         {% if portfolio[3] %}
-                            <img src="{{portfolio[3]}}" alt="Image Icon" referrerpolicy="no-referrer" style="width: 100%; height: auto;  vertical-align: middle; ">
+                            <img src="{{portfolio[3]}}" alt="Image Icon" referrerpolicy="no-referrer" style="width: 100%; height: auto; vertical-align: middle;">
+                        {% else %}
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; vertical-align: middle;">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"> 
+                                    <rect width="20" height="20" fill="none"></rect> 
+                                    <path d="M12 6V18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                    <path d="M6 12H18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                </g>
+                            </svg>
                         {% endif %}
                     </div>
                     <div class = "col-sm-10">
-                        <b>{{ portfolio[0] }} </b> - {{ portfolio[1] }}
+                        <div class= "row">
+                            <div class = "col-sm-6">
+                                <h6><b>{{ portfolio[0] }} </b></h6> 
+                            </div>
+                            <div class = "col-sm-6 text-right">
+                               <p style="color:white;">{{ portfolio[1] }}</p>
+                            </div>
+                        </div>
                         {% if portfolio[2] %}
                             <p>{{ portfolio[2] }}</p>
                         {% endif %}
@@ -50,11 +67,11 @@
                 {% for campaign in row_campaign %}
                     {% if campaign[4] == "add" %}
                         <div class="col-sm-3">
-                            <div class="card my-card" style="height:100%;" campaign-id="{{ campaign[4] }}">
+                            <div class="card my-card" style="height:100%; background-color: rgba(0, 0, 0, 0.35); backdrop-filter: blur(5px);" campaign-id="{{ campaign[4] }}">
                                 <div class="card-body text-center" style="padding-top:25%">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                        <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> 
+                                        <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="none"></rect> 
                                             <path d="M12 6V18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
                                             <path d="M6 12H18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
                                         </g>
@@ -65,9 +82,9 @@
                         </div> 
                     {% else %}
                         <div class="col-sm-3">
-                            <div class="card my-card" campaign-id="{{ campaign[4] }}">
-                                <div class="card-header">
-                                    {{ campaign[0] }}
+                            <div class="card my-card" style="height:100%; background-color: rgba(0, 0, 0, 0.35); backdrop-filter: blur(5px);" campaign-id="{{ campaign[4] }}">
+                                <div class="card-header text-center">
+                                    <h6>{{ campaign[0] }}</h6>
                                 </div>
                                 <div class="card-body">
                                     <img src="{{campaign[3]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
@@ -87,5 +104,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='js/viewPortfolio.js') }}"></script>
-
+<footer>
+    {% include 'footer.html' %}
+</footer>
 </html>

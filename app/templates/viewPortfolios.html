@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <title>View Portfolios</title>
 
 </head>
@@ -22,23 +24,60 @@
 <div class = "container" style="width:60%">
     {% for portfolio in portfolios %}
         <div class = "row" style = "padding:1%;">
-            <div class="card">
+            <div class="card my-card" portfolio-id = "{{portfolio[2]}}" style="background-color: rgba(0, 0, 0, 0.15); backdrop-filter: blur(5px);">
                 <div class="card-header">
-                {{ portfolio[0] }} - {{ portfolio[1] }}
+                    <div class= "row">
+                        <div class = "col-sm-6">
+                            <h6><b>{{ portfolio[0] }} </b></h6> 
+                        </div>
+                        <div class = "col-sm-6 text-right">
+                           <p style="color:white;">{{ portfolio[1] }}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="col-md-1">
-
+                    <div class="row h-20">
+                        <div class="col-md-4 h-100">
+                            {% if portfolio[3] %}
+                                <img src="{{portfolio[3]}}" alt="Image Generated" referrerpolicy="no-referrer" class="portfolio-icon">
+                            {% else %}
+                                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="portfolio-icon">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier"> 
+                                        <rect width="10" height="10" fill="none"></rect> 
+                                        <path d="M12 6V18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                        <path d="M6 12H18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                    </g>
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <p>{{ portfolio[4] }}</p>
+                        </div>
+                        <div class="col-md-4 text-right" style="right:2%;">
+                            <div class="carousel">
+                                {% for campaign_img in portfolio[5] %}
+                                <div class="carousel-li">
+                                    <img src="{{campaign_img}}" alt="Image Generated" referrerpolicy="no-referrer">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-                <div class="card-footer text-center">
+                <!-- <div class="card-footer text-center">
                     <a href="{{ url_for('edit_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-primary">Edit Portfolio</a>
                     <a href="{{ url_for('view_portfolio', portfolio_id=portfolio[2]) }}" class="btn btn-secondary">View Portfolio</a>
-                </div>
+                </div> -->
             </div>
-                </div>
+        </div>
     {% endfor %}
 </div>
+
+<script src="{{ url_for('static', filename='js/viewPortfolios.js') }}"></script>
 </body>
+<footer>
+    {% include 'footer.html' %}
+</footer>
 </html>

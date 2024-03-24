@@ -21,9 +21,9 @@
 <div class="container" style="padding-top: 1%; padding-bottom: 1%;">
     <div class  = "row">
         <div class = "col-sm-7">
-            <div class="card h-100">
+            <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
                 <div class="card-header">
-                <b>{{ campaign[0] }}</b> - {{ campaign[1] }}
+                <h6><b>{{ campaign[0] }}</b> - {{ campaign[1] }}</h6>
                 </div>
 
                 <div class="card-body">
@@ -47,18 +47,21 @@
         </div>
 
         <div class = "col-sm-5">
-        <div class="card h-100">
-            <div class="card-header">
-                <b>{{ campaign[0] }}</b> - Preview
+            <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
+                <div class="card-header">
+                    <h6><b>{{ campaign[0] }}</b> - Preview</h6>
+                </div>
+                <div class="card-body">
+                    <img src="{{campaign[7]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
+                    <p class = "card-text" style = "padding-top:3%;"><b> {{ current_user.username }} </b>{{ campaign[5] }}</p>
+                </div>
             </div>
-            <div class="card-body">
-                <img src="{{campaign[7]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
-                <p class = "card-text" style = "padding-top:3%;"><b> {{ current_user.username }} </b>{{ campaign[5] }}</p>
-            </div>
-        </div>
         </div>
     </div>
 </div>
 
 </body>
+<footer>
+    {% include 'footer.html' %}
+</footer>
 </html>

@@ -182,13 +182,13 @@ def create_campaign(new_campaign_id, call_type):
             for chunk in summarization(links):
                 yield f"event: summary\ndata: {chunk}\n\n"
                 summary += chunk
-                sleep(0.05)
+                sleep(0.025)
                 
             ad_text = ''
             for chunk in text_generation(summary, perspective):
                 yield f"event: ad_text\ndata: {chunk}\n\n"
                 ad_text += chunk
-                sleep(0.05)
+                sleep(0.025)
             
             img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
             image_url = image_generation(img_prompt)
@@ -207,13 +207,13 @@ def create_campaign(new_campaign_id, call_type):
                 for chunk in summarization(links):
                     yield f"event: summary\ndata: {chunk}\n\n"
                     summary += chunk
-                    sleep(0.05)
+                    sleep(0.025)
                     
                 ad_text = ''
                 for chunk in text_generation(summary, perspective):
                     yield f"event: ad_text\ndata: {chunk}\n\n"
                     ad_text += chunk
-                    sleep(0.05)
+                    sleep(0.025)
                     
                 img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
                 image_url = image_generation(img_prompt)
@@ -225,13 +225,13 @@ def create_campaign(new_campaign_id, call_type):
                 summary_chunks = summary.split()
                 for chunk in summary_chunks:
                     yield f"event: summary\ndata: {chunk + ' '}\n\n"
-                    sleep(0.05)
+                    sleep(0.025)
                 
                 ad_text = ''
                 for chunk in text_generation(summary, perspective):
                     yield f"event: ad_text\ndata: {chunk}\n\n"
                     ad_text += chunk
-                    sleep(0.05)
+                    sleep(0.025)
                 
                 img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
                 image_url = image_generation(img_prompt)
@@ -243,12 +243,12 @@ def create_campaign(new_campaign_id, call_type):
                 summary_chunks = summary.split()
                 for chunk in summary_chunks:
                     yield f"event: summary\ndata: {chunk + ' '}\n\n"
-                    sleep(0.05)
+                    sleep(0.025)
                     
                 ad_text_chunks = ad_text.split()
                 for chunk in ad_text_chunks:
                     yield f"event: ad_text\ndata: {chunk + ' '}\n\n"
-                    sleep(0.05)
+                    sleep(0.025)
                 
                 yield f"event: img_url\ndata: {image_url}\n\n"
                 yield f"event: campaign_id\ndata: {new_campaign.campaign_id}\n\n"  
@@ -267,7 +267,9 @@ def create_campaign(new_campaign_id, call_type):
         yield f"data: end-of-stream\n\n"
         
     response_stream = generation_function(new_campaign, call_type)
-    return Response(response_stream, content_type="text/event-stream")
+    response = Response(response_stream, content_type="text/event-stream")
+    response.headers['X-Accel-Buffering'] = 'no'
+    return response
                     
 @app.route('/processCampaign', methods=['POST'])
 @login_required
@@ -322,13 +324,15 @@ def regenerate_summarization():
         for chunk in text_regeneration(prompt, feedback):
             yield f"event: summary\ndata: {chunk}\n\n"
             summary += chunk
-            sleep(0.05)
+            sleep(0.025)
                 
         yield f"event: final_summary\ndata: {summary}\n\n" 
         yield f"data: end-of-stream\n\n"
         
     response_stream = regeneration_function(prompt, feedback)
-    return Response(response_stream, content_type="text/event-stream")
+    response = Response(response_stream, content_type="text/event-stream")
+    response.headers['X-Accel-Buffering'] = 'no'
+    return response
 
 @app.route('/regenerateAdvertisement', methods=['GET','POST'])
 @login_required
@@ -341,10 +345,12 @@ def regenerate_advertisement():
         for chunk in text_regeneration(prompt, feedback):
             yield f"event: ad_text\ndata: {chunk}\n\n"
             ad_text += chunk
-            sleep(0.05)     
+            sleep(0.025)     
         
         yield f"event: final_ad_text\ndata: {ad_text}\n\n"
         yield f"data: end-of-stream\n\n"
         
     response_stream = regeneration_function(prompt, feedback)
-    return Response(response_stream, content_type="text/event-stream")
+    response = Response(response_stream, content_type="text/event-stream")
+    response.headers['X-Accel-Buffering'] = 'no'
+    return response

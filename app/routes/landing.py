@@ -18,3 +18,7 @@ def landing():
 def home():
     content = user_content(current_user.id)
     return render_template('home.html', content = content)
+
+@app.route('/privacypolicy')
+def privacy_policy():
+    return render_template('privacyPolicy.html')
