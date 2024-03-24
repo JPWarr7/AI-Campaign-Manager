@@ -294,3 +294,12 @@ footer {
 #addCampaignFormDiv.show {
   display: block; 
 }
+
+/* -------------- PORTFOLIO ICON ------------- */
+
+.portfolio-icon {
+  object-fit: contain;
+  width: 100%; 
+  min-height: 100%;
+  /* width: auto; */
+}

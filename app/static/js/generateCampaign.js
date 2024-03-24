@@ -22,6 +22,13 @@ function addEventData(eventData, responseArea) {
     }, 100);
 }
 
+const progressBar = document.createElement('div');
+progressBar.classList.add('progress-container');
+const progressInner = document.createElement('div');
+progressInner.classList.add('progress-bar');
+progressBar.appendChild(progressInner);
+responseAreaImageContainer.appendChild(progressBar); 
+
 const evtSource = new EventSource(`/createCampaign/${campaignId}/${callType}`);
 
 evtSource.onmessage = function(event) {
@@ -50,6 +57,7 @@ evtSource.addEventListener('img_url', function(event) {
     imgElement.id = 'generated_image';
     imgElement.src = imageUrl;
     imgElement.style.width = '100%';
+    responseAreaImageContainer.removeChild(progressBar);
     responseAreaImageContainer.appendChild(imgElement);
 });
 
