@@ -101,7 +101,7 @@ footer {
   position: absolute;
   right: 2%;
 	display: grid;
-	grid-template-columns: repeat(10, 12vw);
+	grid-template-columns: repeat(100, 12vw);
 	grid-template-rows: 1fr;
 	overflow: scroll;
 	width:30vh;
@@ -301,5 +301,14 @@ footer {
   object-fit: contain;
   width: 100%; 
   min-height: 100%;
-  /* width: auto; */
+}
+
+
+.form-links {
+  height: 200px; /* Adjust the height as needed */
+  overflow-y: auto;
+  resize: none; /* Prevent resizing */
+  line-height: normal; /* Reset line height */
+  white-space: pre-line; /* Allow overflow to create newlines */
+  padding-top: 0; /* Remove padding at the top */
 }

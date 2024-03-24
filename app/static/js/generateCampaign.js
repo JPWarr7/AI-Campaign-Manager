@@ -16,10 +16,15 @@ let final_img_prompt;
 let final_image_url;
 let final_parent_id;
 
-function addEventData(eventData, responseArea) {
-    setTimeout(function() {
-        responseArea.innerHTML += eventData;
-    }, 100);
+// function addEventData(eventData, responseArea) {
+//     setTimeout(function() {
+//         responseArea.innerHTML += eventData;
+//     }, 100);
+// }
+
+async function addEventData(eventData, responseArea) {
+    responseArea.innerHTML += eventData;
+    await new Promise(resolve => setTimeout(resolve, 100));
 }
 
 const progressBar = document.createElement('div');
@@ -42,14 +47,15 @@ evtSource.onmessage = function(event) {
     }
 };
 
-evtSource.addEventListener('summary', function(event) {
-    addEventData(event.data, responseAreaSummary);
-});
+// evtSource.addEventListener('summary', async function(event) {
+    
+//     await addEventData(event.data, responseAreaSummary);
+// });
 
-evtSource.addEventListener('ad_text', function(event) {
-    // responseAreaAdText.innerHTML += event.data;
-    addEventData(event.data, responseAreaAdText);
-});
+// evtSource.addEventListener('ad_text', async function(event) {
+//     // responseAreaAdText.innerHTML += event.data;
+//     await addEventData(event.data, responseAreaAdText);
+// });
 
 evtSource.addEventListener('img_url', function(event) {
     const imageUrl = event.data;
@@ -65,11 +71,25 @@ evtSource.addEventListener('campaign_id', function(event) {
     campaignId = event.data;
 });
 
-evtSource.addEventListener('final_summary', function(event) {
+evtSource.addEventListener('final_summary', async function(event) {
+    const tokens = event.data.split('');
+    responseAreaSummary.innerHTML = '';
+    for (let i = 0; i < tokens.length; i++) {
+        responseAreaSummary.innerHTML += tokens[i];
+        await new Promise(resolve => setTimeout(resolve, 4));
+    }
+
     final_summary = event.data;
 });
 
-evtSource.addEventListener('final_ad_text', function(event) {
+evtSource.addEventListener('final_ad_text', async function(event) {
+    const tokens = event.data.split('');
+    responseAreaAdText.innerHTML = '';
+    for (let i = 0; i < tokens.length; i++) {
+        responseAreaAdText.innerHTML += tokens[i];
+        await new Promise(resolve => setTimeout(resolve, 4));
+    }
+
     final_ad_text = event.data;
 });
 
@@ -148,9 +168,20 @@ function regenerateSummarization() {
         }
     };
 
-    evtSource.addEventListener('summary', function(event) {
-        addEventData(event.data, responseAreaSummary);
-        // responseAreaSummary.innerHTML += event.data;
+    // evtSource.addEventListener('summary', async function(event) {
+    //     await addEventData(event.data, responseAreaSummary);
+    //     // responseAreaSummary.innerHTML += event.data;
+    // });
+
+    evtSource.addEventListener('final_summary', async function(event) {
+        const tokens = event.data.split('');
+        responseAreaSummary.innerHTML = '';
+        for (let i = 0; i < tokens.length; i++) {
+            responseAreaSummary.innerHTML += tokens[i];
+            await new Promise(resolve => setTimeout(resolve, 4));
+        }
+    
+        final_summary = event.data;
     });
 }
 
@@ -172,9 +203,20 @@ function regenerateAdvertisement() {
         }
     };
 
-    evtSource.addEventListener('ad_text', function(event) {
-        addEventData(event.data, responseAreaAdText);
-        // responseAreaAdText.innerHTML += event.data;
+    // evtSource.addEventListener('ad_text', async function(event) {
+    //     await addEventData(event.data, responseAreaAdText);
+    //     // responseAreaAdText.innerHTML += event.data;
+    // });
+    
+    evtSource.addEventListener('final_ad_text', async function(event) {
+        const tokens = event.data.split('');
+        responseAreaAdText.innerHTML = '';
+        for (let i = 0; i < tokens.length; i++) {
+            responseAreaAdText.innerHTML += tokens[i];
+            await new Promise(resolve => setTimeout(resolve, 4));
+        }
+    
+        final_ad_text = event.data;
     });
 }
 

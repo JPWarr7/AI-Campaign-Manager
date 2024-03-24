@@ -11,10 +11,12 @@ function loadAddPortfolioForm() {
                 var tempDiv = document.createElement('div');
                 tempDiv.innerHTML = async.responseText;
 
-                var form = tempDiv.querySelector('form');
+                var portfolioForm = tempDiv.querySelector('form');
 
                 addPortfolioFormDiv.innerHTML = '';
-                addPortfolioFormDiv.appendChild(form);
+                addPortfolioFormDiv.appendChild(portfolioForm);
+
+                applyPortfolioFormStyles();
                 
                 addPortfolioFormDiv.style.display = "block";
                 blurContent();
@@ -33,14 +35,14 @@ function loadAddPortfolioForm() {
                 };
                 document.body.addEventListener("click", formBlurHandler);
                 
-                form.addEventListener("submit", function(event) {
+                portfolioForm.addEventListener("submit", function(event) {
                     event.preventDefault();
-                    var formData = new FormData(form);
+                    var formData = new FormData(portfolioForm);
                 
-                    form.action = "/addPortfolio";
+                    portfolioForm.action = "/addPortfolio";
                     
                     var submitXhr = new XMLHttpRequest();
-                    submitXhr.open("POST", form.action);
+                    submitXhr.open("POST", portfolioForm.action);
                     submitXhr.onreadystatechange = function() {
                         if (submitXhr.readyState === 4) {
                             if (submitXhr.status === 200) {
@@ -70,4 +72,48 @@ function blurContent() {
 
 function removeBlur() {
     $('#blur-container').hide();
+}
+
+function applyPortfolioFormStyles() {
+    var form = document.getElementById('addPortfolioForm');
+    if (form) {
+
+        form.style.width = '100%';
+
+        var card = form.parentElement;
+        if (card) {
+            console.log('card exists')
+            card.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+            card.style.backdropFilter = 'blur(7px)';
+            card.style.width = '40%'
+        }
+
+        // Adjust card header padding
+        var cardHeader = form.querySelector('.card-header');
+        if (cardHeader) {
+            cardHeader.style.paddingBottom = '3%';
+        }
+
+        // Adjust form control styles
+        var formControls = form.querySelectorAll('.form-control');
+        formControls.forEach(function(control) {
+            control.style.width = '100%'; 
+            control.style.padding = '3%';
+            control.style.marginBottom = '4%';
+            control.style.resize = 'none';
+        });
+
+        var formControlFile = form.querySelector('.form-control-file');
+        if (formControlFile) {
+            formControlFile.style.width = '100%'; 
+            formControlFile.style.padding = '3%'; 
+            formControlFile.style.marginBottom = '4%';
+        }
+
+        // Adjust submit button styles
+        var submitButton = form.querySelector('.btn-secondary');
+        if (submitButton) {
+            submitButton.style.width = '40%';
+        }
+    }
 }

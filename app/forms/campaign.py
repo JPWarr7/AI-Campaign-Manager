@@ -10,7 +10,7 @@ from enum import Enum
 class AddCampaignForm(FlaskForm):
     campaign_name = StringField('Campaign Name: ', validators=[DataRequired()])
     links = StringField('Enter your links: ', validators=[DataRequired()])
-    perspective = StringField('Enter your POV: ', validators=[DataRequired()])
+    perspective = StringField('Perspective: ', validators=[DataRequired()])
     portfolio = SelectField('Select Portfolio:', validators=[DataRequired()]) 
     submit = SubmitField('Save')
     
