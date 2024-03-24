@@ -15,6 +15,8 @@ function loadAddCampaignForm() {
 
                 addCampaignFormDiv.innerHTML = '';
                 addCampaignFormDiv.appendChild(campaignForm);
+
+                applyCampaignFormStyles();
                 
                 addCampaignFormDiv.style.display = "block";
                 blurContent();
@@ -68,3 +70,49 @@ function blurContent() {
 function removeBlur() {
     $('#blur-container').hide();
 }
+
+function applyCampaignFormStyles() {
+    var form = document.getElementById('addCampaignForm');
+    if (form) {
+        form.style.width = '100%';
+
+        var card = form.parentElement;
+        if (card) {
+            card.style.backgroundColor = 'rgba(0, 0, 0, 0.4)'; 
+            card.style.backdropFilter = 'blur(7px)';
+            card.style.width = '40%';
+        }
+
+        var cardHeader = form.querySelector('.card-header');
+        if (cardHeader) {
+            cardHeader.style.paddingBottom = '3%';
+
+        }
+
+        var cardBody = form.querySelector('.card-body');
+        if (cardBody) {
+
+        }
+
+        var formControls = form.querySelectorAll('.form-control');
+        formControls.forEach(function(control) {
+            control.style.width = '100%'; 
+            control.style.padding = '3%';
+            control.style.marginBottom = '4%';
+        });
+
+        var selectElement = form.querySelector('.form-select');
+        if (selectElement) {
+            selectElement.style.width = '30%'; 
+            selectElement.style.padding = '8px';
+            selectElement.style.marginBottom = '4%';
+        }
+
+        var submitButton = form.querySelector('.btn-secondary');
+        if (submitButton) {
+            submitButton.style.width = '40%';
+
+        }
+    }
+}
+

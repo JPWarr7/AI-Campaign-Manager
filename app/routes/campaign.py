@@ -180,15 +180,21 @@ def create_campaign(new_campaign_id, call_type):
         if call_type == 'new':
             summary = ''
             for chunk in summarization(links):
-                yield f"event: summary\ndata: {chunk}\n\n"
+                # yield f"event: summary\ndata: {chunk}\n\n"
                 summary += chunk
-                sleep(0.025)
+
+            final_summary_event = "event: final_summary\n"
+            final_summary_event += "data: " + summary.replace('\n', ' ') + "\n\n" 
+            yield final_summary_event
+            # yield f"event: final_summary\ndata: {summary}\n\n"
+                
                 
             ad_text = ''
             for chunk in text_generation(summary, perspective):
-                yield f"event: ad_text\ndata: {chunk}\n\n"
+                # yield f"event: ad_text\ndata: {chunk}\n\n"
                 ad_text += chunk
-                sleep(0.025)
+            yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                
             
             img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
             image_url = image_generation(img_prompt)
@@ -205,15 +211,20 @@ def create_campaign(new_campaign_id, call_type):
             if links != old_campaign.links:
                 summary = ''
                 for chunk in summarization(links):
-                    yield f"event: summary\ndata: {chunk}\n\n"
+                    # yield f"event: summary\ndata: {chunk}\n\n"
                     summary += chunk
-                    sleep(0.025)
                     
+                final_summary_event = "event: final_summary\n"
+                final_summary_event += "data: " + summary.replace('\n', ' ') + "\n\n" 
+                yield final_summary_event
+                
+                
                 ad_text = ''
                 for chunk in text_generation(summary, perspective):
-                    yield f"event: ad_text\ndata: {chunk}\n\n"
+                    # yield f"event: ad_text\ndata: {chunk}\n\n"
                     ad_text += chunk
-                    sleep(0.025)
+                yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                    
                     
                 img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
                 image_url = image_generation(img_prompt)
@@ -225,13 +236,15 @@ def create_campaign(new_campaign_id, call_type):
                 summary_chunks = summary.split()
                 for chunk in summary_chunks:
                     yield f"event: summary\ndata: {chunk + ' '}\n\n"
-                    sleep(0.025)
+                yield f"event: final_summary\ndata: {summary}\n\n" 
+                    
                 
                 ad_text = ''
                 for chunk in text_generation(summary, perspective):
-                    yield f"event: ad_text\ndata: {chunk}\n\n"
+                    # yield f"event: ad_text\ndata: {chunk}\n\n"
                     ad_text += chunk
-                    sleep(0.025)
+                yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                    
                 
                 img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
                 image_url = image_generation(img_prompt)
@@ -240,21 +253,23 @@ def create_campaign(new_campaign_id, call_type):
                 yield f"event: campaign_id\ndata: {new_campaign.campaign_id}\n\n"
             
             else:
-                summary_chunks = summary.split()
-                for chunk in summary_chunks:
-                    yield f"event: summary\ndata: {chunk + ' '}\n\n"
-                    sleep(0.025)
+                # summary_chunks = summary.split()
+                # for chunk in summary_chunks:
+                #     yield f"event: summary\ndata: {chunk + ' '}\n\n"
+                yield f"event: final_summary\ndata: {summary}\n\n" 
                     
-                ad_text_chunks = ad_text.split()
-                for chunk in ad_text_chunks:
-                    yield f"event: ad_text\ndata: {chunk + ' '}\n\n"
-                    sleep(0.025)
+                    
+                # ad_text_chunks = ad_text.split()
+                # for chunk in ad_text_chunks:
+                    # yield f"event: ad_text\ndata: {chunk + ' '}\n\n"
+                yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                    
                 
                 yield f"event: img_url\ndata: {image_url}\n\n"
                 yield f"event: campaign_id\ndata: {new_campaign.campaign_id}\n\n"  
         
-        yield f"event: final_summary\ndata: {summary}\n\n" 
-        yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+        # yield f"event: final_summary\ndata: {summary}\n\n" 
+        # yield f"event: final_ad_text\ndata: {ad_text}\n\n"
         yield f"event: final_img_prompt\ndata: {img_prompt}\n\n"
         yield f"event: final_img_url\ndata: {image_url}\n\n"
         
@@ -288,7 +303,6 @@ def process_campaign():
     old_campaign = Campaign.query.get(parent_id)
     
     imgur_link = image_upload(image_url)
-    
     new_campaign.summarization = summary
     new_campaign.text_generated = ad_text
     new_campaign.image_prompt = img_prompt
@@ -322,11 +336,13 @@ def regenerate_summarization():
     def regeneration_function(prompt, feedback):
         summary = ''
         for chunk in text_regeneration(prompt, feedback):
-            yield f"event: summary\ndata: {chunk}\n\n"
+            # yield f"event: summary\ndata: {chunk}\n\n"
             summary += chunk
-            sleep(0.025)
+            
+        final_summary_event = "event: final_summary\n"
+        final_summary_event += "data: " + summary.replace('\n', ' ') + "\n\n" 
+        yield final_summary_event
                 
-        yield f"event: final_summary\ndata: {summary}\n\n" 
         yield f"data: end-of-stream\n\n"
         
     response_stream = regeneration_function(prompt, feedback)
@@ -343,9 +359,9 @@ def regenerate_advertisement():
     def regeneration_function(prompt, feedback):
         ad_text = ''
         for chunk in text_regeneration(prompt, feedback):
-            yield f"event: ad_text\ndata: {chunk}\n\n"
+            # yield f"event: ad_text\ndata: {chunk}\n\n"
             ad_text += chunk
-            sleep(0.025)     
+                 
         
         yield f"event: final_ad_text\ndata: {ad_text}\n\n"
         yield f"data: end-of-stream\n\n"
