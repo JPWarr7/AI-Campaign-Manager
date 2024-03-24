@@ -3,7 +3,6 @@ from app import *
 from app.database import *
 from app.forms import *
 from flask import render_template, redirect, send_from_directory, url_for, flash, request, Flask, session
-from flask_login import login_user, logout_user, login_required, current_user
 from app.routes.functions.mail import *
 from app.routes.functions.user_content import * 
 import sys, requests
