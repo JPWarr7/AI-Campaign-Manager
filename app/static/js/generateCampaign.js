@@ -233,7 +233,7 @@ function saveCampaign() {
         image_url: imgElement.src,
         parent_id: final_parent_id
     };
-    // showEllipsis();
+    showEllipsis();
 
     fetch('/processCampaign', {
         method: 'POST',
@@ -254,8 +254,8 @@ function saveCampaign() {
 }
 
 function showEllipsis() {
-    $('#ellipsis').show();
-}
+    document.getElementById('ellipsis').style.display = 'flex';
+  }
 
 function removeEllipsis() {
     $('#ellipsis').hide();

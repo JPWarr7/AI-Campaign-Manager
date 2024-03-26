@@ -19,7 +19,6 @@ function loadAddPortfolioForm() {
                 applyPortfolioFormStyles();
                 addPortfolioFormDiv.style.display = "block";
                 blurContent();
-                // showEllipsis();
 
                 if (formBlurHandler) {
                     document.body.removeEventListener("click", formBlurHandler);
@@ -36,7 +35,7 @@ function loadAddPortfolioForm() {
                 document.body.addEventListener("click", formBlurHandler);
                 
                 portfolioForm.addEventListener("submit", function(event) {
-                    // showEllipsis();
+                    showEllipsis();
                     event.preventDefault();
                     var formData = new FormData(portfolioForm);
                     portfolioForm.action = "/addPortfolio";
@@ -75,8 +74,8 @@ function removeBlur() {
 }
 
 function showEllipsis() {
-    $('#ellipsis').show();
-}
+    document.getElementById('ellipsis').style.display = 'flex';
+  }
 
 function removeEllipsis() {
     $('#ellipsis').hide();
