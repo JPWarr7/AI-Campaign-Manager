@@ -19,8 +19,8 @@
     </div>
   </div>
 
-<div class="container" style="padding-top: 1%; padding-bottom: 1%;">
-    <div class  = "row">
+<div class="container" style="padding-top: 1%; padding-bottom: 1%; height: 120vh;">
+    <div class  = "row h-100" style="height:100%;">
         <div class = "col-sm-7">
             <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
                 <div class="card-header">
@@ -39,12 +39,15 @@
                     <h5 class="card-title">Summarization:</h5>
                     <p class = "card-text" style="vertical-align: top;" id="summary"></p>
                     <div id ="regenerateSummarization" style="display:none; align-content:center; padding-top:2%;">
-                        <input type="text" placeholder="Refine your summary?" id="regenerateSummarizationInput">
-                        <button class="btn btn-secondary" onclick="regenerateSummarization()">Regenerate Summary</button>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control bg-dark text-light" placeholder="Refine your summary?" id="regenerateSummarizationInput" aria-label="Refine your summary?" aria-describedby="regenerateSummarizationButton">
+                            <button class="btn btn-outline-secondary" type="button" id="regenerateSummarizationButton" onclick="regenerateSummarization()">Regenerate Summary</button>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="card-footer text-center">
+                <div class="card-body text-center">
                     <div id ="saveCampaign" style= "display:none;">
                         <button class="btn btn-primary" onclick="saveCampaign()">Save Campaign</button>
                     </div>
@@ -58,18 +61,23 @@
                     <h6><b>{{ new_campaign.name }}</b> - Preview</h6>
                 </div>
                 <div class="card-body">
-                    <div class="row h-60">
+                    <div class="row" style="height:75vh;">
                         <div id="image_container" style="width: 100%;"></div>
                         <div id ="regenerateImage" style= "display:none; align-content:center; padding-top:2%;">
-                            <input type="text" placeholder="Refine your image?" id="regenerateImageInput">
-                            <button class="btn btn-secondary" id="regenerateImageButton" onclick="regenerateImage()">Regenerate Image</button>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control bg-dark text-light" placeholder="Refine your image?" id="regenerateImageInput" aria-label="Refine your image?" aria-describedby="regenerateImageButton">
+                                <button class="btn btn-outline-secondary" type="button" id="regenerateImageButton" onclick="regenerateImage()">Regenerate Image</button>
+                              </div>
                         </div>
                     </div>
-                    <div class="row h-40">
+                    <div class="row h-30" style="height:30vh;">
                         <p class = "card-text" style = "bottom:15%;padding-top:3%;" id="ad_text"></p>
-                        <div id ="regenerateAdvertisement" style="display:none; align-content:center; padding-top:2%;">
-                            <input type="text" placeholder="Refine your Ad?" id="regenerateAdvertisementInput">
-                            <button class="btn btn-secondary" id="regenerateAdvertisementButton"onclick="regenerateAdvertisement()">Regenerate Ad</button>
+                        <div id ="regenerateAdvertisement" style="display:none; align-content:center; padding-top:2%; z-index:100;">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control bg-dark text-light" placeholder="Refine your advertisement?" id="regenerateAdvertisementInput" aria-label="Refine your advertisement?" aria-describedby="regenerateAdvertisementButton">
+                                <button class="btn btn-outline-secondary" type="button" id="regenerateAdvertisementButton"onclick="regenerateAdvertisement()">Regenerate Ad</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>

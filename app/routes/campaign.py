@@ -193,7 +193,10 @@ def create_campaign(new_campaign_id, call_type):
             for chunk in text_generation(summary, perspective):
                 # yield f"event: ad_text\ndata: {chunk}\n\n"
                 ad_text += chunk
-            yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+            final_ad_text = "event: final_ad_text\n"
+            final_ad_text += "data: " + ad_text.replace('\n', ' ') + "\n\n" 
+            # yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+            yield final_ad_text
                 
             
             img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
@@ -223,7 +226,10 @@ def create_campaign(new_campaign_id, call_type):
                 for chunk in text_generation(summary, perspective):
                     # yield f"event: ad_text\ndata: {chunk}\n\n"
                     ad_text += chunk
-                yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                final_ad_text = "event: final_ad_text\n"
+                final_ad_text += "data: " + ad_text.replace('\n', ' ') + "\n\n" 
+                # yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                yield final_ad_text
                     
                     
                 img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
@@ -243,7 +249,10 @@ def create_campaign(new_campaign_id, call_type):
                 for chunk in text_generation(summary, perspective):
                     # yield f"event: ad_text\ndata: {chunk}\n\n"
                     ad_text += chunk
-                yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                final_ad_text = "event: final_ad_text\n"
+                final_ad_text += "data: " + ad_text.replace('\n', ' ') + "\n\n" 
+                # yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+                yield final_ad_text
                     
                 
                 img_prompt = "Generate an image **NOT containing text** that captures the spirit of the following text: " + ad_text
@@ -362,8 +371,10 @@ def regenerate_advertisement():
             # yield f"event: ad_text\ndata: {chunk}\n\n"
             ad_text += chunk
                  
-        
-        yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+        final_ad_text = "event: final_ad_text\n"
+        final_ad_text += "data: " + ad_text.replace('\n', ' ') + "\n\n" 
+        # yield f"event: final_ad_text\ndata: {ad_text}\n\n"
+        yield final_ad_text
         yield f"data: end-of-stream\n\n"
         
     response_stream = regeneration_function(prompt, feedback)
