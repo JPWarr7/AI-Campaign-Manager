@@ -37,7 +37,7 @@ function loadAddCampaignForm() {
                 campaignForm.addEventListener("submit", function(event) {
                     event.preventDefault();
                     var formData = new FormData(campaignForm);
-                
+                    // showEllipsis();
                     var submitXhr = new XMLHttpRequest();
                     submitXhr.open("POST", campaignForm.action);
                     submitXhr.onreadystatechange = function() {
@@ -69,6 +69,14 @@ function blurContent() {
 
 function removeBlur() {
     $('#blur-container').hide();
+}
+
+function showEllipsis() {
+    $('#ellipsis').show();
+}
+
+function removeEllipsis() {
+    $('#ellipsis').hide();
 }
 
 function applyCampaignFormStyles() {

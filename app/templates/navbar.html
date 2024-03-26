@@ -31,13 +31,10 @@
           <a class="dropdown-item nav-link" href="{{ url_for('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('view_campaigns') }}">Campaigns</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('view_portfolios') }}">Portfolios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('post_on_facebook') }}">Post to Socials</a>
+          <a class="nav-link" href="{{ url_for('view_campaigns') }}">Campaigns</a>
         </li>
       </ul>
       <div class="search-box mx-auto">
@@ -101,6 +98,11 @@
 <div id="addCampaignFormDiv" style="display: none;"></div>
 
 <div id="blur-container"></div>
+<div id="ellipsis" class="ellipsis">
+  <span class="ellipsis-element"></span>
+  <span class="ellipsis-element"></span>
+  <span class="ellipsis-element"></span>
+</div>
 <!-- <div class="background-div"></div> -->
 
 <!-- <svg width="10%" height="10%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#2a6ba7" stroke="#2a6ba7" stroke-width="0.00024000000000000003" transform="rotate(90)">

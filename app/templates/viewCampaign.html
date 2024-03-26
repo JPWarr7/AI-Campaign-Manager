@@ -55,6 +55,8 @@
                     <img src="{{campaign[7]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
                     <p class = "card-text" style = "padding-top:3%;"><b> {{ current_user.username }} </b>{{ campaign[5] }}</p>
                 </div>
+                <div class="card-footer text-center">
+                    <a href="{{ url_for('post_on_facebook') }}" class="btn btn-secondary">Post to Facebook</a>
             </div>
         </div>
     </div>
