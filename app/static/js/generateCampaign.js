@@ -76,7 +76,7 @@ evtSource.addEventListener('final_summary', async function(event) {
     responseAreaSummary.innerHTML = '';
     for (let i = 0; i < tokens.length; i++) {
         responseAreaSummary.innerHTML += tokens[i];
-        await new Promise(resolve => setTimeout(resolve, 4));
+        await new Promise(resolve => setTimeout(resolve, 6));
     }
 
     final_summary = event.data;
@@ -87,7 +87,7 @@ evtSource.addEventListener('final_ad_text', async function(event) {
     responseAreaAdText.innerHTML = '';
     for (let i = 0; i < tokens.length; i++) {
         responseAreaAdText.innerHTML += tokens[i];
-        await new Promise(resolve => setTimeout(resolve, 4));
+        await new Promise(resolve => setTimeout(resolve, 6));
     }
 
     final_ad_text = event.data;
@@ -159,6 +159,7 @@ function regenerateSummarization() {
     $('#regenerateSummarization').hide();
     $('#saveCampaign').hide();
     responseAreaSummary.innerHTML = '';
+    document.getElementById('regenerateSummarizationInput').value = '';
 
     evtSource.onmessage = function(event) {
         if (event.data === 'end-of-stream') {
@@ -178,7 +179,7 @@ function regenerateSummarization() {
         responseAreaSummary.innerHTML = '';
         for (let i = 0; i < tokens.length; i++) {
             responseAreaSummary.innerHTML += tokens[i];
-            await new Promise(resolve => setTimeout(resolve, 4));
+            await new Promise(resolve => setTimeout(resolve, 6));
         }
     
         final_summary = event.data;
@@ -194,6 +195,7 @@ function regenerateAdvertisement() {
     $('#regenerateAdvertisement').hide();
     $('#saveCampaign').hide();
     responseAreaAdText.innerHTML = '';
+    document.getElementById('regenerateAdvertisementInput').value = '';
 
     evtSource.onmessage = function(event) {
         if (event.data === 'end-of-stream') {
@@ -213,7 +215,7 @@ function regenerateAdvertisement() {
         responseAreaAdText.innerHTML = '';
         for (let i = 0; i < tokens.length; i++) {
             responseAreaAdText.innerHTML += tokens[i];
-            await new Promise(resolve => setTimeout(resolve, 4));
+            await new Promise(resolve => setTimeout(resolve, 6));
         }
     
         final_ad_text = event.data;
