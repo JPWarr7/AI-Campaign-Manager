@@ -233,6 +233,7 @@ function saveCampaign() {
         image_url: imgElement.src,
         parent_id: final_parent_id
     };
+    // showEllipsis();
 
     fetch('/processCampaign', {
         method: 'POST',
@@ -248,5 +249,14 @@ function saveCampaign() {
     })
     .catch(error => {
         console.error('Error making POST request', error);
+        saveCampaign();
     });
+}
+
+function showEllipsis() {
+    $('#ellipsis').show();
+}
+
+function removeEllipsis() {
+    $('#ellipsis').hide();
 }
