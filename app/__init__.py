@@ -46,7 +46,7 @@ def load_user(user_id):
 creds = None
 SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 MAIL_USERNAME = environ.get('MAIL_USERNAME')
-TOKEN_FILE_PATH = "/tmp/token.json"
+TOKEN_FILE_PATH = "app/tmp/token.json"
 # The file token.json stores the user's access and refresh tokens, and is
 # created automatically when the authorization flow completes for the first
 # time.

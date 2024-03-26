@@ -22,3 +22,7 @@ def home():
 @app.route('/privacypolicy')
 def privacy_policy():
     return render_template('privacyPolicy.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
