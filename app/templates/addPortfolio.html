@@ -19,7 +19,7 @@
                 <form id="addPortfolioForm" method="POST" action="{{ url_for('add_portfolio') }}" enctype="multipart/form-data">
                     {{ form.csrf_token }}
                     <h1>Add Portfolio</h1>
-                    <table class="table table-striped" style="background-color: rgb(236, 230, 238);">
+                    <table class="table table-striped" style="background-color: rgba(236, 230, 238, 0.25);">
                         <tr>
                             <td class="py-3 px-3">
                                 <label for="portfolio_name">Portfolio Name:</label>
@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <button type="submit" class="btn btn-primary">Save Portfolio</button>
+                                <button type="submit" class="btn btn-funky-moon">Save Portfolio</button>
                             </td>
                         </tr>
                     </table>

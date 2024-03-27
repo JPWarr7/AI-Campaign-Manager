@@ -23,7 +23,7 @@
     /* Set the height of the particles-js div to half of the viewport height */
     #particles-js {
       height: 50vh;
-      background-color: #35608a; /* Set the background color to match the navbar's color */
+      background-color: #ad34ee; /* Set the background color to match the navbar's color */
      /* background-color: #212529; */
 
     }
@@ -54,7 +54,8 @@
   <!-- Main content -->
   <div class = "container">
     <div class = "row">
-        <div class = "col-md-6 mx-auto">
+        <div class = "col-md-6 mx-auto" style="background-color: rgba(77, 72, 72, 0.85); padding: 10px;  border: 2px solid transparent; border-image: linear-gradient(to right, rgb(237, 205, 233), rgb(176, 13, 205)) 1; border-radius: 10px; box-shadow: 32px 64px 128px rgba(136, 0, 255, 0.8);
+        ">
           <div class = "text-center">
             <p>
               <h2> Promote your product in seconds </h2>
@@ -126,7 +127,27 @@
                     </form>
                 </div>
             </section>
-          {% endif %}
+            {% else %}
+            <div style = "padding-left: 75px;">
+                <h1>Welcome back, {{ current_user.username }}</h1>
+            </div>
+                <hr>
+                    <div style = "padding-top: 4%; padding-left: 195px;">
+                        <a href = "{{ url_for('home') }}" >
+                            <button class = "btn btn-funky-moon-2">Keep Working</button>
+                        </a>
+                    </div>
+                    <div style = "padding-top: 2%; padding-left: 195px;">
+                        <a href="#">
+                            <button class = "btn btn-funky-moon-2">Account</button>
+                        </a>
+                    </div>
+                    <div style = "padding-top: 2%; padding-left: 195px;">
+                        <a href="{{ url_for('logout') }}">
+                            <button class = "btn btn-funky-moon-2">Sign Out</button>
+                        </a>
+                    </div>
+            {% endif %}
 
     </div>
     </div>

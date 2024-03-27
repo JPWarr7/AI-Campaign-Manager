@@ -13,6 +13,10 @@ def serve_static(path):
 def landing():
     return render_template('landing.html')
 
+@app.route('/devs')
+def devs():
+    return render_template('devs.html')
+
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():

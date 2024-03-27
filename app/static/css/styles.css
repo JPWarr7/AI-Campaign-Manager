@@ -111,7 +111,7 @@
 /* -------------- CARD HOVER EFFECT ------------- */
 .my-card {
   transition: all 0.3s;
-      /* background-color: rgba(74, 164, 227, 0.255);  */
+      background-color: rgba(74, 164, 227, 0.255); 
 
 }
 .my-card:hover {
@@ -120,14 +120,24 @@
   transform: scale(1.05);
 }
 
+
+
+.form-card {
+  background-color: rgba(74, 164, 227, 0.255);
+
+}
+
 /* -------------- ADD PORTFOLIO FORM ------------- */
 
 #addPortfolioFormDiv {
   position: fixed;
+  width: 800px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: rgba(136, 0, 255, 0.8);
+  border-color: rgba(234, 31, 245, 0.5);
+  border-width: 8px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -147,13 +157,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: rgba(136, 0, 255, 0.8);
+  border-color: rgba(234, 31, 245, 0.5);
+  border-width: 8px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   z-index: 100; 
   display: none; 
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
+  width: 800px;
 }
 
 #addCampaignFormDiv.show {
@@ -205,3 +218,252 @@ body::after {
   background-size: cover;
   transform: scaleX(-1) scaleY(-1);
 }
+
+
+/* text */ 
+
+* {
+  /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+  color: #FFFFFF;
+}
+
+.devs-heading {
+  padding-left: 4%;
+  padding-top: 2%;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+/* buttons */
+
+.btn-funky-moon {
+  background: #A770EF;  
+  background: -webkit-linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF);  
+  background: linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF); 
+  border: 3px solid #eee;
+  width: 100%;
+
+}
+
+.btn-funky-moon-2 {
+  background: #A770EF;  
+  background: -webkit-linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF);  
+  background: linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF); 
+  border: 3px solid #eee;
+  width: 55%;
+  transition: transform 0.4s ease;
+
+
+}
+
+.btn-funky-moon-2:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+.button-submit-button {
+  background: #A770EF;  
+  background: -webkit-linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF);  
+  background: linear-gradient(145deg, #FDB99B, #CF8BF3, #A770EF); 
+  color: #fff;
+  border: 3px solid #eee;
+}
+
+
+
+/* form fields */
+
+.large-text-field {
+  width: 300px;
+  height: 150px;
+  overflow-wrap: break-word;
+  text-decoration-color: black;
+
+}
+
+.text-area {
+  width: 100%;
+  height: 100px;
+  resize: none; 
+  overflow-wrap: break-word;
+  text-decoration-color: black;
+}
+
+/* navbar */
+
+.navbar {
+  background: linear-gradient(to top, #ad34ee, #380060); 
+}
+
+
+/* cards */
+
+.about-card {
+  background-color: rgba(74, 164, 227, 0.6); 
+}
+
+.portfolio-card {
+  background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(3px);
+  border: 1px solid transparent; 
+  border-image: linear-gradient(to right, rgb(237, 205, 233), rgb(176, 13, 205)) 1;
+}
+
+/* devs */
+
+.container-devs {
+  height: 70vh;
+  width: 100vw;
+  max-height: 800px;
+  max-width: 1280px;
+  min-height: 600px;
+  min-width: 1000px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/*
+.container-devs-bio {
+  height: 70vh;
+  width: 100vw;
+  max-height: 800px;
+  max-width: 1280px;
+  min-height: 600px;
+  min-width: 1000px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+*/
+.container-dev-names {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.border-devs {
+  height: 369px;
+  width: 290px;
+  background: transparent;
+  border-radius: 10px;
+  transition: border 1s;
+  position: relative;
+
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+/*
+.my-card {
+  transition: all 0.3s;
+      background-color: rgba(74, 164, 227, 0.255); 
+
+}
+.my-card:hover {
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(136, 0, 255, 0.8);
+  transform: scale(1.05);
+}
+
+*/
+.card-devs {
+  height: 379px;
+  width: 300px;
+  background-color: rgba(74, 164, 227, 0.255);
+  border-radius: 10px;
+  transition: all 0.3s;
+  overflow: hidden;
+  background: rgba(74, 164, 227, 0.255);
+  box-shadow: 0 70px 63px -60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+}
+
+.card0 {
+  background: url('/static/img/devs-jonny.jpg') center center no-repeat;
+  background-size: 300px;
+
+  &:hover {
+    background: url('/static/img/devs-jonny.jpg') left center no-repeat;
+    background-size: 350px;
+    cursor: pointer;
+    box-shadow: 0 32px 64px rgba(136, 0, 255, 0.8);
+    transform: scale(1.05);
+  }
+
+    h2 {
+      opacity: 1;
+    }
+
+    .fa {
+      opacity: 1;
+    }
+  
+}
+
+.card1 {
+  background: url('/static/img/devs-diego.jpg') center center no-repeat;
+  background-size: 300px;
+
+  &:hover {
+    background: url('/static/img/devs-diego.jpg') left center no-repeat;
+    background-size: 350px;
+    cursor: pointer;
+    box-shadow: 0 32px 64px rgba(136, 0, 255, 0.8);
+    transform: scale(1.05);
+    }
+
+    h2 {
+      opacity: 1;
+    }
+
+    .fa {
+      opacity: 1;
+    }
+}
+
+.card2 {
+  background: url('/static/img/devs-dan.JPG') center center no-repeat;
+  background-size: 300px;
+
+  &:hover {
+    background: url('/static/img/devs-dan.JPG') left center no-repeat;
+    background-size: 350px;
+    cursor: pointer;
+    box-shadow: 0 32px 64px rgba(136, 0, 255, 0.8);
+    transform: scale(1.05);
+  }
+
+    h2 {
+      opacity: 1;
+    }
+
+    .fa {
+      opacity: 1;
+    }
+}
+
+.h2-devs {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: white;
+  margin: 20px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.fa {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+
+
