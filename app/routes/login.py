@@ -49,6 +49,7 @@ def signup():
             account_creation_notification(user)
             login_user(user)
             flash('Account Created!', 'success')
+            
             return redirect(url_for('home'))
         
         else:

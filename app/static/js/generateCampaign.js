@@ -16,12 +16,6 @@ let final_img_prompt;
 let final_image_url;
 let final_parent_id;
 
-// function addEventData(eventData, responseArea) {
-//     setTimeout(function() {
-//         responseArea.innerHTML += eventData;
-//     }, 100);
-// }
-
 async function addEventData(eventData, responseArea) {
     responseArea.innerHTML += eventData;
     await new Promise(resolve => setTimeout(resolve, 100));
