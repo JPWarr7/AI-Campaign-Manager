@@ -117,3 +117,15 @@ def view_portfolios():
     
     content = user_content(current_user.id)
     return render_template('viewPortfolios.html', portfolios=portfolios, content=content)
+
+@app.route('/deletePortfolio/<int:portfolio_id>', methods=['GET', 'POST'])
+@login_required
+def delete_portfolio(portfolio_id):
+    portfolio = Portfolio.query.get(portfolio_id)
+    if portfolio.user_id != current_user.id:
+        message = "The user does not have permission to delete this portfolio!"
+        return render_template('error.html', message=message)
+    else:
+        db.session.delete(portfolio)
+        db.session.commit()
+        return redirect(url_for('view_portfolios'))

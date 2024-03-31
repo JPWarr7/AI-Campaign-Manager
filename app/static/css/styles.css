@@ -353,6 +353,15 @@ footer {
   padding-top: 0;
 }
 
+.form-summarization {
+  height: 700px; 
+  overflow-y: auto;
+  resize: none; 
+  line-height: normal;
+  white-space: pre-line;
+  padding-top: 0;
+}
+
 /* -------------- LOADING ELLIPSIS ------------- */
 
 .ellipsis {
