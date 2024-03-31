@@ -27,7 +27,61 @@
         </div>
       </div>
 
-    <div class = "container">
+    <div class="container" style="padding-top: 1%; padding-bottom: 1%;">
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class  = "row">
+                <div class = "col-sm-7">
+                    <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
+                        <div class="card-header">
+                            <b>{{ form.campaign_name(class="form-control bg-dark text-light", style="width:40%;", id="campaign_name", value=campaign.name) }}</b>
+                        </div>
+        
+                        <div class="card-body">
+                            <h5 class="card-title">Perspective:</h5>
+                            <!-- <p class = "card-text">{{ campaign[4] }}</p> -->
+                            {{ form.perspective(class="form-control bg-dark text-light", style="width:40%;", id="perspective", value=campaign.perspective) }}
+                            <!-- <textarea id="perspective" name="perspective" >{{ campaign.perspective }}</textarea> -->
+                            <h5 class="card-title">Links:</h5>
+                            <!-- <textarea id="links" name="links"> -->
+                            {% with links=campaign.links.split("\n")|join(" ") %}
+                                <textarea class="form-control bg-dark text-light form-links" id="links" name="links" rows="5">{{ links }}</textarea>
+                            {% endwith %}
+                            <h5 class="card-title">Summarization:</h5>
+                            <!-- <p class = "card-text">{{ campaign[3] }}</p> -->
+                            <!-- <textarea id="text_summarization" name="text_summarization">{{ campaign.summarization }}</textarea> -->
+                            <textarea class="form-control bg-dark text-light form-links" id="text_summarization" name="text_summarization" rows="20">{{campaign.summarization }}</textarea>
+
+                        </div>
+        
+                        <div class="card-footer text-center">
+
+                        </div>
+                    </div>
+                </div>
+        
+                <div class = "col-sm-5">
+                    <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
+                        <div class="card-header">
+                            <!-- <h6><b>{{ campaign[0] }}</b> - Preview</h6> -->
+                        </div>
+                        <div class="card-body">
+                            <img src="{{campaign.image_generated}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
+                            <!-- {{ form.text_generation(class="form-control bg-dark text-light", id="perspective", value=campaign.text_generated) }} -->
+                            <textarea class="form-control bg-dark text-light form-summarization" id="text_generation" name="text_generation" rows="7">{{campaign.text_generated}}</textarea>
+                            <!-- <p class = "card-text" style = "padding-top:3%;"><b> {{ current_user.username }} </b>{{ campaign.text_generated }}</p> -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                            <!-- <a href="{{ url_for('post_on_facebook') }}" class="btn btn-secondary">Post to Facebook</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+      
+    <!-- <div class = "container">
         <div class = "row justify-content-center">
             <div class = "col-md-6">
 
@@ -93,7 +147,7 @@
             </table>
             </div>
         </div>
-    </div>
+    </div> -->
 </body>
 <footer>
     {% include 'footer.html' %}

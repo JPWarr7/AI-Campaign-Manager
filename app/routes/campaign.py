@@ -6,7 +6,7 @@ from flask import render_template, redirect, send_from_directory, url_for, flash
 from flask_login import login_required, current_user
 from time import sleep
 import sys
-from .functions.openai import summarization, text_generation, image_generation, image_regeneration, text_regeneration
+from .functions.openai import *
 from app.routes.functions.mail import *
 from app.routes.functions.imgur import *
 from app.routes.functions.user_content import user_content
@@ -88,25 +88,24 @@ def edit_campaign(campaign_id):
     if campaign.user_id != current_user.id:
         message = "The user does not have permission to edit this campaign!"
         return render_template('error.html', message=message)
-    else:
-        form = EditCampaignForm()
-        if form.validate_on_submit():            
-            new_campaign = Campaign(
-                user_id=current_user.id,
-                name=form.campaign_name.data,
-                links=form.links.data,
-                perspective=form.perspective.data,
-                parent_id = campaign.campaign_id,
-                portfolio_id = campaign.portfolio_id
+    else:          
+        new_campaign = Campaign(
+            user_id=current_user.id,
+            name = campaign.name,
+            links = campaign.links,
+            perspective = campaign.perspective,
+            parent_id = campaign.campaign_id,
+            portfolio_id = campaign.portfolio_id
             )
-            db.session.add(new_campaign)
-            db.session.commit()
+        
+        db.session.add(new_campaign)
+        db.session.commit()
 
-            new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
-            content = user_content(current_user.id)
-            return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
-    content = user_content(current_user.id)
-    return render_template('editCampaign.html',campaign = campaign, form = form, content = content)
+        new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
+        content = user_content(current_user.id)
+        return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
+    # content = user_content(current_user.id)
+    # return render_template('editCampaign.html',campaign = campaign, form = form, content = content)
 
 
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
@@ -300,6 +299,9 @@ def create_campaign(new_campaign_id, call_type):
 def process_campaign():
     data = request.get_json()
 
+    name = data['name']
+    links = data['links']
+    perspective = data['perspective']
     new_campaign_id = int(data['new_campaign_id'])
     call_type = data['call_type']
     summary = data['summary']
@@ -312,6 +314,9 @@ def process_campaign():
     old_campaign = Campaign.query.get(parent_id)
     
     imgur_link = image_upload(image_url)
+    new_campaign.name = name
+    new_campaign.links = links
+    new_campaign.perspective = perspective
     new_campaign.summarization = summary
     new_campaign.text_generated = ad_text
     new_campaign.image_prompt = img_prompt
@@ -341,10 +346,11 @@ def regenerate_image():
 def regenerate_summarization():
     prompt = request.args.get('summarization', '')
     feedback = request.args.get('feedback', '')
+    links = request.args.get('links', '')
     
     def regeneration_function(prompt, feedback):
         summary = ''
-        for chunk in text_regeneration(prompt, feedback):
+        for chunk in summary_regeneration(prompt, feedback, links):
             # yield f"event: summary\ndata: {chunk}\n\n"
             summary += chunk
             
@@ -364,10 +370,11 @@ def regenerate_summarization():
 def regenerate_advertisement():
     prompt = request.args.get('ad_text', '')
     feedback = request.args.get('feedback', '')
+    perspective = request.args.get('perspective', '')
     
     def regeneration_function(prompt, feedback):
         ad_text = ''
-        for chunk in text_regeneration(prompt, feedback):
+        for chunk in advertisement_regeneration(prompt, feedback, perspective):
             # yield f"event: ad_text\ndata: {chunk}\n\n"
             ad_text += chunk
                  
@@ -381,3 +388,15 @@ def regenerate_advertisement():
     response = Response(response_stream, content_type="text/event-stream")
     response.headers['X-Accel-Buffering'] = 'no'
     return response
+
+@app.route('/deleteCampaign/<int:campaign_id>', methods=['GET', 'POST'])
+@login_required
+def delete_campaign(campaign_id):
+    campaign = Campaign.query.get(campaign_id)
+    if campaign.user_id != current_user.id:
+        message = "The user does not have permission to delete this campaign!"
+        return render_template('error.html', message=message)
+    else:
+        db.session.delete(campaign)
+        db.session.commit()
+        return redirect(url_for('view_campaigns'))

@@ -148,7 +148,8 @@ function regenerateImage() {
 function regenerateSummarization() {
     const summarization = encodeURIComponent(responseAreaSummary.textContent);
     const feedback = encodeURIComponent(document.getElementById('regenerateSummarizationInput').value);
-    const evtSource = new EventSource(`/regenerateSummarization?summarization=${summarization}&feedback=${feedback}`);
+    const links = encodeURIComponent(document.getElementById('campaignLinks').textContent);
+    const evtSource = new EventSource(`/regenerateSummarization?summarization=${summarization}&feedback=${feedback}&links=${links}`);
     
     $('#regenerateSummarization').hide();
     $('#saveCampaign').hide();
@@ -184,7 +185,8 @@ function regenerateAdvertisement() {
     const ad_text = encodeURIComponent(responseAreaAdText.textContent);
     const username = document.getElementById('username');
     const feedback = encodeURIComponent(document.getElementById('regenerateAdvertisementInput').value);
-    const evtSource = new EventSource(`/regenerateAdvertisement?ad_text=${ad_text}&feedback=${feedback}`);
+    const perspective = encodeURIComponent(document.getElementById('campaignPerspective').textContent);
+    const evtSource = new EventSource(`/regenerateAdvertisement?ad_text=${ad_text}&feedback=${feedback}&perspective=${perspective}`);
     
     $('#regenerateAdvertisement').hide();
     $('#saveCampaign').hide();
@@ -218,7 +220,13 @@ function regenerateAdvertisement() {
 
 function saveCampaign() {
     const imgElement = document.getElementById('generated_image')
+    const name = document.getElementById('campaignName').textContent;
+    const links = document.getElementById('campaignLinks').textContent;
+    const perspective = document.getElementById('campaignPerspective').textContent;
     const finalizedParameters = {
+        name: name,
+        links: links,
+        perspective: perspective,
         new_campaign_id: campaignId,
         call_type: callType,
         summary: responseAreaSummary.textContent,

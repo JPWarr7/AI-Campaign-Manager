@@ -7,13 +7,13 @@ from app.routes.functions.mail import *
 from app.routes.functions.user_content import * 
 import sys, requests
 
-@app.route('/fb_login')
+@app.route('/facebook/login')
 def fb_login():
     redirect_uri = url_for('facebook_callback', _external=True)
     return redirect(f"https://www.facebook.com/v12.0/dialog/oauth?client_id={app.config['FACEBOOK_APP_ID']}&redirect_uri={redirect_uri}&scope=publish_actions")
 
 
-@app.route('/facebook_callback')
+@app.route('/facebook/callback')
 def facebook_callback():
     code = request.args.get('code')
     redirect_uri = url_for('facebook_callback', _external=True)
@@ -22,7 +22,7 @@ def facebook_callback():
     session['access_token'] = access_token
     return redirect(url_for('post_on_facebook'))
 
-@app.route('/post_on_facebook')
+@app.route('/facebook/post')
 def post_on_facebook():
     if 'access_token' not in session:
         return redirect(url_for('fb_login'))
