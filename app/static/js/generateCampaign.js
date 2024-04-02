@@ -100,12 +100,16 @@ evtSource.addEventListener('final_parent_id', function(event) {
 });
 
 function regenerateImage() {
+    const ad_text = responseAreaAdText;
+    const perspective = document.getElementById('campaignPerspective');
     const imgElement = document.getElementById('generated_image');
     const img_url = imgElement.src;
     const img_feedback = document.getElementById('regenerateImageInput')
     const regenerateParameters = {
         img_url: img_url,
-        feedback: img_feedback.value
+        feedback: img_feedback.value,
+        ad_text: ad_text.value,
+        perspective: perspective.value
     };
 
     $('#regenerateImage').hide();
