@@ -12,6 +12,6 @@ class AddPortfolioForm(FlaskForm):
 class EditPortfolioForm(FlaskForm):
     portfolio_name = StringField('Portfolio Name: ')
     description = StringField('Description')
-    icon = FileField('Portfolio Icon', validators=[FileAllowed(['jpg', 'png'], 'Upload Portfolio Icon')])
+    icon = FileField('Portfolio Icon', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Upload Portfolio Icon')])
     submit = SubmitField('Save')
     

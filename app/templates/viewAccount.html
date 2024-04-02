@@ -22,24 +22,43 @@
             </p>
         </div>
         <div class = "row" style="height:20%;">
+            <div class = "col-md-8 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
+                <p>
+                    username   | {{current_user.username}}
+                </p>
+                <p>
+                    first name | {{current_user.first_name}}
+                </p>
+                <p>
+                    last name  | {{current_user.last_name}}
+                </p>
+                <p>
+                    email      | {{current_user.email}}
+                </p>
+            </div>
+            <div class = col-md-1>
+            
+            </div>
+            <div class = "col-md-3">
+                <div class="row rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
+                    <h2 style="padding-top:1%; color: white;"> Change password</h2>
+                    <p style="color: #c7c7c7;">Want to change your password? Click here!</p>
+                    <div class="text-center mt-auto" style="padding-bottom:5%;">
+                        <a class = "btn btn-secondary" onclick="loadChangePasswordForm();" id="changePasswordLink" role = "button">Change Password</a>
+                    </div>
+                </div>
 
-            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
-                <h2 style="padding-top:1%; color: white;"> Change password</h2>
-                <p style="color: #c7c7c7;">Placeholder</p>
-                <div class="text-center mt-auto" style="padding-bottom:5%;">
-                    <a class = "btn btn-secondary" onclick="loadChangePasswordForm();" id="changePasswordLink" role = "button">Change Password</a>
+            <!-- <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);"> -->
+                <div class="row rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
+                    <h2 style="padding-top:5%; color: white;"> Delete User Data</h2>
+                    <p style="color: #c7c7c7;">Done with campAIgn? Delete your account and all user data here.</p>
+                    <div class="text-center mt-auto" style="padding-bottom:5%;">
+                        <a class = "btn btn-secondary" onclick="loadDeleteUserDataForm();" id="deleteUserDataLink" role = "button">Delete User Data</a>
+                    </div>
                 </div>
             </div>
 
-            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
-                <h2 style="padding-top:1%; color: white;"> Delete User Data</h2>
-                <p style="color: #c7c7c7;">Placeholder</p>
-                <div class="text-center mt-auto" style="padding-bottom:5%;">
-                    <a class = "btn btn-secondary" onclick="loadDeleteUserDataForm();" id="deleteUserDataLink" role = "button">Delete User Data</a>
-                </div>
-            </div>
-
-            <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
+            <!-- <div class = "col-md-3 rounded" style="background-color: rgba(80, 80, 80, .15); backdrop-filter: blur(3px);">
                 <h2 style="padding-top:1%; color: white;"> Create a new Campaign</h2>
                 <p style="color: #c7c7c7;">Here you can create an ad around a specific product</p>
                 <div class="text-center mt-auto" style="padding-bottom:5%;">
@@ -53,7 +72,7 @@
                 <div class="text-center mt-auto" style="padding-bottom:5%;">
                     <a class = "btn btn-secondary" href = "{{ url_for('view_campaigns') }}" role = "button"> View Campaigns</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
    

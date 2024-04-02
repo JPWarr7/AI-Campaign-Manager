@@ -1,61 +1,125 @@
-<!-- editCampaign.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Campaign</title>
+    <title>Edit Portfolio</title>
 
     <style>
-        textarea {
-          width: 100%;
-          height: 150px; 
+        .card-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
         }
-      </style>
+    </style>
+
 </head>
 <body>
-    {% include 'navbar.html' %}
+    {% include 'navbar.html' %}    
     <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6 text-center">
+        <div class="col-md-6 text-center">
             <div class = "py-3">
-                <h1>Edit This Portfolio</h1>
+                <h1>Edit Portfolio</h1>
                 <hr>
             </div>
-          </div>
         </div>
-      </div>
-
-    <div class = "container">
-        <div class = "row justify-content-center">
-            <div class = "col-md-6">
-
-            <table class = "table table-striped" style = "background-color: rgb(236, 230, 238); justify-content: center;">
-            
-            <form method="POST">
-                {{ form.csrf_token }}
-                <tr>
-                    <td class = "py-3 px-3">
-                        <label for="portfolio_name">Portfolio Name:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="portfolio_name" name="portfolio_name" value="{{ portfolio.name }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit">Save Changes</button>
-                    </td>
-                </tr>
-            </form>
-
-            </table>
-            </div>
         </div>
     </div>
+    <div class="container">
+        <div class="card" style="background-color: rgba(0, 0, 0, 0.15); backdrop-filter: blur(5px);">
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <div class="card-header h-20">
+                    <div class="row">
+                        <div class = "col-sm-2">
+                            {% if portfolio.icon %}
+                                <img src="{{portfolio.icon}}" alt="Image Icon" referrerpolicy="no-referrer" style="width: 100%; height: auto; vertical-align: middle;">
+                            {% else %}
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; vertical-align: middle;">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier"> 
+                                        <rect width="20" height="20" fill="none"></rect> 
+                                        <path d="M12 6V18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                        <path d="M6 12H18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                    </g>
+                                </svg>
+                            {% endif %}
+                            {{ form.icon(class="form-control-file text-light", id="icon") }}
+
+                        </div>
+                        <div class = "col-sm-10">
+                            <div class= "row">
+                                <div class = "col-sm-6">
+                                    <textarea class="form-control bg-dark text-light" id="portfolio_name" name="portfolio_name" rows="1" style="width:40%;">{{ portfolio.name }}</textarea>
+                                </div>
+                                <div class = "col-sm-6 text-right">
+                                    <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-unlock-fill" viewBox="0 0 18 18">
+                                            <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2"/>
+                                        </svg>
+                                    </button>
+                                    <a href="{{ url_for('delete_portfolio', portfolio_id=portfolio.id) }}"> 
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-trash3-fill" viewBox="0 0 18 18">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                        </svg>
+                                    </a>
+                                    <p style="color:white;">{{ portfolio.creation_date }}</p>
+
+                                </div>
+                            </div>
+                            <textarea class="form-control bg-dark text-light" id="description" name="description" style="height:100%;">{{ portfolio.description }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- <div class="card-body">
+            {% for row_campaign in portfolio[4] %}
+                <div class="row" style="padding:1%;">
+                {% for campaign in row_campaign %}
+                    {% if campaign[4] == "add" %}
+                        <div class="col-sm-3">
+                            <div class="card my-card" style="height:100%; background-color: rgba(0, 0, 0, 0.35); backdrop-filter: blur(5px);" campaign-id="{{ campaign[4] }}">
+                                <div class="card-body text-center" style="padding-top:25%">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="none"></rect> 
+                                            <path d="M12 6V18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                            <path d="M6 12H18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                        </g>
+                                    </svg>
+                                    <p class = "card-text" style = "padding-top:3%;"></p>
+                                </div>
+                            </div>
+                        </div> 
+                    {% else %}
+                        <div class="col-sm-3">
+                            <div class="card my-card" style="height:100%; background-color: rgba(0, 0, 0, 0.35); backdrop-filter: blur(5px);" campaign-id="{{ campaign[4] }}">
+                                <div class="card-header text-center">
+                                    <h6>{{ campaign[0] }}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <img src="{{campaign[3]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
+                                    <p class = "card-text" style = "padding-top:3%;"><b> {{ current_user.username }} </b>{{ campaign[2] }}</p>
+                                </div>
+                            </div>
+                        </div> 
+                    {% endif %}
+                {% endfor %}
+                </div>
+            {% endfor %}
+            </div> -->
+        </div>
+    </div>
+
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/viewPortfolio.js') }}"></script>
 <footer>
     {% include 'footer.html' %}
 </footer>
 </html>
+

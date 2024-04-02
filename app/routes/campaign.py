@@ -371,10 +371,11 @@ def regenerate_advertisement():
     prompt = request.args.get('ad_text', '')
     feedback = request.args.get('feedback', '')
     perspective = request.args.get('perspective', '')
+    summarization = request.args.get('summarization', '')
     
     def regeneration_function(prompt, feedback):
         ad_text = ''
-        for chunk in advertisement_regeneration(prompt, feedback, perspective):
+        for chunk in advertisement_regeneration(prompt, feedback, perspective, summarization):
             # yield f"event: ad_text\ndata: {chunk}\n\n"
             ad_text += chunk
                  
@@ -400,3 +401,16 @@ def delete_campaign(campaign_id):
         db.session.delete(campaign)
         db.session.commit()
         return redirect(url_for('view_campaigns'))
+    
+@app.route('/exportImage', methods=['GET', 'POST'])
+@login_required
+def export_img():
+    img_url = request.args.get('img_url')
+    if img_url:
+        response = export_image(img_url)
+        if response:
+            return response
+        else:
+            return jsonify(success=False, error="Unable to fetch the image"), 500
+    else:
+        return jsonify(success=False, error="Missing 'img_url' parameter"), 400

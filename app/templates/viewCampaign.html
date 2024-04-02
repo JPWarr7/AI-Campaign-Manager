@@ -57,11 +57,12 @@
                 </div>
                 <div class="card-footer text-center">
                     <a href="{{ url_for('post_on_facebook') }}" class="btn btn-secondary">Post to Facebook</a>
+                    <button id="exportButton" class="btn btn-primary">Export</button>
             </div>
         </div>
     </div>
 </div>
-
+<script src="{{ url_for('static', filename='js/exportImage.js') }}"></script>
 </body>
 <footer>
     {% include 'footer.html' %}
