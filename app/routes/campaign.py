@@ -338,7 +338,9 @@ def regenerate_image():
     data = request.get_json()
     img_url = data['img_url']
     feedback = data['feedback']
-    new_img = image_regeneration(feedback, img_url)
+    ad_text = data['ad_text']
+    perspective = data['perspective']
+    new_img = image_regeneration(feedback, img_url, ad_text, perspective)
     return jsonify({'new_image_url': new_img})
 
 @app.route('/regenerateSummarization', methods=['GET','POST'])

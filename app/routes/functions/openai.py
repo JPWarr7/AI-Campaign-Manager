@@ -83,7 +83,7 @@ def image_generation(prompt):
     )
     return response.data[0].url
 
-def image_regeneration(prompt, img_url):
+def image_regeneration(prompt, img_url, ad_text, perspective):
     """
     This function regenerates an image based on the given prompt and source image provided using OpenAI's DALL-E 2 model.
 
@@ -117,7 +117,7 @@ def image_regeneration(prompt, img_url):
     max_tokens=300,
     )
     output = response.choices[0]
-    img_prompt = f'Generate an image like this {output} while adding this change: {prompt}'
+    img_prompt = f'Generate an image like this {output} while adding this change: {prompt}. For context, this image was generated from this advertisement {ad_text} using this perspective {perspective}.'
     
     response = client.images.generate(
     model="dall-e-3",
