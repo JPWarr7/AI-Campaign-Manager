@@ -128,7 +128,7 @@ def image_regeneration(prompt, img_url):
     )
     return response.data[0].url
 
-def advertisement_regeneration(prompt, feedback, perspective):
+def advertisement_regeneration(prompt, feedback, perspective, summarization):
     """
     This function regenerates text based on a given prompt and feedback
     using OpenAI's GPT-3.5 model.
@@ -149,7 +149,7 @@ def advertisement_regeneration(prompt, feedback, perspective):
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are a skilled advertiser, capable of advertising a product from the perspective of any human."},
-        {"role": "user", "content": f'In less than 1500 characters, regenerate this prompt: {prompt}, by using this perspective {perspective} and taking into consideration this feedback: {feedback}.'}
+        {"role": "user", "content": f'In less than 1500 characters, regenerate this prompt: {prompt}, by using this perspective {perspective} and taking into consideration this feedback: {feedback}. the prompt was generated from this summarization {summarization}'}
     ],
     stream=True
     )
