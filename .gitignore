@@ -160,3 +160,4 @@ cython_debug/
 
 config.js
 app.yaml
+*.yaml
