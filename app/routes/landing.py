@@ -23,6 +23,10 @@ def home():
 def privacy_policy():
     return render_template('privacyPolicy.html')
 
+@app.route('/termsofservice')
+def terms_of_service():
+    return render_template('termsOfService.html')
+
 @app.route('/about')
 def about():
     return render_template('about.html')
