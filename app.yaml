@@ -21,7 +21,7 @@ env_variables:
   MAIL_APP_PASSWORD: "csc400djd"
   MAIL_SENDER_NAME: "CampAIgn Manager"
   PYTHONDONTWRITEBYTECODE: "1"
-  OPENAI_API_KEY: "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"
+  OPENAI_API_KEY: "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"
 
 automatic_scaling:
   target_cpu_utilization: 0.65
