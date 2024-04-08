@@ -49,7 +49,32 @@
         <div class = "col-sm-5">
             <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
                 <div class="card-header">
-                    <h6><b>{{ campaign[0] }}</b> - Preview</h6>
+                    <div class = "row">
+                        <div class = "col md-6">
+                            <h6><b>{{ campaign[0] }}</b> - Preview</h6>
+                        </div>
+                        <div class = "col md-6 text-right">
+                            <a href="{{ url_for('view_campaign_log', campaign_id=campaign[8]) }}" style="text-decoration: none; padding-right:6px;"> 
+                                <svg fill="#ffffff" width="30px" height="30px" viewBox="-4 -1.5 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" class="jam jam-branch-f" transform="rotate(90)" stroke="#ffffff" stroke-width="0.00024000000000000003">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M4 11.856v3.173a3.001 3.001 0 1 1-2 0V6.687a3.001 3.001 0 1 1 2 0v2.34c.312-.11.647-.17.997-.171l6.037-.006a1 1 0 0 0 .999-1V6.699A3.001 3.001 0 0 1 13 .858a3 3 0 0 1 1.033 5.817V7.85a3 3 0 0 1-2.997 3l-6.037.006a1 1 0 0 0-.999 1z"></path>
+                                    </g>
+                                </svg>
+                            </a>
+                            <a href="{{ url_for('edit_campaign', campaign_id=campaign[8]) }}" style="text-decoration: none; padding-right:6px;"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-lock-fill" viewBox="0 0 18 18">
+                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+                                </svg>
+                            </a>
+                            <a href="{{ url_for('delete_campaign', campaign_id=campaign[8]) }}" style="text-decoration: none;"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-trash3-fill" viewBox="0 0 18 18">
+                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <img src="{{campaign[7]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">

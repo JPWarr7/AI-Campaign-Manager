@@ -18,7 +18,7 @@ window.fbAsyncInit = function() {
         }
     });
 
-    document.getElementById('loginBtn').addEventListener('click', function() {
+    document.getElementById('fbLogin').addEventListener('click', function() {
         FB.login(function(response) {
             if (response.authResponse) {
                 console.log('Access token:', response.authResponse.accessToken);
