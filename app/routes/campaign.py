@@ -36,8 +36,6 @@ def add_campaign():
         return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new'))
     
     flash('Failed to add campaign. Please check your input.', 'error')
-    # content = user_content(current_user.id)
-    # return render_template('addCampaign.html', form = form, content=content)
 
 @app.route('/viewCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -61,25 +59,70 @@ def view_campaign(campaign_id):
 
         campaign = [name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id, portfolio_id, parent_id]
 
-        # all_campaigns = Campaign.query.filter_by(parent_id = parent_id).order_by(Campaign.creation_date.desc()).all()
-        # campaigns = []
-        
-        # for campaign in all_campaigns:
-        #     name = campaign.name
-        #     creation_date = campaign.creation_date
-        #     links = campaign.links
-        #     summarization = campaign.summarization
-        #     perspective = campaign.perspective
-        #     text_generated = campaign.text_generated
-        #     image_prompt = campaign.image_prompt
-        #     image_generated = campaign.image_generated
-        #     id = campaign.campaign_id
-        #     parent_id = campaign.parent_id
-        #     campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
-
         content = user_content(current_user.id)
 
         return render_template('viewCampaign.html', campaign=campaign, content = content)
+
+def find_root_campaign(campaign):
+    while campaign.parent_id != campaign.campaign_id:
+        new_campaign = Campaign.query.get(campaign.parent_id)
+        if not new_campaign:
+            break
+        campaign = new_campaign
+    return campaign
+
+def traverse_campaign_tree(campaign, current_user, visited=None):
+    if visited is None:
+        visited = set()
+
+    # Check if the campaign has already been visited
+    if campaign.campaign_id in visited:
+        return None
+    
+    visited.add(campaign.campaign_id)
+
+    campaign_data = {
+        'campaign_id': campaign.campaign_id,
+        'name': campaign.name,
+        'creation_date': campaign.creation_date,
+        'links': campaign.links,
+        'summarization': campaign.summarization,
+        'perspective': campaign.perspective,
+        'text_generated': campaign.text_generated,
+        'image_prompt': campaign.image_prompt,
+        'image_generated': campaign.image_generated,
+        'portfolio_id': campaign.portfolio_id,
+        'current': campaign.current,
+        'public': campaign.public,
+        'children': []
+    }
+
+    # Query children campaigns
+    children_campaigns = Campaign.query.filter_by(user_id=current_user.id, parent_id=campaign.campaign_id).all()
+
+    # Recursively traverse children
+    for child_campaign in children_campaigns:
+        child_data = traverse_campaign_tree(child_campaign, current_user, visited)
+        if child_data:
+            campaign_data['children'].append(child_data)
+
+    return campaign_data
+
+
+@app.route('/viewCampaign/log/<int:campaign_id>', methods=['GET', 'POST'])
+@login_required
+def view_campaign_log(campaign_id):
+    campaign = Campaign.query.get(campaign_id)
+    if campaign.user_id != current_user.id:
+        message = "The user does not have permission to view this campaign!"
+        return render_template('error.html', message=message)
+    else:
+        root_campaign = find_root_campaign(campaign)
+        campaign_data = traverse_campaign_tree(root_campaign, current_user)
+        content = user_content(current_user.id)
+        # print(campaign_data)
+        return render_template('campaignTree.html', campaign_data=campaign_data, content=content)
+
 
 @app.route('/editCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -104,25 +147,11 @@ def edit_campaign(campaign_id):
         new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
         content = user_content(current_user.id)
         return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
-    # content = user_content(current_user.id)
-    # return render_template('editCampaign.html',campaign = campaign, form = form, content = content)
-
 
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
 @login_required
 def view_campaigns():
-    # call_type = request.args.get('call_type')
-    # id = request.args.get('id')
-    
-    # if call_type == 'user':
-    #     if int(id) != current_user.id:
-    #         message = "The user does not have permission to view another user's campaigns!"
-    #         return render_template('error.html', message=message)
-    #     else:
     all_campaigns = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).all()
-        
-    # elif call_type == 'portfolio':
-    #     all_campaigns = Campaign.query.filter_by(portfolio_id = id).order_by(Campaign.creation_date.desc()).all()
         
     campaigns = []  
     row_campaigns = []
@@ -146,12 +175,7 @@ def view_campaigns():
         campaigns.append(row_campaigns)
 
     content = user_content(current_user.id)
-    
-    # if call_type == 'user':
     return render_template('viewCampaigns.html', campaigns=campaigns, content=content)
-        
-    # elif call_type == 'portfolio':
-    #     return render_template('viewPortfolio.html', campaigns=campaigns, content=content)
 
 @app.route('/generateCampaign', methods=['GET', 'POST'])
 @login_required
