@@ -41,27 +41,22 @@ def add_campaign():
 @login_required
 def view_campaign(campaign_id):
     campaign = Campaign.query.get(campaign_id)
-    if campaign.user_id != current_user.id:
-        message = "The user does not have permission to view this campaign!"
-        return render_template('error.html', message=message)
-    else:
-        name = campaign.name
-        creation_date = campaign.creation_date
-        links = campaign.links
-        summarization = campaign.summarization
-        perspective = campaign.perspective
-        text_generated = campaign.text_generated
-        image_prompt = campaign.image_prompt
-        image_generated = campaign.image_generated
-        id = campaign.campaign_id
-        portfolio_id = campaign.portfolio_id
-        parent_id = campaign.parent_id
+    creator = current_user.id == campaign.user_id
+    name = campaign.name
+    creation_date = campaign.creation_date
+    links = campaign.links
+    summarization = campaign.summarization
+    perspective = campaign.perspective
+    text_generated = campaign.text_generated
+    image_prompt = campaign.image_prompt
+    image_generated = campaign.image_generated
+    id = campaign.campaign_id
+    portfolio_id = campaign.portfolio_id
+    parent_id = campaign.parent_id
 
-        campaign = [name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id, portfolio_id, parent_id]
-
-        content = user_content(current_user.id)
-
-        return render_template('viewCampaign.html', campaign=campaign, content = content)
+    campaign = [name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id, portfolio_id, parent_id]
+    content = user_content(current_user.id)
+    return render_template('viewCampaign.html', campaign=campaign, creator=creator, content = content)
 
 def find_root_campaign(campaign):
     while campaign.parent_id != campaign.campaign_id:
