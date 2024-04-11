@@ -7,6 +7,23 @@ from app.routes.functions.mail import *
 from app.routes.functions.user_content import * 
 import sys, requests
 
+
+# portfolio = Portfolio.query.filter_by(user_id=current_user.id).order_by(Portfolio.creation_date.desc()).first()
+
+@app.route('/feed')
+def feed():
+    all_campaigns = Campaign.query.filter_by(public=True).order_by(Campaign.creation_date.desc()).all()
+    users=[]
+    campaigns=[]
+    for campaign in all_campaigns:
+        user = User.query.get(campaign.user_id)
+        users.append(user)
+        campaigns.append(campaign)
+        
+    feed = zip(campaigns, users)
+    content = user_content(current_user.id)
+    return render_template('feed.html', feed=feed, content=content)
+
 @app.route('/facebook/login')
 def fb_login():
     redirect_uri = url_for('facebook_callback', _external=True)
