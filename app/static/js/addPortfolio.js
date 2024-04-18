@@ -94,13 +94,11 @@ function applyPortfolioFormStyles() {
             card.style.width = '40%'
         }
 
-        // Adjust card header padding
         var cardHeader = form.querySelector('.card-header');
         if (cardHeader) {
             cardHeader.style.paddingBottom = '3%';
         }
 
-        // Adjust form control styles
         var formControls = form.querySelectorAll('.form-control');
         formControls.forEach(function(control) {
             control.style.width = '100%'; 
@@ -116,7 +114,6 @@ function applyPortfolioFormStyles() {
             formControlFile.style.marginBottom = '4%';
         }
 
-        // Adjust submit button styles
         var submitButton = form.querySelector('.btn-secondary');
         if (submitButton) {
             submitButton.style.width = '40%';

@@ -31,7 +31,7 @@
       position: absolute;
       top: 18%;
       left: 50%;
-      transform: translate(-50%, -25%);
+      transform: translate(-50%, -85%);
       text-align: center;
       color: #ffffff; / Set the text color to white /
       z-index: 1; / Ensure the text appears above the particles */
@@ -50,9 +50,9 @@
       </div>
 
   <!-- Main content -->
-  <div class = "container">
-    <div class = "row">
-        <div class = "col-md-6 mx-auto">
+  <div class = "container justify-content-center">
+    <div class = "row justify-content-center">
+        <div class = "col-md-5 mx-auto">
           <div class="container rounded" style="background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(5px);">
             <div class = "text-center">
               <p>
@@ -68,80 +68,80 @@
               </p>
           </div>
         </div>
-        <div class = "col-md-6 mx-auto">
-
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                  <div class="alert alert-{{ category }}">
-                      {{ message }}
-                  </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
           {% if not current_user.is_authenticated %}
-            <section id="login" class = "text-center">
-              <div class="logincard" id="loginForm">
-                  <form action="/login/submit" method="POST" class="login webform"  role="form">
-                      
-                      <h5 class="logincard-title"> Login</h5>
-      
-                      <div class="pt-4">
-                          <input type="email" class="logincard-email-input bg-dark text-light" name="email" id="email" placeholder="Email" required>
-                      </div>
-      
-                      <div class="pb-2">
-                          <input type="text" class="logincard-password-input bg-dark text-light" name="password" id="password" placeholder="Password" required>
-                      </div>
-      
-                      <button type="submit" class="btn btn-secondary" id="submit-button" name="submit">Login</button>
-                      <!-- <button type="reset" class="cancel-button" onclick="closeLoginForm()">Cancel</button> -->
-                  </form>
-              </div>
-            </section>
+          <div class = "col-md-3 mx-auto">
+            <!-- <section id="login" class = "text-center"> -->
+                <div class="card" style="background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(5px); width:100%;">
+                    <form action="/login/submit" method="POST" class="login webform"  role="form">
+                        {{ login_form.csrf_token }}
+                        <div class="card-header">
+                            <h2>Login</h2>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ login_form.email.label }}</h5>
+                            {{ login_form.email(class="form-control bg-dark text-light", id="email") }}
     
-            <section id="signup" class = "text-center">
-            
-                <div class="pt-4" id="signupForm">
-                    <form action="/signup" method="POST" class=""  role="form">
-                        
-                        <h5 class=""> Sign Up</h5>
-            
-                        <div class="pt-4">
-                            <input type="text" class="bg-dark text-light" name="username" id="username" placeholder="Username" required>
+                            <h5 class="card-title">{{ login_form.password.label }}</h5>
+                            {{ login_form.password(class="form-control bg-dark text-light", id="password") }}
                         </div>
-            
-                        <div class="">
-                            <input type="text" class="bg-dark text-light" name="first_name" id="first_name" placeholder="First Name" required>
+    
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-secondary">Login</button>
                         </div>
-            
-                        <div class="">
-                            <input type="text" class="bg-dark text-light" name="last_name" id="last_name" placeholder="Last Name" required>
-                        </div>
-            
-                        <div class="">
-                            <input type="email" class="bg-dark text-light" name="email" id="email" placeholder="Email" required>
-                        </div>
-            
-                        <div class="">
-                            <input type="text" class="bg-dark text-light" name="password" id="password" placeholder="Password" required>
-                        </div>
-            
-                        <div class="pb-2">
-                            <input type="text" class="bg-dark text-light" name="password_verification" id="password_verification" placeholder="Password Retype" required>
-                        </div>
-            
-                        <button type="submit" class="btn btn-secondary" id="submit-button" name="submit">Sign Up</button>
-                        <!-- <button type="reset" class="" onclick="closeSignupForm()">Cancel</button> -->
                     </form>
                 </div>
-            </section>
+            </div>
+            <div class = "col-md-3 mx-auto">
+              <div class="card" style="background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(5px); width:100%;">
+                    <form action="/signup" method="POST" class="login webform"  role="form">
+                        {{ signup_form.csrf_token }}
+                        <div class="card-header">
+                            <h2>Sign Up</h2>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ signup_form.username.label }}</h5>
+                            {{ signup_form.username(class="form-control bg-dark text-light", id="username") }}
+    
+                            <h5 class="card-title">{{ signup_form.first_name.label }}</h5>
+                            {{ signup_form.first_name(class="form-control bg-dark text-light", id="first_name") }}
+    
+                            <h5 class="card-title">{{ signup_form.last_name.label }}</h5>
+                            {{ signup_form.last_name(class="form-control bg-dark text-light", id="last_name") }}
+    
+                            <h5 class="card-title">{{ signup_form.email.label }}</h5>
+                            {{ signup_form.email(class="form-control bg-dark text-light", id="email") }}
+    
+                            <h5 class="card-title">{{ signup_form.password.label }}</h5>
+                            {{ signup_form.password(class="form-control bg-dark text-light", id="password") }}
+    
+                            <h5 class="card-title">{{ signup_form.passwordRetype.label }}</h5>
+                            {{ signup_form.passwordRetype(class="form-control bg-dark text-light", id="passwordRetype") }}
+                        </div>
+    
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-secondary">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+          </div>
+            {% else %}
+            <div class = "col-md-7 mx-auto" style="justify-content:center;">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            </div>
+
           {% endif %}
 
     </div>
     </div>
 </div>
-
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

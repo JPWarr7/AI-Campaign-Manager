@@ -1,46 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
-<body>
-    <div class="card" id="addCampaignFormDiv"style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px); width:100%;">
-        <form id="addCampaignForm" method="POST" action="{{ url_for('add_campaign') }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div
+      class="card"
+      id="addCampaignFormDiv"
+      style="
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7px);
+        width: 100%;
+      "
+    >
+      <form
+        id="addCampaignForm"
+        method="POST"
+        action="{{ url_for('add_campaign') }}"
+      >
         {{ form.csrf_token }}
-            <div class="card-header">
-                <h1>Add Campaign</h1>
-            </div>
+        <div class="card-header">
+          <h1>Add Campaign</h1>
+        </div>
 
-            <div class="card-body">
-                <h5 class="card-title">{{ form.campaign_name.label }}</h5>
-                {{ form.campaign_name(class="form-control bg-dark text-light", id="campaign_name") }}
+        <div class="card-body">
+          <h5 class="card-title">{{ form.campaign_name.label }}</h5>
+          {{ form.campaign_name(class="form-control bg-dark text-light",
+          id="campaign_name") }}
 
-                <h5 class="card-title">{{ form.perspective.label }}</h5>
-                {{ form.perspective(class="form-control bg-dark text-light", id="perspective") }}
+          <h5 class="card-title">{{ form.perspective.label }}</h5>
+          {{ form.perspective(class="form-control bg-dark text-light",
+          id="perspective") }}
 
-                <h5 class="card-title">{{ form.links.label }}</h5>
-                <!-- {{ form.links(class="form-control bg-dark text-light form-links", id="links") }} -->
-                <textarea class="form-control bg-dark text-light form-links" id="links" name="links" rows="5"></textarea>
+          <h5 class="card-title">{{ form.links.label }}</h5>
+          <!-- {{ form.links(class="form-control bg-dark text-light form-links", id="links") }} -->
+          <textarea
+            class="form-control bg-dark text-light form-links"
+            id="links"
+            name="links"
+            rows="5"
+          ></textarea>
 
-                <h5 class="card-title">{{ form.portfolio.label }}</h5>
-                <select class="form-select bg-dark text-light" aria-label="Portfolio drop-down" id="portfolio" name="portfolio" required>
-                    <option value = "" selected disabled>Select Portfolio</option>
+          <h5 class="card-title">{{ form.portfolio.label }}</h5>
+          <select
+            class="form-select bg-dark text-light"
+            aria-label="Portfolio drop-down"
+            id="portfolio"
+            name="portfolio"
+            required
+          >
+            <option value="" selected disabled>Select Portfolio</option>
 
-                    {% for portfolio_id, portfolio_name in form.portfolio.choices %}
-                        <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            {% for portfolio_id, portfolio_name in form.portfolio.choices %}
+            <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-            <div class="card-footer text-center">
-                {{ form.submit(class="btn btn-secondary") }}
-            </div>
-        </form>
+        <div class="card-footer text-center">
+          {{ form.submit(class="btn btn-secondary") }}
+        </div>
+      </form>
     </div>
-</body>
-<footer>
-    {% include 'footer.html' %}
-  </footer>
+  </body>
+  <footer>{% include 'footer.html' %}</footer>
 </html>
