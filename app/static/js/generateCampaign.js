@@ -168,11 +168,6 @@ function regenerateSummarization() {
         }
     };
 
-    // evtSource.addEventListener('summary', async function(event) {
-    //     await addEventData(event.data, responseAreaSummary);
-    //     // responseAreaSummary.innerHTML += event.data;
-    // });
-
     evtSource.addEventListener('final_summary', async function(event) {
         const tokens = event.data.split('');
         responseAreaSummary.innerHTML = '';
@@ -205,11 +200,6 @@ function regenerateAdvertisement() {
             $('#saveCampaign').show();
         }
     };
-
-    // evtSource.addEventListener('ad_text', async function(event) {
-    //     await addEventData(event.data, responseAreaAdText);
-    //     // responseAreaAdText.innerHTML += event.data;
-    // });
     
     evtSource.addEventListener('final_ad_text', async function(event) {
         const tokens = event.data.split('');

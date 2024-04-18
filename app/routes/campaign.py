@@ -53,8 +53,20 @@ def view_campaign(campaign_id):
     id = campaign.campaign_id
     portfolio_id = campaign.portfolio_id
     parent_id = campaign.parent_id
+    public = campaign.public
 
-    campaign = [name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id, portfolio_id, parent_id]
+    campaign = [name, 
+                creation_date, 
+                links, 
+                summarization, 
+                perspective, 
+                text_generated, 
+                image_prompt, 
+                image_generated, 
+                id, 
+                portfolio_id, 
+                parent_id, 
+                public]
     content = user_content(current_user.id)
     return render_template('viewCampaign.html', campaign=campaign, creator=creator, content = content)
 
@@ -103,6 +115,19 @@ def traverse_campaign_tree(campaign, current_user, visited=None):
 
     return campaign_data
 
+@app.route('/togglePublic/<int:campaign_id>', methods=['GET', 'POST'])
+@login_required
+def toggle_public(campaign_id):
+    campaign = Campaign.query.get(campaign_id)
+    data = request.json
+    checked = data['checked']
+    if checked: 
+        campaign.public = True
+        db.session.commit()
+    else:
+        campaign.public = False
+        db.session.commit()
+    return jsonify({'message': 'Campaign public status toggled successfully'})
 
 @app.route('/viewCampaign/log/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -341,6 +366,7 @@ def process_campaign():
     new_campaign.image_prompt = img_prompt
     new_campaign.image_generated = imgur_link
     new_campaign.parent_id = parent_id
+    new_campaign.public = True
 
     if call_type == 'new':
         campaign_creation_notification(current_user, new_campaign)

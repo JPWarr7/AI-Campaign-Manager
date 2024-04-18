@@ -1,82 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>View Campaigns</title>
 
     <style>
-        .card-text {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 4;
-            overflow: hidden;
-        }
+      .card-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     {% include 'navbar.html' %}
     <div class="container">
-        <div class="row justify-content-center">
+      <div class="row justify-content-center">
         <div class="col-md-6 text-center">
-            <div class = "py-3">
-                <h1>Your Campaigns</h1>
-                <hr>
-            </div>
+          <div class="py-3">
+            <h1>Your Campaigns</h1>
+            <hr />
+          </div>
         </div>
-        </div>
+      </div>
     </div>
 
     <div class="container">
-        <div class="card" style="background-color: rgba(80, 80, 80, 0.1); backdrop-filter: blur(3px);">
-            <!-- <div class="card-header">
+      <div
+        class="card"
+        style="
+          background-color: rgba(80, 80, 80, 0.1);
+          backdrop-filter: blur(3px);
+        "
+      >
+        <!-- <div class="card-header">
                 <b>{{current_user.username }} </b> - Campaigns
             </div> -->
-            <div class="card-body">
-            {% for row_campaign in campaigns %}
-                <div class="row" style="padding:1%;">
-                {% for campaign in row_campaign %}
-                    {% if campaign[4] == "add" %}
-                        <div class="col-sm-3">
-                            <div class="card my-card" style="height:100%; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);" campaign-id="{{ campaign[4] }}">
-                                <div class="card-body text-center" style="padding-top:25%">
-                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                        <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="none"></rect> 
-                                            <path d="M12 6V18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
-                                            <path d="M6 12H18" stroke="#b0b0b0" stroke-linecap="round" stroke-linejoin="round"></path> 
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div> 
-                    {% else %}
-                        <div class="col-sm-3">
-                            <div class="card my-card" style="height:100%; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);" campaign-id="{{ campaign[4] }}">
-                                <div class="card-header text-center">
-                                    <h6>{{ campaign[0] }}</h6>
-                                </div>
-                                <div class="card-body">
-                                    <img src="{{campaign[3]}}" alt="Image Generated" referrerpolicy="no-referrer" style="width: 100%;">
-                                    <p class = "card-text" style="padding-top:3%"><b> {{ current_user.username }} </b>{{ campaign[2] }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+        <div class="card-body">
+          {% for row_campaign in campaigns %}
+          <div class="row" style="padding: 1%">
+            {% for campaign in row_campaign %} {% if campaign[4] == "add" %}
+            <div class="col-sm-3">
+              <div
+                class="card my-card"
+                style="
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.4);
+                  backdrop-filter: blur(7px);
+                "
+                campaign-id="{{ campaign[4] }}"
+              >
+                <div class="card-body text-center" style="padding-top: 25%">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <rect width="24" height="24" fill="none"></rect>
+                      <path
+                        d="M12 6V18"
+                        stroke="#b0b0b0"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                      <path
+                        d="M6 12H18"
+                        stroke="#b0b0b0"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </g>
+                  </svg>
                 </div>
-            {% endfor %}
-    
+              </div>
             </div>
+            {% else %}
+            <div class="col-sm-3">
+              <div
+                class="card my-card"
+                style="
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.4);
+                  backdrop-filter: blur(7px);
+                "
+                campaign-id="{{ campaign[4] }}"
+              >
+                <div class="card-header text-center">
+                  <h6>{{ campaign[0] }}</h6>
+                </div>
+                <div class="card-body">
+                  <img
+                    src="{{campaign[3]}}"
+                    alt="Image Generated"
+                    referrerpolicy="no-referrer"
+                    style="width: 100%"
+                  />
+                  <p class="card-text" style="padding-top: 3%">
+                    <b> {{ current_user.username }} </b>{{ campaign[2] }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endif %} {% endfor %}
+          </div>
+          {% endfor %}
         </div>
+      </div>
     </div>
-        
-</body>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='js/viewCampaigns.js') }}"></script>
+  </body>
 
-<footer>
-    {% include 'footer.html' %}
-</footer>
-</html> 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{{ url_for('static', filename='js/viewCampaigns.js') }}"></script>
+
+  <footer>{% include 'footer.html' %}</footer>
+</html>

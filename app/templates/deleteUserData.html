@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
-<body>
-    <div class="card" id="deleteUserDataFormDiv"style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px); width:100%;">
-        <form id="deleteUserDataForm" method="POST" action="{{ url_for('delete_user_data') }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div
+      class="card"
+      id="deleteUserDataFormDiv"
+      style="
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7px);
+        width: 100%;
+      "
+    >
+      <form
+        id="deleteUserDataForm"
+        method="POST"
+        action="{{ url_for('delete_user_data') }}"
+      >
         {{ form.csrf_token }}
-            <div class="card-header">
-                <h1>Delete User Data</h1>
-            </div>
+        <div class="card-header">
+          <h1>Delete User Data</h1>
+        </div>
 
-            <div class="card-body">
-                <h5 class="card-title">{{ form.email.label }}</h5>
-                {{ form.email(class="form-control bg-dark text-light", id="current_password") }}
-            </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ form.email.label }}</h5>
+          {{ form.email(class="form-control bg-dark text-light",
+          id="current_password") }}
+        </div>
 
-            <div class="card-footer text-center">
-                <button type="submit" class="btn btn-danger">Delete User Data</button>
-            </div>
-        </form>
+        <div class="card-footer text-center">
+          <button type="submit" class="btn btn-danger">Delete User Data</button>
+        </div>
+      </form>
     </div>
-</body>
-<footer>
-    {% include 'footer.html' %}
-  </footer>
+  </body>
+  <footer>{% include 'footer.html' %}</footer>
 </html>

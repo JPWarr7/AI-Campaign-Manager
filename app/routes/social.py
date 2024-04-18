@@ -8,8 +8,6 @@ from app.routes.functions.user_content import *
 import sys, requests
 
 
-# portfolio = Portfolio.query.filter_by(user_id=current_user.id).order_by(Portfolio.creation_date.desc()).first()
-
 @app.route('/feed')
 def feed():
     all_campaigns = Campaign.query.filter_by(public=True).order_by(Campaign.creation_date.desc()).all()

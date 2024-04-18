@@ -1,37 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <div class="card" id="addPortfolioFormDiv" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px); width:100%;">
-        <form id="addPortfolioForm" method="POST" action="{{ url_for('add_portfolio') }}" enctype="multipart/form-data">
-            {{ form.csrf_token }}
-            <div class="card-header">
-                <h1>Add Portfolio</h1>
-            </div>
-    
-            <div class="card-body">
-                <h5 class="card-title">{{ form.portfolio_name.label }}</h5>
-                {{ form.portfolio_name(class="form-control bg-dark text-light", id="portfolio_name") }}
-    
-                <h5 class="card-title">{{ form.description.label }}</h5>
-                {{ form.description(class="form-control bg-dark text-light", id="description") }}
-    
-                <h5 class="card-title">{{ form.icon.label }}</h5>
-                {{ form.icon(class="form-control-file text-light", id="icon") }}
-            </div>
-    
-            <div class="card-footer text-center">
-                <button type="submit" class="btn btn-secondary">Save Portfolio</button>
-            </div>
-        </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div
+      class="card"
+      id="addPortfolioFormDiv"
+      style="
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7px);
+        width: 100%;
+      "
+    >
+      <form
+        id="addPortfolioForm"
+        method="POST"
+        action="{{ url_for('add_portfolio') }}"
+        enctype="multipart/form-data"
+      >
+        {{ form.csrf_token }}
+        <div class="card-header">
+          <h1>Add Portfolio</h1>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ form.portfolio_name.label }}</h5>
+          {{ form.portfolio_name(class="form-control bg-dark text-light",
+          id="portfolio_name") }}
+
+          <h5 class="card-title">{{ form.description.label }}</h5>
+          {{ form.description(class="form-control bg-dark text-light",
+          id="description") }}
+
+          <h5 class="card-title">{{ form.icon.label }}</h5>
+          {{ form.icon(class="form-control-file text-light", id="icon") }}
+        </div>
+
+        <div class="card-footer text-center">
+          <button type="submit" class="btn btn-secondary">
+            Save Portfolio
+          </button>
+        </div>
+      </form>
     </div>
-
-</body>
-<footer>
-    {% include 'footer.html' %}
-</footer>
+  </body>
+  <footer>{% include 'footer.html' %}</footer>
 </html>
-
