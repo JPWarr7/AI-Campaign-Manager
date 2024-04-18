@@ -27,7 +27,8 @@ def add_campaign():
             name=form.campaign_name.data,
             links=form.links.data,
             perspective=form.perspective.data,
-            portfolio_id = form.portfolio.data
+            portfolio_id = form.portfolio.data,
+            current = True
         )
         db.session.add(campaign)
         db.session.commit()
@@ -158,7 +159,8 @@ def edit_campaign(campaign_id):
             links = campaign.links,
             perspective = campaign.perspective,
             parent_id = campaign.campaign_id,
-            portfolio_id = campaign.portfolio_id
+            portfolio_id = campaign.portfolio_id,
+            current = True
             )
         
         db.session.add(new_campaign)

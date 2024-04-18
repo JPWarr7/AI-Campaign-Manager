@@ -11,7 +11,7 @@ def user_content(user_id):
     portfolios = []
     content = []
     for campaign in all_campaigns:
-        if campaign.image_generated is None:
+        if campaign.image_generated is None and campaign.current is None:
             db.session.delete(campaign)
         else:
             name = campaign.name
