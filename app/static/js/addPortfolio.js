@@ -17,6 +17,8 @@ function loadAddPortfolioForm() {
                 addPortfolioFormDiv.appendChild(portfolioForm);
 
                 applyPortfolioFormStyles();
+                applyTooltips();
+                
                 addPortfolioFormDiv.style.display = "block";
                 blurContent();
 
@@ -119,4 +121,16 @@ function applyPortfolioFormStyles() {
             submitButton.style.width = '40%';
         }
     }
+}
+
+
+function applyTooltips() {
+    $('[data-toggle="tooltip"]').tooltip({
+        html:true,
+    });
+
+    $('[data-toggle="tooltip"]').on('click', function () {
+        // Trigger the tooltip manually
+        $(this).tooltip('show');
+      });
 }
