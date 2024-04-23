@@ -21,6 +21,10 @@ def home():
     content = user_content(current_user.id)
     return render_template('home.html', content = content)
 
+@app.route('/devs', methods=["GET", "POST"])
+def devs():
+    return render_template('devs.html')
+
 @app.route('/privacypolicy')
 def privacy_policy():
     return render_template('privacyPolicy.html')
