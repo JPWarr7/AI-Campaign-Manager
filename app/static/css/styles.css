@@ -408,6 +408,26 @@ footer {
   }
 }
 
-.tooltip {
-  background-color: rgba(0, 0, 0, 0.2); 
+
+/* devs */
+
+.card-devs {
+  margin: 0 auto; /* Center the cards */
+  float: none; /* Remove the default float */
+  margin-bottom: 20px; /* Add some spacing between the cards */
+  transition: all 0.3s;
+  padding-top: 50px;
+  box-shadow: 0 16px 32px rgba(136, 0, 255, 0.8);
+
 }
+.card-devs img {
+  filter: grayscale(100%);
+
+}
+
+.card-devs:hover {
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(136, 0, 255, 0.8);
+  transform: scale(1.02);
+}
+
