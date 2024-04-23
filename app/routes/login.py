@@ -10,7 +10,9 @@ import sys
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login_page():
-    return render_template('login.html')
+    login_form = SignInForm()
+    signup_form = SignUpForm()
+    return render_template('login.html', login_form=login_form, signup_form=signup_form)
 
 @app.route('/login/submit', methods = ['GET', 'POST'])
 def login_submit():
@@ -34,12 +36,12 @@ def signup():
     last_name = request.form['last_name']
     email = request.form['email']
     password = request.form['password']
-    password_verification = request.form['password_verification']
+    password_retype = request.form['passwordRetype']
         
     user = db.session.query(User).filter_by(email=email).first()
     
     if user is None:
-        if password == password_verification:
+        if password == password_retype:
             # Create new user object and add to database
             user = User(username=user_name,first_name=first_name, last_name=last_name, email=email, newuser = True)
             user.set_password(password)
@@ -69,44 +71,3 @@ def logout():
     logout_user()
     flash('You have been successfully logged out.', 'success')
     return redirect(url_for('landing'))
-
-@app.route('/changepassword', methods=['GET', 'POST'])
-@login_required
-def change_password():     
-    new_password = request.form['new_password']
-    password_retype = request.form['password_retype']
-        
-    if new_password != password_retype:
-        flash('Passwords do not match.', 'danger')
-    else:
-        new_password_hash = generate_password_hash(new_password)
-        current_user.password = new_password_hash
-        db.session.commit()
-        flash('Your password has been updated. Please sign in again.', 'success')
-        
-        # Log user out after changing the password
-        password_change_notification(user = db.session.query(User).filter_by(id=current_user.id))
-        logout_user()
-        return redirect(url_for('landing'))
-    
-    return redirect(url_for('index'))
-
-
-@app.route('/delete_user_data', methods=['GET', 'POST'])
-@login_required
-def delete_user_data():
-    if request.method == 'POST':
-        email = request.form['email']
-        user = User.query.filter_by(email=email).first()
-        if user:
-            user.delete_user_data()
-            return redirect(url_for('deleted_successfully'))
-        else:
-            return render_template('deleteUserData.html', error="User with provided email does not exist.")
-    content = user_content(current_user.id)
-    return render_template('deleteUserData.html', content=content)
-
-@app.route('/deleted_successfully')
-def deleted_successfully():
-    return render_template('dataDeletedSuccessfully.html', error="User with provided email does not exist.")
-

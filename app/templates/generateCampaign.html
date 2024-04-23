@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
         <div class = "py-3">
-            <h1>{{ new_campaign.name }}</h1>
+            <h1>Generate Campaign</h1>
             <hr>
         </div>
       </div>
@@ -24,24 +24,23 @@
         <div class = "col-sm-7">
             <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px);">
                 <div class="card-header">
-                    <h6><b>{{ new_campaign.name }}</b> - {{ new_campaign.creation_date }}</h6>
+                    <textarea class="form-control bg-dark text-light" id="campaignName" name="campaignName" rows="1" style="width:40%;">{{ new_campaign.name }}</textarea>
                 </div>
 
                 <div class="card-body">
                     <h5 class="card-title">Perspective:</h5>
-                    <p class = "card-text">{{ new_campaign.perspective }}</p>
-                    <h5 class="card-title">Links:</h5>
-                    <p class = "card-text">
-                    {% for link in new_campaign.links.split() %}
-                        <a href="{{ link }}"target="_blank">{{ link }}</a><br>
-                    {% endfor %}
-                    </p>
-                    <h5 class="card-title">Summarization:</h5>
-                    <p class = "card-text" style="vertical-align: top;" id="summary"></p>
+                    <textarea class="form-control bg-dark text-light" id="campaignPerspective" name="campaignPerspective" rows="1" style="width:40%;">{{ new_campaign.perspective }}</textarea>
+                    <h5 class="card-title" style="padding-top:1%;">Links:</h5>
+                    {% with links=new_campaign.links.split("\n")|join("\n") %}
+                        <textarea class="form-control bg-dark text-light form-links" id="campaignLinks" name="campaignLinks" rows="7">{{ links }}</textarea>
+                    {% endwith %}
+                    <h5 class="card-title" style="padding-top:1%;">Summarization:</h5>
+                    <textarea class="form-control bg-dark text-light" style="vertical-align:top;" id="summary" name="summary" rows="20"></textarea>
+
                     <div id ="regenerateSummarization" style="display:none; align-content:center; padding-top:2%;">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control bg-dark text-light" placeholder="Refine your summary?" id="regenerateSummarizationInput" aria-label="Refine your summary?" aria-describedby="regenerateSummarizationButton">
-                            <button class="btn btn-outline-secondary" type="button" id="regenerateSummarizationButton" onclick="regenerateSummarization()">Regenerate Summary</button>
+                            <button class="btn btn-secondary" type="button" id="regenerateSummarizationButton" onclick="regenerateSummarization()">Regenerate Summary</button>
                         </div>
                     </div>
                     <div class="text-center" id ="saveCampaign" style= "display:none;">
@@ -64,16 +63,17 @@
                         <div id ="regenerateImage" style= "display:none; align-content:center; padding-top:2%;">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control bg-dark text-light" placeholder="Refine your image?" id="regenerateImageInput" aria-label="Refine your image?" aria-describedby="regenerateImageButton">
-                                <button class="btn btn-outline-secondary" type="button" id="regenerateImageButton" onclick="regenerateImage()">Regenerate Image</button>
+                                <button class="btn btn-secondary" type="button" id="regenerateImageButton" onclick="regenerateImage()">Regenerate Image</button>
                               </div>
                         </div>
                     </div>
                     <div class="row h-30" style="height:30vh;">
-                        <p class = "card-text" style = "bottom:15%;padding-top:3%;" id="ad_text"></p>
+
+                        <textarea class="form-control bg-dark text-light" id="ad_text" style = "bottom:15%;padding-top:3%;" name="ad_text" rows="7"></textarea>
                         <div id ="regenerateAdvertisement" style="display:none; align-content:center; padding-top:2%; z-index:100;">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control bg-dark text-light" placeholder="Refine your advertisement?" id="regenerateAdvertisementInput" aria-label="Refine your advertisement?" aria-describedby="regenerateAdvertisementButton">
-                                <button class="btn btn-outline-secondary" type="button" id="regenerateAdvertisementButton"onclick="regenerateAdvertisement()">Regenerate Ad</button>
+                                <button class="btn btn-secondary" type="button" id="regenerateAdvertisementButton"onclick="regenerateAdvertisement()">Regenerate Ad</button>
                             </div>
 
                         </div>

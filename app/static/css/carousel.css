@@ -1,0 +1,68 @@
+/* -------------- CAROUSEL ------------- */
+
+.carousel {
+    position: absolute;
+    right: 2%;
+      display: grid;
+      grid-template-columns: repeat(100, 12vw);
+      grid-template-rows: 1fr;
+      overflow: scroll;
+      width:30vh;
+      scroll-snap-type: both mandatory;
+      /* scroll-padding: 1rem; */
+    scroll-padding: 0;
+    /* grid-column-gap: 0.1rem; */
+    grid-column-gap: 0;
+  }
+  
+  .active {
+      scroll-snap-type: mandatory;
+  }
+  
+  .carousel-li {
+    scroll-snap-align: center center;
+    /* border-radius: 3px; */
+    font-size: 0;
+    width: 21vw;
+    height: 21vh;
+  }
+  
+  .carousel-li img {
+    object-fit: contain; 
+    width: 100%; 
+    height: 100%; 
+  }
+
+  .carousel-landing {
+    position: absolute;
+    /* left: 0; */
+      display: grid;
+      grid-template-columns: repeat(100, 18vw);
+      grid-template-rows: 1fr;
+      overflow: scroll;
+      width:97%;
+      /* scroll-snap-type: both mandatory; */
+      /* scroll-padding: 1rem; */
+    scroll-padding: 0;
+    /* grid-column-gap: 0.1rem; */
+    grid-column-gap: 0;
+  }
+  
+  .active {
+      scroll-snap-type: mandatory;
+  }
+  
+  .carousel-landing-li {
+    scroll-snap-align: center center;
+    /* border-radius: 3px; */
+    font-size: 0;
+    width: 30vw;
+    height: 40vh;
+    padding-top:10%;
+  }
+  
+  .carousel-landing-li img {
+    object-fit: contain; 
+    width: 100%; 
+    height: 100%; 
+  }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campaign Tree</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/tree.css" />
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+          <div class="py-3">
+            <h1>View Tree</h1>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="campaign-tree-container" style="align-self: center">
+        <div id="tree">
+          <div class="branch">
+            {% macro render_campaign(campaign) %}
+            <div class="entry">
+              <span>
+                <div
+                  class="card my-card"
+                  style="
+                    width: 10vw;
+                    background-color: rgba(0, 0, 0, 0.35);
+                    backdrop-filter: blur(10px);
+                    z-index: 100;
+                    border: 1px solid #ccc;
+                  "
+                  campaign-id="{{ campaign.campaign_id }}"
+                >
+                  <div class="card-header text-center">
+                    <h6>{{ campaign.name }}</h6>
+                  </div>
+                  <div class="card-body">
+                    <img
+                      src="{{campaign.image_generated}}"
+                      alt="Image Generated"
+                      referrerpolicy="no-referrer"
+                      style="width: 100%"
+                    />
+                    <p class="card-text" style="padding-top: 10px">
+                      <b>{{ current_user.username }}</b> {{
+                      campaign.text_generated }}
+                    </p>
+                  </div>
+                </div>
+              </span>
+              {% if campaign.children %}
+              <div class="branch">
+                {% for child in campaign.children %} {{ render_campaign(child)
+                }} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endmacro %} {{ render_campaign(campaign_data) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/campaignTree.js') }}"></script>
+  </body>
+
+  <footer>{% include 'footer.html' %}</footer>
+</html>

@@ -1,46 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
-<body>
-    <div class="card" id="addCampaignFormDiv"style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(7px); width:100%;">
-        <form id="addCampaignForm" method="POST" action="{{ url_for('add_campaign') }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+    <div
+      class="card"
+      id="addCampaignFormDiv"
+      style="
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7px);
+        width: 100%;
+      "
+    >
+      <form
+        id="addCampaignForm"
+        method="POST"
+        action="{{ url_for('add_campaign') }}"
+      >
         {{ form.csrf_token }}
-            <div class="card-header">
-                <h1>Add Campaign</h1>
+        <div class="card-header">
+          <h1>Add Campaign</h1>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">
+            <a
+              data-toggle="tooltip"
+              data-bs-placement="left"
+              data-html="true"
+              title='
+            <div class="card bg-dark">
+              <div class="card-body w-100">
+                <h5 class="card-title">Name</h5>
+                <p class="card-text text-left">Name your campaign! (typically the name of the product)</p>
+              </div>
             </div>
+          '
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-question-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"
+                />
+              </svg>
+            </a>
+            {{ form.campaign_name.label }}
+          </h5>
+          {{ form.campaign_name(class="form-control bg-dark text-light",
+          id="campaign_name") }}
 
-            <div class="card-body">
-                <h5 class="card-title">{{ form.campaign_name.label }}</h5>
-                {{ form.campaign_name(class="form-control bg-dark text-light", id="campaign_name") }}
-
-                <h5 class="card-title">{{ form.perspective.label }}</h5>
-                {{ form.perspective(class="form-control bg-dark text-light", id="perspective") }}
-
-                <h5 class="card-title">{{ form.links.label }}</h5>
-                <!-- {{ form.links(class="form-control bg-dark text-light form-links", id="links") }} -->
-                <textarea class="form-control bg-dark text-light form-links" id="links" name="links" rows="5"></textarea>
-
-                <h5 class="card-title">{{ form.portfolio.label }}</h5>
-                <select class="form-select bg-dark text-light" aria-label="Portfolio drop-down" id="portfolio" name="portfolio" required>
-                    <option value = "" selected disabled>Select Portfolio</option>
-
-                    {% for portfolio_id, portfolio_name in form.portfolio.choices %}
-                        <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
-                    {% endfor %}
-                </select>
+          <h5 class="card-title">
+            <a
+              data-toggle="tooltip"
+              data-bs-placement="left"
+              data-html="true"
+              title='
+            <div class="card bg-dark">
+              <div class="card-body w-100">
+                <h5 class="card-title">Perspective</h5>
+                <p class="card-text text-left">Provide the perspective for the advertisement to be encapsulating.</p>
+              </div>
             </div>
+          '
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-question-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"
+                />
+              </svg>
+            </a>
+            {{ form.perspective.label }}
+          </h5>
 
-            <div class="card-footer text-center">
-                {{ form.submit(class="btn btn-secondary") }}
+          {{ form.perspective(class="form-control bg-dark text-light",
+          id="perspective") }}
+
+          <h5 class="card-title">
+            <a
+              data-toggle="tooltip"
+              data-bs-placement="left"
+              data-html="true"
+              title='
+              <div class="card bg-dark">
+                <div class="card-body w-100">
+                  <h5 class="card-title">Links</h5>
+                  <p class="card-text text-left">Input links to the content to be summarized, separated by a space.</p>
+                </div>
+              </div>
+            '
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-question-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"
+                />
+              </svg>
+            </a>
+            {{ form.links.label }}
+          </h5>
+          <!-- {{ form.links(class="form-control bg-dark text-light form-links", id="links") }} -->
+          <textarea
+            class="form-control bg-dark text-light form-links"
+            id="links"
+            name="links"
+            rows="5"
+          ></textarea>
+
+          <h5 class="card-title">
+            <a
+              data-toggle="tooltip"
+              data-bs-placement="left"
+              data-html="true"
+              title='
+            <div class="card bg-dark">
+              <div class="card-body w-100">
+                <h5 class="card-title">Portfolio</h5>
+                <p class="card-text text-left">Choose which portfolio you would like to store this campaign.</p>
+              </div>
             </div>
-        </form>
+          '
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-question-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"
+                />
+              </svg>
+            </a>
+            {{ form.portfolio.label }}
+          </h5>
+          <select
+            class="form-select bg-dark text-light"
+            aria-label="Portfolio drop-down"
+            id="portfolio"
+            name="portfolio"
+            required
+          >
+            <option value="" selected disabled>Select Portfolio</option>
+
+            {% for portfolio_id, portfolio_name in form.portfolio.choices %}
+            <option value="{{portfolio_id}}">{{ portfolio_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="card-footer text-center">
+          {{ form.submit(class="btn btn-secondary") }}
+        </div>
+      </form>
     </div>
-</body>
-<footer>
-    {% include 'footer.html' %}
-  </footer>
+  </body>
+  <footer>{% include 'footer.html' %}</footer>
 </html>

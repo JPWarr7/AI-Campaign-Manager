@@ -6,7 +6,7 @@ from flask import render_template, redirect, send_from_directory, url_for, flash
 from flask_login import login_required, current_user
 from time import sleep
 import sys
-from .functions.openai import summarization, text_generation, image_generation, image_regeneration, text_regeneration
+from .functions.openai import *
 from app.routes.functions.mail import *
 from app.routes.functions.imgur import *
 from app.routes.functions.user_content import user_content
@@ -27,7 +27,8 @@ def add_campaign():
             name=form.campaign_name.data,
             links=form.links.data,
             perspective=form.perspective.data,
-            portfolio_id = form.portfolio.data
+            portfolio_id = form.portfolio.data,
+            current = True
         )
         db.session.add(campaign)
         db.session.commit()
@@ -36,50 +37,113 @@ def add_campaign():
         return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'new'))
     
     flash('Failed to add campaign. Please check your input.', 'error')
-    # content = user_content(current_user.id)
-    # return render_template('addCampaign.html', form = form, content=content)
 
 @app.route('/viewCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
 def view_campaign(campaign_id):
     campaign = Campaign.query.get(campaign_id)
+    creator = current_user.id == campaign.user_id
+    name = campaign.name
+    creation_date = campaign.creation_date
+    links = campaign.links
+    summarization = campaign.summarization
+    perspective = campaign.perspective
+    text_generated = campaign.text_generated
+    image_prompt = campaign.image_prompt
+    image_generated = campaign.image_generated
+    id = campaign.campaign_id
+    portfolio_id = campaign.portfolio_id
+    parent_id = campaign.parent_id
+    public = campaign.public
+
+    campaign = [name, 
+                creation_date, 
+                links, 
+                summarization, 
+                perspective, 
+                text_generated, 
+                image_prompt, 
+                image_generated, 
+                id, 
+                portfolio_id, 
+                parent_id, 
+                public]
+    content = user_content(current_user.id)
+    return render_template('viewCampaign.html', campaign=campaign, creator=creator, content = content)
+
+def find_root_campaign(campaign):
+    while campaign.parent_id != campaign.campaign_id:
+        new_campaign = Campaign.query.get(campaign.parent_id)
+        if not new_campaign:
+            break
+        campaign = new_campaign
+    return campaign
+
+def traverse_campaign_tree(campaign, current_user, visited=None):
+    if visited is None:
+        visited = set()
+
+    # Check if the campaign has already been visited
+    if campaign.campaign_id in visited:
+        return None
+    
+    visited.add(campaign.campaign_id)
+
+    campaign_data = {
+        'campaign_id': campaign.campaign_id,
+        'name': campaign.name,
+        'creation_date': campaign.creation_date,
+        'links': campaign.links,
+        'summarization': campaign.summarization,
+        'perspective': campaign.perspective,
+        'text_generated': campaign.text_generated,
+        'image_prompt': campaign.image_prompt,
+        'image_generated': campaign.image_generated,
+        'portfolio_id': campaign.portfolio_id,
+        'current': campaign.current,
+        'public': campaign.public,
+        'children': []
+    }
+
+    # Query children campaigns
+    children_campaigns = Campaign.query.filter_by(user_id=current_user.id, parent_id=campaign.campaign_id).all()
+
+    # Recursively traverse children
+    for child_campaign in children_campaigns:
+        child_data = traverse_campaign_tree(child_campaign, current_user, visited)
+        if child_data:
+            campaign_data['children'].append(child_data)
+
+    return campaign_data
+
+@app.route('/togglePublic/<int:campaign_id>', methods=['GET', 'POST'])
+@login_required
+def toggle_public(campaign_id):
+    campaign = Campaign.query.get(campaign_id)
+    data = request.json
+    checked = data['checked']
+    if checked: 
+        campaign.public = True
+        db.session.commit()
+    else:
+        campaign.public = False
+        db.session.commit()
+    return jsonify({'message': 'Campaign public status toggled successfully'})
+
+@app.route('/viewCampaign/log/<int:campaign_id>', methods=['GET', 'POST'])
+@login_required
+def view_campaign_log(campaign_id):
+    campaign = Campaign.query.get(campaign_id)
     if campaign.user_id != current_user.id:
         message = "The user does not have permission to view this campaign!"
         return render_template('error.html', message=message)
     else:
-        name = campaign.name
-        creation_date = campaign.creation_date
-        links = campaign.links
-        summarization = campaign.summarization
-        perspective = campaign.perspective
-        text_generated = campaign.text_generated
-        image_prompt = campaign.image_prompt
-        image_generated = campaign.image_generated
-        id = campaign.campaign_id
-        portfolio_id = campaign.portfolio_id
-        parent_id = campaign.parent_id
-
-        campaign = [name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id, portfolio_id, parent_id]
-
-        # all_campaigns = Campaign.query.filter_by(parent_id = parent_id).order_by(Campaign.creation_date.desc()).all()
-        # campaigns = []
-        
-        # for campaign in all_campaigns:
-        #     name = campaign.name
-        #     creation_date = campaign.creation_date
-        #     links = campaign.links
-        #     summarization = campaign.summarization
-        #     perspective = campaign.perspective
-        #     text_generated = campaign.text_generated
-        #     image_prompt = campaign.image_prompt
-        #     image_generated = campaign.image_generated
-        #     id = campaign.campaign_id
-        #     parent_id = campaign.parent_id
-        #     campaigns.append((name, creation_date, links, summarization, perspective, text_generated, image_prompt, image_generated, id))
-
+        root_campaign = find_root_campaign(campaign)
+        campaign_data = traverse_campaign_tree(root_campaign, current_user)
         content = user_content(current_user.id)
+        # print(campaign_data)
+        return render_template('campaignTree.html', campaign_data=campaign_data, content=content)
 
-        return render_template('viewCampaign.html', campaign=campaign, content = content)
 
 @app.route('/editCampaign/<int:campaign_id>', methods=['GET', 'POST'])
 @login_required
@@ -88,42 +152,28 @@ def edit_campaign(campaign_id):
     if campaign.user_id != current_user.id:
         message = "The user does not have permission to edit this campaign!"
         return render_template('error.html', message=message)
-    else:
-        form = EditCampaignForm()
-        if form.validate_on_submit():            
-            new_campaign = Campaign(
-                user_id=current_user.id,
-                name=form.campaign_name.data,
-                links=form.links.data,
-                perspective=form.perspective.data,
-                parent_id = campaign.campaign_id,
-                portfolio_id = campaign.portfolio_id
+    else:          
+        new_campaign = Campaign(
+            user_id=current_user.id,
+            name = campaign.name,
+            links = campaign.links,
+            perspective = campaign.perspective,
+            parent_id = campaign.campaign_id,
+            portfolio_id = campaign.portfolio_id,
+            current = True
             )
-            db.session.add(new_campaign)
-            db.session.commit()
+        
+        db.session.add(new_campaign)
+        db.session.commit()
 
-            new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
-            content = user_content(current_user.id)
-            return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
-    content = user_content(current_user.id)
-    return render_template('editCampaign.html',campaign = campaign, form = form, content = content)
-
+        new_campaign = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).first()
+        content = user_content(current_user.id)
+        return redirect(url_for('generate_campaign', new_campaign_id = new_campaign.campaign_id, call_type = 'edit'))
 
 @app.route('/viewCampaigns', methods=['GET', 'POST'])
 @login_required
 def view_campaigns():
-    # call_type = request.args.get('call_type')
-    # id = request.args.get('id')
-    
-    # if call_type == 'user':
-    #     if int(id) != current_user.id:
-    #         message = "The user does not have permission to view another user's campaigns!"
-    #         return render_template('error.html', message=message)
-    #     else:
     all_campaigns = Campaign.query.filter_by(user_id = current_user.id).order_by(Campaign.creation_date.desc()).all()
-        
-    # elif call_type == 'portfolio':
-    #     all_campaigns = Campaign.query.filter_by(portfolio_id = id).order_by(Campaign.creation_date.desc()).all()
         
     campaigns = []  
     row_campaigns = []
@@ -147,12 +197,7 @@ def view_campaigns():
         campaigns.append(row_campaigns)
 
     content = user_content(current_user.id)
-    
-    # if call_type == 'user':
     return render_template('viewCampaigns.html', campaigns=campaigns, content=content)
-        
-    # elif call_type == 'portfolio':
-    #     return render_template('viewPortfolio.html', campaigns=campaigns, content=content)
 
 @app.route('/generateCampaign', methods=['GET', 'POST'])
 @login_required
@@ -300,6 +345,9 @@ def create_campaign(new_campaign_id, call_type):
 def process_campaign():
     data = request.get_json()
 
+    name = data['name']
+    links = data['links']
+    perspective = data['perspective']
     new_campaign_id = int(data['new_campaign_id'])
     call_type = data['call_type']
     summary = data['summary']
@@ -312,11 +360,15 @@ def process_campaign():
     old_campaign = Campaign.query.get(parent_id)
     
     imgur_link = image_upload(image_url)
+    new_campaign.name = name
+    new_campaign.links = links
+    new_campaign.perspective = perspective
     new_campaign.summarization = summary
     new_campaign.text_generated = ad_text
     new_campaign.image_prompt = img_prompt
     new_campaign.image_generated = imgur_link
     new_campaign.parent_id = parent_id
+    new_campaign.public = True
 
     if call_type == 'new':
         campaign_creation_notification(current_user, new_campaign)
@@ -333,7 +385,9 @@ def regenerate_image():
     data = request.get_json()
     img_url = data['img_url']
     feedback = data['feedback']
-    new_img = image_regeneration(feedback, img_url)
+    ad_text = data['ad_text']
+    perspective = data['perspective']
+    new_img = image_regeneration(feedback, img_url, ad_text, perspective)
     return jsonify({'new_image_url': new_img})
 
 @app.route('/regenerateSummarization', methods=['GET','POST'])
@@ -341,10 +395,11 @@ def regenerate_image():
 def regenerate_summarization():
     prompt = request.args.get('summarization', '')
     feedback = request.args.get('feedback', '')
+    links = request.args.get('links', '')
     
     def regeneration_function(prompt, feedback):
         summary = ''
-        for chunk in text_regeneration(prompt, feedback):
+        for chunk in summary_regeneration(prompt, feedback, links):
             # yield f"event: summary\ndata: {chunk}\n\n"
             summary += chunk
             
@@ -364,10 +419,12 @@ def regenerate_summarization():
 def regenerate_advertisement():
     prompt = request.args.get('ad_text', '')
     feedback = request.args.get('feedback', '')
+    perspective = request.args.get('perspective', '')
+    summarization = request.args.get('summarization', '')
     
     def regeneration_function(prompt, feedback):
         ad_text = ''
-        for chunk in text_regeneration(prompt, feedback):
+        for chunk in advertisement_regeneration(prompt, feedback, perspective, summarization):
             # yield f"event: ad_text\ndata: {chunk}\n\n"
             ad_text += chunk
                  
@@ -381,3 +438,28 @@ def regenerate_advertisement():
     response = Response(response_stream, content_type="text/event-stream")
     response.headers['X-Accel-Buffering'] = 'no'
     return response
+
+@app.route('/deleteCampaign/<int:campaign_id>', methods=['GET', 'POST'])
+@login_required
+def delete_campaign(campaign_id):
+    campaign = Campaign.query.get(campaign_id)
+    if campaign.user_id != current_user.id:
+        message = "The user does not have permission to delete this campaign!"
+        return render_template('error.html', message=message)
+    else:
+        db.session.delete(campaign)
+        db.session.commit()
+        return redirect(url_for('view_campaigns'))
+    
+@app.route('/exportImage', methods=['GET', 'POST'])
+@login_required
+def export_img():
+    img_url = request.args.get('img_url')
+    if img_url:
+        response = export_image(img_url)
+        if response:
+            return response
+        else:
+            return jsonify(success=False, error="Unable to fetch the image"), 500
+    else:
+        return jsonify(success=False, error="Missing 'img_url' parameter"), 400

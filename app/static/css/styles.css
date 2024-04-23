@@ -295,6 +295,46 @@ footer {
   display: block; 
 }
 
+/* -------------- CHANGE PASSWORD FORM ------------- */
+
+#changePasswordFormDiv {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100; 
+  display: none; 
+  transition: all 0.3s ease; 
+}
+
+#changePasswordFormDiv.show {
+  display: block; 
+}
+
+/* -------------- DELETE USER DATA FORM ------------- */
+
+#deleteUserDataFormDiv {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100; 
+  display: none; 
+  transition: all 0.3s ease; 
+}
+
+#deleteUserDataFormDiv.show {
+  display: block; 
+}
+
 /* -------------- PORTFOLIO ICON ------------- */
 
 .portfolio-icon {
@@ -305,12 +345,21 @@ footer {
 
 
 .form-links {
-  height: 200px; /* Adjust the height as needed */
+  height: 200px; 
   overflow-y: auto;
-  resize: none; /* Prevent resizing */
-  line-height: normal; /* Reset line height */
-  white-space: pre-line; /* Allow overflow to create newlines */
-  padding-top: 0; /* Remove padding at the top */
+  resize: none; 
+  line-height: normal;
+  white-space: pre-line;
+  padding-top: 0;
+}
+
+.form-summarization {
+  height: 700px; 
+  overflow-y: auto;
+  resize: none; 
+  line-height: normal;
+  white-space: pre-line;
+  padding-top: 0;
 }
 
 /* -------------- LOADING ELLIPSIS ------------- */
@@ -359,6 +408,7 @@ footer {
   }
 }
 
+
 /* devs */
 
 .card-devs {
@@ -375,11 +425,9 @@ footer {
 
 }
 
-
 .card-devs:hover {
   cursor: pointer;
   box-shadow: 0 16px 32px rgba(136, 0, 255, 0.8);
   transform: scale(1.02);
 }
 
-/* popover tooltips */

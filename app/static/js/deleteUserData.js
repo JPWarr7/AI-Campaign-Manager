@@ -1,24 +1,25 @@
-var addCampaignLink = document.getElementById("addCampaignLink");
-var addCampaignFormDiv = document.getElementById("addCampaignFormDiv");
+var deleteUserDataLink = document.getElementById("deleteUserDataLink");
+var deleteUserDataFormDiv = document.getElementById("deleteUserDataFormDiv");
 var formBlurHandler = null;
 
-function loadAddCampaignForm() {
+function loadDeleteUserDataForm() {
     var async = new XMLHttpRequest();
-    async.open("GET", "/addCampaignForm");
+    async.open("GET", "/deleteUserDataForm");
     async.onreadystatechange = function() {
         if (async.readyState === 4) {
             if (async.status === 200) {
                 var tempDiv = document.createElement('div');
                 tempDiv.innerHTML = async.responseText;
 
-                var campaignForm = tempDiv.querySelector('form');
+                var deleteForm = tempDiv.querySelector('form');
 
-                addCampaignFormDiv.innerHTML = '';
-                addCampaignFormDiv.appendChild(campaignForm);
+                deleteUserDataFormDiv.innerHTML = '';
+                deleteUserDataFormDiv.appendChild(deleteForm);
 
-                applyCampaignFormStyles();
+                applyDeleteUserDataFormStyles();
                 applyTooltips();
-                addCampaignFormDiv.style.display = "block";
+                
+                deleteUserDataFormDiv.style.display = "block";
                 blurContent();
 
                 if (formBlurHandler) {
@@ -26,20 +27,20 @@ function loadAddCampaignForm() {
                 }
 
                 formBlurHandler = function(event) {
-                    if (!addCampaignFormDiv.contains(event.target)) {
-                        addCampaignFormDiv.style.display = "none";
+                    if (!deleteUserDataFormDiv.contains(event.target)) {
+                        deleteUserDataFormDiv.style.display = "none";
                         removeBlur();
                         document.body.removeEventListener("click", formBlurHandler);
                     }
                 };
                 document.body.addEventListener("click", formBlurHandler);
 
-                campaignForm.addEventListener("submit", function(event) {
+                deleteForm.addEventListener("submit", function(event) {
                     event.preventDefault();
-                    var formData = new FormData(campaignForm);
+                    var formData = new FormData(deleteForm);
                     showEllipsis();
                     var submitXhr = new XMLHttpRequest();
-                    submitXhr.open("POST", campaignForm.action);
+                    submitXhr.open("POST", deleteForm.action);
                     submitXhr.onreadystatechange = function() {
                         if (submitXhr.readyState === 4) {
                             if (submitXhr.status === 200) {
@@ -51,16 +52,16 @@ function loadAddCampaignForm() {
                     submitXhr.send(formData);
                 });
             } else {
-                console.error("Error fetching addCampaignForm:", async.status);
+                console.error("Error fetching deleteUserDataForm:", async.status);
             }
         }
     };
     async.send();
 }
 
-addCampaignLink.addEventListener("click", function(event) {
+deleteUserDataLink.addEventListener("click", function(event) {
     event.preventDefault();
-    loadAddCampaignForm();
+    loadDeleteUserDataForm();
 });
 
 function blurContent() {
@@ -79,8 +80,8 @@ function removeEllipsis() {
     $('#ellipsis').hide();
 }
 
-function applyCampaignFormStyles() {
-    var form = document.getElementById('addCampaignForm');
+function applyDeleteUserDataFormStyles() {
+    var form = document.getElementById('deleteUserDataForm');
     if (form) {
         form.style.width = '100%';
 
@@ -109,13 +110,6 @@ function applyCampaignFormStyles() {
             control.style.marginBottom = '4%';
         });
 
-        var selectElement = form.querySelector('.form-select');
-        if (selectElement) {
-            selectElement.style.width = '30%'; 
-            selectElement.style.padding = '8px';
-            selectElement.style.marginBottom = '4%';
-        }
-
         var submitButton = form.querySelector('.btn-secondary');
         if (submitButton) {
             submitButton.style.width = '40%';
@@ -123,6 +117,7 @@ function applyCampaignFormStyles() {
         }
     }
 }
+
 
 function applyTooltips() {
     $('[data-toggle="tooltip"]').tooltip({

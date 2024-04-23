@@ -100,12 +100,16 @@ evtSource.addEventListener('final_parent_id', function(event) {
 });
 
 function regenerateImage() {
+    const ad_text = responseAreaAdText;
+    const perspective = document.getElementById('campaignPerspective');
     const imgElement = document.getElementById('generated_image');
     const img_url = imgElement.src;
     const img_feedback = document.getElementById('regenerateImageInput')
     const regenerateParameters = {
         img_url: img_url,
-        feedback: img_feedback.value
+        feedback: img_feedback.value,
+        ad_text: ad_text.value,
+        perspective: perspective.value
     };
 
     $('#regenerateImage').hide();
@@ -146,13 +150,14 @@ function regenerateImage() {
 }
 
 function regenerateSummarization() {
-    const summarization = encodeURIComponent(responseAreaSummary.textContent);
+    const summarization = encodeURIComponent(responseAreaSummary.value);
     const feedback = encodeURIComponent(document.getElementById('regenerateSummarizationInput').value);
-    const evtSource = new EventSource(`/regenerateSummarization?summarization=${summarization}&feedback=${feedback}`);
+    const links = encodeURIComponent(document.getElementById('campaignLinks').value);
+    const evtSource = new EventSource(`/regenerateSummarization?summarization=${summarization}&feedback=${feedback}&links=${links}`);
     
     $('#regenerateSummarization').hide();
     $('#saveCampaign').hide();
-    responseAreaSummary.innerHTML = '';
+    responseAreaSummary.value = '';
     document.getElementById('regenerateSummarizationInput').value = '';
 
     evtSource.onmessage = function(event) {
@@ -163,16 +168,11 @@ function regenerateSummarization() {
         }
     };
 
-    // evtSource.addEventListener('summary', async function(event) {
-    //     await addEventData(event.data, responseAreaSummary);
-    //     // responseAreaSummary.innerHTML += event.data;
-    // });
-
     evtSource.addEventListener('final_summary', async function(event) {
         const tokens = event.data.split('');
         responseAreaSummary.innerHTML = '';
         for (let i = 0; i < tokens.length; i++) {
-            responseAreaSummary.innerHTML += tokens[i];
+            responseAreaSummary.value += tokens[i];
             await new Promise(resolve => setTimeout(resolve, 6));
         }
     
@@ -181,14 +181,16 @@ function regenerateSummarization() {
 }
 
 function regenerateAdvertisement() {
-    const ad_text = encodeURIComponent(responseAreaAdText.textContent);
+    const ad_text = encodeURIComponent(responseAreaAdText.value);
+    const summarization = encodeURIComponent(responseAreaSummary.value);
     const username = document.getElementById('username');
     const feedback = encodeURIComponent(document.getElementById('regenerateAdvertisementInput').value);
-    const evtSource = new EventSource(`/regenerateAdvertisement?ad_text=${ad_text}&feedback=${feedback}`);
+    const perspective = encodeURIComponent(document.getElementById('campaignPerspective').value);
+    const evtSource = new EventSource(`/regenerateAdvertisement?ad_text=${ad_text}&feedback=${feedback}&perspective=${perspective}&summarization=${summarization}`);
     
     $('#regenerateAdvertisement').hide();
     $('#saveCampaign').hide();
-    responseAreaAdText.innerHTML = '';
+    responseAreaAdText.value = '';
     document.getElementById('regenerateAdvertisementInput').value = '';
 
     evtSource.onmessage = function(event) {
@@ -198,17 +200,12 @@ function regenerateAdvertisement() {
             $('#saveCampaign').show();
         }
     };
-
-    // evtSource.addEventListener('ad_text', async function(event) {
-    //     await addEventData(event.data, responseAreaAdText);
-    //     // responseAreaAdText.innerHTML += event.data;
-    // });
     
     evtSource.addEventListener('final_ad_text', async function(event) {
         const tokens = event.data.split('');
         responseAreaAdText.innerHTML = '';
         for (let i = 0; i < tokens.length; i++) {
-            responseAreaAdText.innerHTML += tokens[i];
+            responseAreaAdText.value += tokens[i];
             await new Promise(resolve => setTimeout(resolve, 6));
         }
     
@@ -218,11 +215,17 @@ function regenerateAdvertisement() {
 
 function saveCampaign() {
     const imgElement = document.getElementById('generated_image')
+    const name = document.getElementById('campaignName').value;
+    const links = document.getElementById('campaignLinks').value;
+    const perspective = document.getElementById('campaignPerspective').value;
     const finalizedParameters = {
+        name: name,
+        links: links,
+        perspective: perspective,
         new_campaign_id: campaignId,
         call_type: callType,
-        summary: responseAreaSummary.textContent,
-        ad_text: responseAreaAdText.textContent,
+        summary: responseAreaSummary.value,
+        ad_text: responseAreaAdText.value,
         img_prompt: final_img_prompt,
         image_url: imgElement.src,
         parent_id: final_parent_id

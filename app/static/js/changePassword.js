@@ -1,24 +1,25 @@
-var addCampaignLink = document.getElementById("addCampaignLink");
-var addCampaignFormDiv = document.getElementById("addCampaignFormDiv");
+var changePasswordLink = document.getElementById("changePasswordLink");
+var changePasswordFormDiv = document.getElementById("changePasswordFormDiv");
 var formBlurHandler = null;
 
-function loadAddCampaignForm() {
+function loadChangePasswordForm() {
     var async = new XMLHttpRequest();
-    async.open("GET", "/addCampaignForm");
+    async.open("GET", "/changePasswordForm");
     async.onreadystatechange = function() {
         if (async.readyState === 4) {
             if (async.status === 200) {
                 var tempDiv = document.createElement('div');
                 tempDiv.innerHTML = async.responseText;
 
-                var campaignForm = tempDiv.querySelector('form');
+                var passwordForm = tempDiv.querySelector('form');
 
-                addCampaignFormDiv.innerHTML = '';
-                addCampaignFormDiv.appendChild(campaignForm);
+                changePasswordFormDiv.innerHTML = '';
+                changePasswordFormDiv.appendChild(passwordForm);
 
-                applyCampaignFormStyles();
+                applyPasswordFormStyles();
                 applyTooltips();
-                addCampaignFormDiv.style.display = "block";
+                
+                changePasswordFormDiv.style.display = "block";
                 blurContent();
 
                 if (formBlurHandler) {
@@ -26,20 +27,20 @@ function loadAddCampaignForm() {
                 }
 
                 formBlurHandler = function(event) {
-                    if (!addCampaignFormDiv.contains(event.target)) {
-                        addCampaignFormDiv.style.display = "none";
+                    if (!changePasswordFormDiv.contains(event.target)) {
+                        changePasswordFormDiv.style.display = "none";
                         removeBlur();
                         document.body.removeEventListener("click", formBlurHandler);
                     }
                 };
                 document.body.addEventListener("click", formBlurHandler);
 
-                campaignForm.addEventListener("submit", function(event) {
+                passwordForm.addEventListener("submit", function(event) {
                     event.preventDefault();
-                    var formData = new FormData(campaignForm);
+                    var formData = new FormData(passwordForm);
                     showEllipsis();
                     var submitXhr = new XMLHttpRequest();
-                    submitXhr.open("POST", campaignForm.action);
+                    submitXhr.open("POST", passwordForm.action);
                     submitXhr.onreadystatechange = function() {
                         if (submitXhr.readyState === 4) {
                             if (submitXhr.status === 200) {
@@ -51,16 +52,16 @@ function loadAddCampaignForm() {
                     submitXhr.send(formData);
                 });
             } else {
-                console.error("Error fetching addCampaignForm:", async.status);
+                console.error("Error fetching changePasswordForm:", async.status);
             }
         }
     };
     async.send();
 }
 
-addCampaignLink.addEventListener("click", function(event) {
+changePasswordLink.addEventListener("click", function(event) {
     event.preventDefault();
-    loadAddCampaignForm();
+    loadChangePasswordForm();
 });
 
 function blurContent() {
@@ -79,8 +80,8 @@ function removeEllipsis() {
     $('#ellipsis').hide();
 }
 
-function applyCampaignFormStyles() {
-    var form = document.getElementById('addCampaignForm');
+function applyPasswordFormStyles() {
+    var form = document.getElementById('changePasswordForm');
     if (form) {
         form.style.width = '100%';
 
@@ -109,13 +110,6 @@ function applyCampaignFormStyles() {
             control.style.marginBottom = '4%';
         });
 
-        var selectElement = form.querySelector('.form-select');
-        if (selectElement) {
-            selectElement.style.width = '30%'; 
-            selectElement.style.padding = '8px';
-            selectElement.style.marginBottom = '4%';
-        }
-
         var submitButton = form.querySelector('.btn-secondary');
         if (submitButton) {
             submitButton.style.width = '40%';
@@ -123,6 +117,7 @@ function applyCampaignFormStyles() {
         }
     }
 }
+
 
 function applyTooltips() {
     $('[data-toggle="tooltip"]').tooltip({

@@ -75,7 +75,7 @@ def view_portfolio(portfolio_id):
         final_campaigns.append(row_campaigns)
 
     content = user_content(current_user.id)
-    portfolio = [name, creation_date, description, icon, final_campaigns]
+    portfolio = [name, creation_date, description, icon, final_campaigns, portfolio_id ]
     return render_template('viewPortfolio.html', portfolio=portfolio, content=content)
 
 
@@ -84,12 +84,32 @@ def view_portfolio(portfolio_id):
 def edit_portfolio(portfolio_id):
     form = EditPortfolioForm()
     portfolio = Portfolio.query.get(portfolio_id)
-    
+    send=False
     if form.validate_on_submit():
-        if form.portfolio_name:
+        data = request.form.to_dict()
+        icon_file = request.files.get('icon')
+        if icon_file:
+            data['icon'] = icon_file
+        
+        if form.portfolio_name != portfolio.name:
+            old_name = portfolio.name
             portfolio.name=form.portfolio_name.data
+            send=True
+        
+        icon_file = request.files.get('icon')
+        if icon_file:
+            data['icon'] = icon_file
+            image_link = upload_image_from_file(icon_file)
+            portfolio.icon=image_link
+            send=True
+            
+        if form.description != portfolio.description:
+            portfolio.description=form.description.data
+            send=True
         
         db.session.commit()
+        if send:
+            portfolio_edit_notification(current_user, old_name, portfolio)
         content = user_content(current_user.id)
         return redirect(url_for('view_portfolio',portfolio_id = portfolio.id))
     content = user_content(current_user.id)
@@ -117,3 +137,15 @@ def view_portfolios():
     
     content = user_content(current_user.id)
     return render_template('viewPortfolios.html', portfolios=portfolios, content=content)
+
+@app.route('/deletePortfolio/<int:portfolio_id>', methods=['GET', 'POST'])
+@login_required
+def delete_portfolio(portfolio_id):
+    portfolio = Portfolio.query.get(portfolio_id)
+    if portfolio.user_id != current_user.id:
+        message = "The user does not have permission to delete this portfolio!"
+        return render_template('error.html', message=message)
+    else:
+        db.session.delete(portfolio)
+        db.session.commit()
+        return redirect(url_for('view_portfolios'))

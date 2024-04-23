@@ -83,7 +83,7 @@ def image_generation(prompt):
     )
     return response.data[0].url
 
-def image_regeneration(prompt, img_url):
+def image_regeneration(prompt, img_url, ad_text, perspective):
     """
     This function regenerates an image based on the given prompt and source image provided using OpenAI's DALL-E 2 model.
 
@@ -117,7 +117,7 @@ def image_regeneration(prompt, img_url):
     max_tokens=300,
     )
     output = response.choices[0]
-    img_prompt = f'Generate an image like this {output} while adding this change: {prompt}'
+    img_prompt = f'Generate an image like this {output} while adding this change: {prompt}. For context, this image was generated from this advertisement {ad_text} using this perspective {perspective}.'
     
     response = client.images.generate(
     model="dall-e-3",
@@ -128,7 +128,7 @@ def image_regeneration(prompt, img_url):
     )
     return response.data[0].url
 
-def text_regeneration(prompt, feedback):
+def advertisement_regeneration(prompt, feedback, perspective, summarization):
     """
     This function regenerates text based on a given prompt and feedback
     using OpenAI's GPT-3.5 model.
@@ -149,7 +149,37 @@ def text_regeneration(prompt, feedback):
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are a skilled advertiser, capable of advertising a product from the perspective of any human."},
-        {"role": "user", "content": f'In less than 1500 characters, regenerate this prompt: {prompt}, taking into consideration this feedback {feedback}.'}
+        {"role": "user", "content": f'In less than 1500 characters, regenerate this prompt: {prompt}, by using this perspective {perspective} and taking into consideration this feedback: {feedback}. the prompt was generated from this summarization {summarization}'}
+    ],
+    stream=True
+    )
+
+    for chunk in completion:
+        if chunk.choices[0].delta.content is not None:
+            yield str(chunk.choices[0].delta.content)
+            
+def summary_regeneration(prompt, feedback, links):
+    """
+    This function regenerates text based on a given prompt and feedback
+    using OpenAI's GPT-3.5 model.
+
+    Parameters:
+        prompt (str): The original prompt to which will be edited
+        feedback (str): The feedback provided to the original prompt
+
+    Returns:
+        str: Text containing information from the provided prompt
+             using the specified feedback.
+
+    Example:
+        text_generation("The latest smartphone offers cutting-edge features and sleek design.",
+                        "Make this more interactive")
+    """    
+    completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a skilled summarization writer, capable of reading articles and summarizing them into important and relevant content."},
+        {"role": "user", "content": f'Give me a one-paragraph summarization for each of the following links in less than 1500 characters total : {links} by regenerating this prompt: {prompt} and taking into consideration this feedback: {feedback}.'}
     ],
     stream=True
     )
